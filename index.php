@@ -45,9 +45,9 @@ die;
 
 $usr = new DAOUsuario();
 $usr->id_usuario = 12;
-$usr->status = 0;
-//$usr->nome = "Marilza";
-//$usr->password = "111";
+$usr->status = 1;
+$usr->nome = "Daniel Ferreira Bonfim";
+$usr->password = "000";
 //$usr->email = "marilza@marilza.com";
 //$usr->data_criacao = date("d-m-Y");
 // o read usa o '='
@@ -56,8 +56,8 @@ $usr->status = 0;
 // getAll usa o 'like'
 //$usr->getAll();
 //$usr->delete();
-$usr->save(false);
-//$usr->getLastQueryAsString();
+$usr->save();
+var_dump($usr->getLastQueryAsString());
 die;
 //$arr = $usr->getAll();
 var_dump($arr);

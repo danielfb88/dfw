@@ -68,7 +68,7 @@ abstract class DAO {
      * Ultima query executada.
      * @var string 
      */
-    private $lastQuery = '';
+    private $lastQuery = null;
         
     protected function __construct() { 
         $reflect = new ReflectionClass($this);
@@ -338,7 +338,6 @@ abstract class DAO {
             }
         }
         
-        die($sql);
         return $sql;
     }
     
@@ -554,7 +553,7 @@ abstract class DAO {
              * O update atualiza todos os dados da tabela. 
              * Por isso ele usa o $this->properties
              */
-            $properties = $this->properties;
+            $properties = $filterValues;
             $sql = $this->update($properties, $useBindValue);
             
         } else {
@@ -749,6 +748,10 @@ abstract class DAO {
         echo '<br/><br/>';
     }
     
+    /**
+     * Retorna a ultima query
+     * @return string 
+     */
     public function getLastQueryAsString() {
         return $this->lastQuery;
     }
