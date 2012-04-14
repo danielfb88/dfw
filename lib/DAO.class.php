@@ -1,13 +1,12 @@
 <?php
 require_once 'Conexao.class.php';
-// TODO: Otimizar o codigo substituindo o "" por ''.
 /**
  * ****************************************************************
  * Classe DAO                                                     *
  *----------------------------------------------------------------*
  * Data de Criação: 31 de Março de 2012                           *
  *                                                                *
- * @author      Daniel Bonfim <daniel.fb88@gmail.com>              *
+ * @author      Daniel Bonfim <daniel.fb88@gmail.com>             *
  * @version     1.0                                               *
  * @abstract                                                      *
  *                                                                *
@@ -16,9 +15,9 @@ require_once 'Conexao.class.php';
 abstract class DAO { 
     /**
      * Nome da subclasse.
-     * @var type 
+     * @var string 
      */
-    protected $className;
+    private $className;
     /**
      * Nome da classe do DTO que será usada para guardar os dados. 
      * A subclasse deverá configurar esta propriedade.
@@ -26,28 +25,31 @@ abstract class DAO {
      */
     protected $dtoClassName;
     /**
-     * Nome da tabela a ser trabalhada. 
+     * Nome da tabela. 
      * A subclasse deverá configurar esta propriedade.
      * @var string 
      */
     protected $tableName;
     /**
      * Configurações das propriedades
-     * primaryKey = Array com primary Key, simples ou composta. Essa chave deve ser SERIAL|AUTO-INCREMENT.
-     * notNull = Campos Not Null para a tabela
-     * @var type 
+     * @var array 
      */
     protected $configProps = array(
         /**
-         * primaryKey: *Se existir apenas 1 chave primária, esta chave deve ser auto-increment. 
+         * Chave Primária da Tabela.
+         * Se existir apenas 1 chave primária, esta chave deve ser auto-increment. 
+         * @example $this->configProps['primaryKey'] = array('id1', 'id2');
          */
         'primaryKey' => array(),
         /**
-         * Campos que são notNull. Essa validação será feita antes de enviar a requisição para o Banco de Dados. 
+         * Campos que são notNull. 
+         * Essa validação será feita antes de enviar a requisição para o Banco de Dados. 
+         * @example $this->configProps['notNull'] = array('numero', 'campo4');
          */
         'notNull'   => array()
     );
     /**
+     * Classe Conexão que abstrai o relacionamento com um objeto PDO
      * @var Conexao 
      */
     private $con = null;
@@ -57,10 +59,13 @@ abstract class DAO {
      */
     protected $found = false;
     /**
-     * Propriedades públicas
+     * Atributos da da subClasse com os valores inseridos pelo usuário.
+     * Será usado para efetuar para os métodos de busca e/ou persistencia.
      * @var array 
      */
     private $properties;
+    
+    // TODO: Continuar com a re-descrição dos métodos apartir daqui.
     
     protected function __construct() { 
         $reflect = new ReflectionClass($this);
