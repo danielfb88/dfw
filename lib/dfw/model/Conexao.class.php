@@ -1,5 +1,5 @@
 <?php
-require PATH."config_db.php";
+require_once "config_db.php";
 
 /**
  * Classe de Conexao com o Banco de Dados utilizando PDO
@@ -10,8 +10,6 @@ require PATH."config_db.php";
  * @version     1.0
  */
 
-// TODO: COnfigurar a segurança no banco de dados para nao permitir que o usuário tenha direitos a comandos DDL
-// http://www.ibm.com/developerworks/br/opensource/library/os-postgresecurity/
 class Conexao {    
     private $driver = Config_DB::DRIVER;
     private $host = Config_DB::HOST;
@@ -114,11 +112,6 @@ class Conexao {
             }
         }
     }
-    
-    
-    
-    
-    
     
 }
 

@@ -4,7 +4,8 @@
  */
 require_once 'config.php';
 require_once PATH . 'model/DAO/DAOUsuario.class.php';
-require_once PATH . 'model/DAO/DAOTeste.php';
+
+//require_once PATH . 'model/DAO/DAOTeste.php';
 
 /*
 $teste = new DAOTeste();
@@ -43,8 +44,8 @@ die;
  */
 
 $usr = new DAOUsuario();
-//$usr->id_usuario = 12;
-//$usr->status = 1;
+$usr->id_usuario = 12;
+$usr->status = 0;
 //$usr->nome = "Marilza";
 //$usr->password = "111";
 //$usr->email = "marilza@marilza.com";
@@ -55,8 +56,10 @@ $usr = new DAOUsuario();
 // getAll usa o 'like'
 //$usr->getAll();
 //$usr->delete();
-//$usr->save(false);
-$arr = $usr->getAll();
+$usr->save(false);
+//$usr->getLastQueryAsString();
+die;
+//$arr = $usr->getAll();
 var_dump($arr);
 die;
 

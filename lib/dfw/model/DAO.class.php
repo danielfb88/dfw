@@ -64,19 +64,20 @@ abstract class DAO {
      * @var array 
      */
     private $properties;
-    
-    // TODO: Continuar com a re-descrição dos métodos apartir daqui.
-    
+    /**
+     * Ultima query executada.
+     * @var string 
+     */
+    private $lastQuery = '';
+        
     protected function __construct() { 
         $reflect = new ReflectionClass($this);
         
         $this->className = $reflect->getName();
         
         /**
-         * Inserindo as propriedades da subclasse em um array 
+         * Inserindo as propriedades da subclasse em um array (pegando apenas atributos publicos)
          */
-        
-        //pegando apenas atributos publicos
         $properties = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
         
         $this->properties = array();
@@ -118,10 +119,8 @@ abstract class DAO {
     }
     
     /**
-     * Retorna array apenas com as propriedades que foram definidas pelo usuário para exercutar filtragem 
-     * e seus respectivos valores.
+     * Retorna array com as propriedades e os valores inseridos pelo usuário para efetuar a filtragem.
      * 
-     * @param $propertiesChildClass - Propriedades da classe
      * @return array - Valores para serem usados na filtragem
      */
     private function getFilterValues() {
@@ -137,18 +136,15 @@ abstract class DAO {
     }
         
     /**
-     * "Select": Propriedades da classe 
-     * "From": $this->tableName 
-     * "Where": Valores inseridos nas propriedades
+     * Gera sql de Select From Where
      * 
-     * @param array $propertiesChildClass - Propriedades da classe
-     * @param array $filterValues - Valores inseridos nas propriedades
-     * @param char $whereType - Tipo de pesquisa where. $whereType = "=" ou $whereType = "like"
+     * @param array $filterValues - Valores a serem usados para filtragem
+     * @param char $whereType - Tipo de pesquisa where. ex: $whereType = "="; ou $whereType = "like";
      * @param boolean $useBindValue - true para usar bindValue nos filtros
      * @return string SQL montada.
      * @throws Exception 
      */
-    private function select(array $propertiesChildClass, array $filterValues, $whereType, $useBindValue = false) {
+    private function select(array $filterValues, $whereType, $useBindValue = false) {
         if($whereType != '=' && $whereType != 'like') {
             throw $e = new Exception('Parâmetro whereType inválido. Use \'=\' ou \'like\'');
             $e->getTraceAsString();
@@ -156,8 +152,8 @@ abstract class DAO {
         
         $i = 0;
         $sql = 'SELECT ';   
-        foreach($propertiesChildClass as $key => $value) {
-            if($i++ == count($propertiesChildClass)-1) {
+        foreach($this->properties as $key => $value) {
+            if($i++ == count($this->properties)-1) {
                 $sql .= $key.' ';  // ultimo campo nao deve ter virgula
             } else {
                 $sql .= $key.', ';
@@ -216,6 +212,8 @@ abstract class DAO {
             }
         }
         
+        $this->lastQuery = $sql;
+        
         return $sql;
     }
     
@@ -266,46 +264,6 @@ abstract class DAO {
         
         return $sql;
     }
-    
-    /**
-     * Verifica se as primarykeys foram definidas na subclasse
-     * @return boolean 
-     */
-    private function checkFieldPrimaryKeyExists() {
-        /*
-         * # Excessão de PRIMARYKEY INEXISTENTE NA SUBCLASSE
-         */
-        if(!$this->configProps['primaryKey']) {
-            throw $e = new Exception('Não há primary key definida.');
-            $e->getTraceAsString();
-        }
-        
-        return true;
-    }
-    
-    /**
-     * Verifica se as primarykeys definidas na subclasse possuem valor preenchido.
-     * 
-     * @param array $properties
-     * @return boolean 
-     */
-    private function checkValuePrimaryKeyExists() {        
-        $this->checkFieldPrimaryKeyExists();
-        $this->refreshPropertiesValues();
-        
-        foreach($this->configProps['primaryKey'] as $primaryKey) {
-            /*
-            * Retorna false se houver primary key sem valor
-            */
-            if($this->properties[$primaryKey] === null || $this->properties[$primaryKey] === '') {
-                return false;
-            }
-        }
-            
-        return true;
-        
-    }
-    
     
     /**
      * Gerar sql de UPDATE
@@ -380,12 +338,49 @@ abstract class DAO {
             }
         }
         
+        die($sql);
         return $sql;
     }
     
+    /**
+     * Verifica se a primarykey foi definida na subclasse.
+     * Caso não tenha sido lança uma excessão.
+     * @return boolean 
+     */
+    private function checkFieldPrimaryKeyExists() {
+        if(!$this->configProps['primaryKey']) {
+            throw $e = new Exception('Não há primary key definida.');
+            $e->getTraceAsString();
+        }
+        
+        return true;
+    }
     
     /**
-     * Retorna os dados através dos valores informados pelo usuário.
+     * Verifica se as primarykeys definidas na subclasse possuem valor preenchido.
+     * 
+     * @param array $properties
+     * @return boolean 
+     */
+    private function checkValuePrimaryKeyExists() {        
+        $this->checkFieldPrimaryKeyExists();
+        $this->refreshPropertiesValues();
+        
+        foreach($this->configProps['primaryKey'] as $primaryKey) {
+            /*
+            * Retorna false se houver primary key sem valor
+            */
+            if($this->properties[$primaryKey] === null || $this->properties[$primaryKey] === '') {
+                return false;
+            }
+        }
+            
+        return true;
+        
+    }
+        
+    /**
+     * Retorna os dados no próprio objeto DAO pelos valores informados pelo usuário.
      * Este método retorna apenas um registro.
      * O método read() usa o tipo de pesquisa where "=".
      * 
@@ -402,7 +397,7 @@ abstract class DAO {
             $e->getTraceAsString();                        
         }
         
-        $sql = $this->select($this->properties, $filterValues, '=', $useBindValue);            
+        $sql = $this->select($filterValues, '=', $useBindValue);            
         $sql .= ' LIMIT 1;';
                 
         try {
@@ -448,18 +443,18 @@ abstract class DAO {
     }
     
     /**
-     * Retorna todos os registros que atendam aos filtros definidos pelo usuário em um objeto DTO
-     * caso o mesmo seja definido na sub-classe ou um array associativo caso contrário.
-     * O método getAll() utiliza o tipo de pesquisa where "like"
+     * Retorna todos os registros que atendam aos filtros definidos pelo usuário em um objeto DTO.
+     * Caso o objeto DTO não tenha sido definido na subclasse, retorna um array associativo.
+     * Este método utiliza o tipo de pesquisa where "like"
      * 
      * @param type $useBindValue
-     * @return type
+     * @return DTO|array
      * @throws type 
      */
     public function getAll($useBindValue = true) {
         $filterValues = $this->getFilterValues();
 
-        $sql = $this->select($this->properties, $filterValues, 'like', $useBindValue);
+        $sql = $this->select($filterValues, 'like', $useBindValue);
                 
         try {
             
@@ -507,22 +502,23 @@ abstract class DAO {
     }
     
     /**
-     * Seta as propriedades da classe como null para prepara-la para uma nova consulta
+     * Seta as propriedades da subClasse como null para prepara-la para uma nova consulta
      */
     public function reset() {
         foreach($this->properties as $key => $value) {
             $this->$key = null;
+            $this->properties[$key] = null;
         }
         $this->found = false;
     }
     
     /**
-     * Salva os dados que foram inseridos nas variaveis do DAO.
+     * Salva os dados que foram inseridos nas variaveis da subClasse ($this->properties).
      * Caso tenha inserido o id do registro é feito um UPDATE.
      * Caso contrário é feito um INSERT.
      * 
      * @param type $useBindValue
-     * @return type
+     * @return boolean
      * @throws type 
      */
     public function save($useBindValue = true) {
@@ -542,8 +538,10 @@ abstract class DAO {
         $filterValues = $this->getFilterValues();
 
         /*
+         * INSERT usará $filterValues para inserir apenas os campos que o usuário preencher na subclasse.
+         * 
          * Será:
-         * $this->properties para INSERT ou 
+         * $filterValues para INSERT ou 
          * $filterValues para UPDATE.
          */
         $properties = array();
@@ -576,6 +574,8 @@ abstract class DAO {
             if($useBindValue)
                 $this->con->bindValue($preparedStatment, $properties, '='); 
             
+            // guardando a query
+            $this->lastQuery = $sql;
             if(!$retornoOk = $preparedStatment->execute()) {
                 $this->informaErro($preparedStatment->errorInfo());                
             }
@@ -607,13 +607,12 @@ abstract class DAO {
             throw $e = new Exception('O valor da primarykey não foi informado');
             $e->getTraceAsString();
         }
-        
-        $filterValues = $this->getFilterValues();
-        
+                
         $sql = 'DELETE FROM '.$this->tableName.' ';
         $sql .= ' WHERE ';
         
         $i = 0;
+        $arrPk = array();
         foreach($this->configProps['primaryKey'] as $primaryKey) {
             if($i++ == count($this->configProps['primaryKey'])-1) { // sem virgula
                 if($useBindValue)
@@ -627,6 +626,10 @@ abstract class DAO {
                 else
                     $sql .= $primaryKey.' = '.$this->$primaryKey.', ';
             }
+            /*
+             * Array com as primarykey e seus valores
+             */
+            $arrPk[$primaryKey] = $this->$primaryKey;
         }
                 
         try {
@@ -635,8 +638,10 @@ abstract class DAO {
             $preparedStatment = $this->con->getPreparedStatment($sql);
             
             if($useBindValue)
-                $this->con->bindValue($preparedStatment, $filterValues, '='); 
+                $this->con->bindValue($preparedStatment, $arrPk, '='); 
             
+            // guardando a query
+            $this->lastQuery = $sql;
             if(!$retornoOk = $preparedStatment->execute()) {
                 $this->informaErro($preparedStatment->errorInfo());                
             }
@@ -682,7 +687,9 @@ abstract class DAO {
         try {            
             $this->connect();   
             $preparedStatment = $this->con->getPreparedStatment($sql);
-                        
+
+            // guardando a query
+            $this->lastQuery = $sql;
             if(!$retornoOk = $preparedStatment->execute()) {
                 $this->informaErro($preparedStatment->errorInfo());
                 
@@ -740,6 +747,10 @@ abstract class DAO {
             echo $err;
         
         echo '<br/><br/>';
+    }
+    
+    public function getLastQueryAsString() {
+        return $this->lastQuery;
     }
     
 }

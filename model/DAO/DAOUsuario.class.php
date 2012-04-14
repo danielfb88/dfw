@@ -1,6 +1,6 @@
 <?php
 
-require_once PATH.'lib/DAO.class.php';
+require_once PATH.'lib/dfw/model/DAO.class.php';
 require_once PATH.'model/DTO/DTOUsuario.php';
 
 /**
