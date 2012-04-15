@@ -1,35 +1,29 @@
 <?php
-require_once 'Element.class.php';
 /**
  * ****************************************************************
- * Classe Input                                                    *
+ * Classe Event                                                 *
  *----------------------------------------------------------------*
- * Elemento XHTML
+ * Eventos
  * 
  * Data de Criação: 14 de Abril de 2012                           *
  *                                                                *
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>             *
  * @version     1.0                                               *
+ * @abstract                                                      *
  *                                                                *
  * ****************************************************************
  */
-class Input extends Element {
-    public $accept;
-    public $accesskey;
-    public $alt;
-    public $checked;
-    public $disabled;
-    public $maxlength;
-    public $name;
-    public $readonly;
-    public $size;
-    public $src;
-    public $tabindex;
-    public $type;
-    public $value;
-    
-    public function show() {
-        
-    }
+
+abstract class Event {
+    public $onclick;
+    public $ondblclick;
+    public $onmousedown;
+    public $onmouseup;
+    public $onmouseover;
+    public $onmousemove;
+    public $onmouseout;
+    public $onkeypress;
+    public $onkeydown;
+    public $onkeyup;
 }
 ?>

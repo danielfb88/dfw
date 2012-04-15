@@ -1,8 +1,9 @@
 <?php
-require_once 'Element.class.php';
+require_once 'Event.class.php';
+
 /**
  * ****************************************************************
- * Classe Input                                                    *
+ * Classe Element                                                 *
  *----------------------------------------------------------------*
  * Elemento XHTML
  * 
@@ -10,26 +11,15 @@ require_once 'Element.class.php';
  *                                                                *
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>             *
  * @version     1.0                                               *
+ * @abstract                                                      *
  *                                                                *
  * ****************************************************************
  */
-class Input extends Element {
-    public $accept;
-    public $accesskey;
-    public $alt;
-    public $checked;
-    public $disabled;
-    public $maxlength;
-    public $name;
-    public $readonly;
-    public $size;
-    public $src;
-    public $tabindex;
-    public $type;
-    public $value;
-    
-    public function show() {
-        
-    }
+
+abstract class Element extends Event{
+    public $class;
+    public $id;
+    public $title;
+    public $style;
 }
 ?>
