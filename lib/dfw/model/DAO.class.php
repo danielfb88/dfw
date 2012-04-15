@@ -1,17 +1,18 @@
 <?php
-require_once 'Conexao.class.php';
 /**
- * ****************************************************************
- * Classe DAO                                                     *
- *----------------------------------------------------------------*
- * Data de Criação: 31 de Março de 2012                           *
- *                                                                *
- * @author      Daniel Bonfim <daniel.fb88@gmail.com>             *
- * @version     1.0                                               *
- * @abstract                                                      *
- *                                                                *
- * ****************************************************************
+ * DFW Framework PHP - Classe DAO
+ * 
+ * Classe que abstrai as operaçoes mais básicas entre a aplicação e o banco de dados.
+ * Data de Criação: 31 de Março de 2012
+ * 
+ * @author      Daniel Bonfim <daniel.fb88@gmail.com>
+ * @version     1.0
+ * @abstract
+ * 
  */
+
+require_once 'Conexao.class.php';
+
 abstract class DAO { 
     /**
      * Nome da subclasse.

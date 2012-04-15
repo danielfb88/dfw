@@ -1,14 +1,16 @@
 <?php
-require_once "config_db.php";
-
 /**
- * Classe de Conexao com o Banco de Dados utilizando PDO
+ * DFW Framework PHP - Classe Conexao
  * 
+ * Classe de Conexao com o Banco de Dados utilizando PDO
  * Data de Criação: 31 de Março de 2012
  * 
- * @author      Daniel Bonfim <daniel.fb88@gmai.com>
+ * @author      Daniel Bonfim <daniel.fb88@gmail.com>
  * @version     1.0
+ * 
  */
+
+require_once "config_db.php";
 
 class Conexao {    
     private $driver = Config_DB::DRIVER;
