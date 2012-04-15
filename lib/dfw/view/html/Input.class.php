@@ -228,7 +228,7 @@ class Input extends Element {
         
         $input .= parent::show();
         
-        # Eventos
+        # Eventos Específicos
         if(!empty($this->onblur))
             $input .= ' onblur=\''.$this->onblur.'\' ';
         

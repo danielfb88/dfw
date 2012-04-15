@@ -62,16 +62,16 @@ abstract class Element extends Event {
         
         $element = '';
         if(!empty($this->id))
-            $element .= 'id=\''.$this->id.'\' ';
+            $element .= ' id=\''.$this->id.'\' ';
         
         if(!empty($this->class))
-            $element .= 'class=\''.$this->class.'\' ';
+            $element .= ' class=\''.$this->class.'\' ';
         
         if(!empty($this->title))
-            $element .= 'title=\''.$this->title.'\' ';
+            $element .= ' title=\''.$this->title.'\' ';
         
         if(!empty($this->style))
-            $element .= 'style=\''.$this->style.'\' ';
+            $element .= ' style=\''.$this->style.'\' ';
         
         $element .= parent::show();
         

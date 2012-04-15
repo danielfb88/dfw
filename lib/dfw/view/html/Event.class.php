@@ -124,34 +124,34 @@ abstract class Event {
         
         $event = '';
         if(!empty($this->onclick))
-            $event .= 'onclick=\''.$this->onclick.'\' ';
+            $event .= ' onclick=\''.$this->onclick.'\' ';
         
         if(!empty($this->ondblclick))
-            $event .= 'ondblclick=\''.$this->ondblclick.'\' ';
+            $event .= ' ondblclick=\''.$this->ondblclick.'\' ';
         
         if(!empty($this->onmousedown))
-            $event .= 'onmousedown=\''.$this->onmousedown.'\' ';
+            $event .= ' onmousedown=\''.$this->onmousedown.'\' ';
         
         if(!empty($this->onmouseup))
-            $event .= 'onmouseup=\''.$this->onmouseup.'\' ';
+            $event .= ' onmouseup=\''.$this->onmouseup.'\' ';
         
         if(!empty($this->onmouseover))
-            $event .= 'onmouseover=\''.$this->onmouseover.'\' ';
+            $event .= ' onmouseover=\''.$this->onmouseover.'\' ';
         
         if(!empty($this->onmousemove))
-            $event .= 'onmousemove=\''.$this->onmousemove.'\' ';
+            $event .= ' onmousemove=\''.$this->onmousemove.'\' ';
         
         if(!empty($this->onmouseout))
-            $event .= 'onmouseout=\''.$this->onmouseout.'\' ';
+            $event .= ' onmouseout=\''.$this->onmouseout.'\' ';
         
         if(!empty($this->onkeypress))
-            $event .= 'onkeypress=\''.$this->onkeypress.'\' ';
+            $event .= ' onkeypress=\''.$this->onkeypress.'\' ';
         
         if(!empty($this->onkeydown))
-            $event .= 'onkeydown=\''.$this->onkeydown.'\' ';
+            $event .= ' onkeydown=\''.$this->onkeydown.'\' ';
         
         if(!empty($this->onkeyup))
-            $event .= 'onkeyup=\''.$this->onkeyup.'\' ';
+            $event .= ' onkeyup=\''.$this->onkeyup.'\' ';
         
         return $event;
     }
