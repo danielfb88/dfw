@@ -23,6 +23,7 @@ $usr->getAll();
 var_dump($usr->getLastQueryAsString());
 echo '<br/><br/>';
 
+require_once 'lib/dfw/view/html/Input.class.php';
 
 ?>
 
@@ -35,7 +36,16 @@ echo '<br/><br/>';
     <body>
         <fieldset>
         <legend>Minha legenda</legend>
-        Um fieldset com legendas
+            <?php 
+            $input = new Input();
+            $input->id = 'input_id';
+            $input->name = 'input_id';
+            $input->maxlength = '12';
+            $input->size = 30;
+            $input->onclick = 'alert("teste")';
+            $input->onmousemove = 'alert("moveu-se")';
+            $input->show();
+            ?>
         </fieldset>
     </body>
 </html>

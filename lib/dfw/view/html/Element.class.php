@@ -17,9 +17,29 @@ require_once 'Event.class.php';
  */
 
 abstract class Element extends Event{
-    public $class;
     public $id;
+    public $class;    
     public $title;
     public $style;
+    
+    public function show() {
+        
+        if(!empty($this->id))
+            $element = ' id=\''.$this->id.'\' ';
+        
+        if(!empty($this->class))
+            $element .= ' class=\''.$this->class.'\' ';
+        
+        if(!empty($this->title))
+            $element .= ' title=\''.$this->title.'\' ';
+        
+        if(!empty($this->style))
+            $element .= ' style=\''.$this->style.'\' ';
+        
+        $element .= parent::show();
+        
+        return $element;
+        
+    }
 }
 ?>
