@@ -23,6 +23,11 @@ abstract class Element extends Event {
      */
     protected $id;
     /**
+     * Nome do controle que o identifica ao enviar o formulário
+     * @var string
+     */
+    protected $name;
+    /**
      * Classe ou classes do elemento
      * @var string
      */
@@ -41,6 +46,19 @@ abstract class Element extends Event {
     public function setId($id) {
         $this->id = $id;
         return $this;
+    }    
+    
+    public function setName($name) {
+        $this->name = $name;
+        return $this;
+    }
+    
+    /**
+     * Único valor para o atributo name e id
+     */
+    public function setNameId($nameId) {
+        $this->name = $nameId;
+        $this->id = $nameId;
     }
 
     public function setClass($class) {
@@ -76,7 +94,18 @@ abstract class Element extends Event {
         $element .= parent::show();
         
         return $element;
-        
+    }
+    
+    /**
+     * Limpa os valores dos atributos. 
+     */
+    protected function clear() {
+        $this->class = null;
+        $this->id = null;
+        $this->name = null;
+        $this->style = null;
+        $this->title = null;
+        parent::clear();
     }
 }
 ?>

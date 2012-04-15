@@ -50,11 +50,6 @@ class Input extends Element {
      */
     protected $maxlength;
     /**
-     * Nome do controle que o identifica ao enviar o formulário
-     * @var string
-     */
-    protected $name;
-    /**
      * Indica que o controle será utilizado somente para leitura, impedindo alterações em seus valores
      * @var boolean 
      */
@@ -143,11 +138,6 @@ class Input extends Element {
         return $this;
     }
 
-    public function setName($name) {
-        $this->name = $name;
-        return $this;
-    }
-
     public function setReadonly($readonly) {
         $this->readonly = $readonly;
         return $this;
@@ -184,60 +174,60 @@ class Input extends Element {
     }
     
     public function show() {
-        $input = '<input ';
+        $element = '<input ';
         
         if(!empty($this->type))
-            $input .= 'type=\''.$this->type.'\' ';
+            $element .= 'type=\''.$this->type.'\' ';
         
         
         if(!empty($this->accept))
-            $input .= 'accept=\''.$this->accept.'\' ';
+            $element .= 'accept=\''.$this->accept.'\' ';
         
         if(!empty($this->accesskey))
-            $input .= 'accesskey=\''.$this->accesskey.'\' ';
+            $element .= 'accesskey=\''.$this->accesskey.'\' ';
         
         if(!empty($this->alt))
-            $input .= 'alt=\''.$this->alt.'\' ';
+            $element .= 'alt=\''.$this->alt.'\' ';
         
         if($this->checked)
-            $input .= 'checked=\'checked\' ';
+            $element .= 'checked=\'checked\' ';
         
         if(($this->type == 'radio' || $this->type == 'checkbox') && $this->disabled)
-            $input .= 'disabled=\'disabled\' ';
+            $element .= 'disabled=\'disabled\' ';
         
         if(!empty($this->maxlength))
-            $input .= 'maxlength=\''.$this->maxlength.'\' ';
+            $element .= 'maxlength=\''.$this->maxlength.'\' ';
         
         if($this->readonly)
-            $input .= 'readonly=\'readonly\' ';
+            $element .= 'readonly=\'readonly\' ';
         
         if(!empty($this->size))
-            $input .= 'size=\''.$this->size.'\' ';
+            $element .= 'size=\''.$this->size.'\' ';
         
         if($this->type == 'image' && !empty($this->src))
-            $input .= 'src=\''.$this->src.'\' ';
+            $element .= 'src=\''.$this->src.'\' ';
         
         if(!empty($this->tabindex))
-            $input .= 'tabindex=\''.$this->tabindex.'\' ';
+            $element .= 'tabindex=\''.$this->tabindex.'\' ';
         
         if(!empty($this->value))
-            $input .= 'value=\''.$this->value.'\' ';
+            $element .= 'value=\''.$this->value.'\' ';
         
         if(!empty($this->name))
-            $input .= 'name=\''.$this->name.'\' ';
+            $element .= 'name=\''.$this->name.'\' ';
         
-        $input .= parent::show();
+        $element .= parent::show();
         
         # Eventos Específicos
         if(!empty($this->onblur))
-            $input .= ' onblur=\''.$this->onblur.'\' ';
+            $element .= ' onblur=\''.$this->onblur.'\' ';
         
         if(!empty($this->onfocus))
-            $input .= ' onfocus=\''.$this->onfocus.'\' ';
+            $element .= ' onfocus=\''.$this->onfocus.'\' ';
         
-        $input .= '/>';
+        $element .= '/>';
                 
-        echo $input;
+        echo $element;
     }
 }
 ?>

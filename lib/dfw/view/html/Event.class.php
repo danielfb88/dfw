@@ -155,5 +155,21 @@ abstract class Event {
         
         return $event;
     }
+    
+    /**
+     * Limpa os valores dos atributos. 
+     */
+    protected function clear() {
+        $this->onclick = null;
+        $this->ondblclick = null;
+        $this->onkeydown = null;
+        $this->onkeypress = null;
+        $this->onkeyup = null;
+        $this->onmousedown = null;
+        $this->onmousemove = null;
+        $this->onmouseout = null;
+        $this->onmouseover = null;
+        $this->onmouseup = null;
+    }
 }
 ?>
