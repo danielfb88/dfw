@@ -19,57 +19,112 @@ abstract class Event {
      * Ocorre quando se clica com o botão do mouse sobre o elemento
      * @var string 
      */
-    public $onclick;
+    protected $onclick;
     /**
      * Ocorre quando se faz duplo clique com o botão do mouse sobre o elemento
      * @var string 
      */ 
-    public $ondblclick;
+    protected $ondblclick;
     /**
      * Ocorre quando se pressiona com o botão do mouse sobre um elemento
      * @var string 
      */
-    public $onmousedown;
+    protected $onmousedown;
     /**
      * Ocorre quando se solta o botão do mouse que foi pressionado anteriormente
      * @var string 
      */ 
-    public $onmouseup;
+    protected $onmouseup;
     /**
      * Ocorre quando o ponteiro do mouse estiver parado sobre o elemento
      * @var string
      */
-    public $onmouseover;
+    protected $onmouseover;
     /**
      * Ocorre quando o ponteiro do mouse estiver em movimento sobre um elemento
      * @var string
      */
-    public $onmousemove;
+    protected $onmousemove;
     /**
      * Ocorre quando o ponteiro do mouse é movido para fora do elemento
      * @var string
      */
-    public $onmouseout;
+    protected $onmouseout;
     /**
      * Ocorre quando se pressiona e solta uma tecla sobre um elemento
      * @var string
      */
-    public $onkeypress;
+    protected $onkeypress;
     /**
      * Ocorre quando se pressiona uma tecla sobre um elemento
      * @var string
      */
-    public $onkeydown;
+    protected $onkeydown;
     /**
      * Ocorre quando se solta uma tecla sobre um elemento
      * @var string
      */
-    public $onkeyup;
+    protected $onkeyup;
     
+    public function setOnclick($onclick) {
+        $this->onclick = $onclick;
+        return $this;
+    }
+
+    public function setOndblclick($ondblclick) {
+        $this->ondblclick = $ondblclick;
+        return $this;
+    }
+
+    public function setOnmousedown($onmousedown) {
+        $this->onmousedown = $onmousedown;
+        return $this;
+    }
+
+    public function setOnmouseup($onmouseup) {
+        $this->onmouseup = $onmouseup;
+        return $this;
+    }
+
+    public function setOnmouseover($onmouseover) {
+        $this->onmouseover = $onmouseover;
+        return $this;
+    }
+
+    public function setOnmousemove($onmousemove) {
+        $this->onmousemove = $onmousemove;
+        return $this;
+    }
+
+    public function setOnmouseout($onmouseout) {
+        $this->onmouseout = $onmouseout;
+        return $this;
+    }
+
+    public function setOnkeypress($onkeypress) {
+        $this->onkeypress = $onkeypress;
+        return $this;
+    }
+
+    public function setOnkeydown($onkeydown) {
+        $this->onkeydown = $onkeydown;
+        return $this;
+    }
+
+    public function setOnkeyup($onkeyup) {
+        $this->onkeyup = $onkeyup;
+        return $this;
+    }
+    
+    /**
+     * Exibe o elemento criado
+     * @return string 
+     */
     public function show() {
         
+        $event = '';
         if(!empty($this->onclick))
-            $event = ' onclick=\''.$this->onclick.'\' ';
+            $event .= ' onclick=\''.$this->onclick.'\' ';
         
         if(!empty($this->ondblclick))
             $event .= ' ondblclick=\''.$this->ondblclick.'\' ';

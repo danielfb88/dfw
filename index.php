@@ -37,6 +37,13 @@ require_once 'lib/dfw/view/html/Input.class.php';
         <fieldset>
         <legend>Minha legenda</legend>
             <?php 
+            
+            $input = new Input();
+            //$input->setName('input_id')->setMaxlength(12)->setSize(30)->setId('input_id')->setOnclick('alert("teste")')->setOnmousemove('alert("moveu-se")');
+            $input->setType('radio')->setName('grupo1')->setChecked(true)->setId('radio1')->setOnclick('alert("radio1")')->show();
+            $input->setType('radio')->setName('grupo1')->setChecked(true)->setId('radio2')->setOnclick('alert("radio2")')->show();
+            
+            /*
             $input = new Input();
             $input->id = 'input_id';
             $input->name = 'input_id';
@@ -45,6 +52,8 @@ require_once 'lib/dfw/view/html/Input.class.php';
             $input->onclick = 'alert("teste")';
             $input->onmousemove = 'alert("moveu-se")';
             $input->show();
+             * 
+             */
             ?>
         </fieldset>
     </body>
