@@ -1,18 +1,18 @@
 <?php
-require_once 'Element.class.php';
 /**
- * ****************************************************************
- * Classe Label                                                    *
- *----------------------------------------------------------------*
- * Elemento Label XHTML
+ * DFW Framework PHP - Classe Singleton Label
  * 
- * Data de Criação: 15 de Abril de 2012                           *
- *                                                                *
- * @author      Daniel Bonfim <daniel.fb88@gmail.com>             *
- * @version     1.0                                               *
- *                                                                *
- * ****************************************************************
+ * Elemento Label XHTML
+ * Data de Criação: 15 de Abril de 2012
+ * 
+ * @author      Daniel Bonfim <daniel.fb88@gmail.com>
+ * @version     1.0
+ * @final
+ * 
  */
+
+require_once 'Element.class.php';
+
 final class Label extends Element { 
     /**
      * Caractere correspondente à tecla de atalho para acesso ao elemento
@@ -84,9 +84,6 @@ final class Label extends Element {
         $this->clear();
     }
     
-    /**
-     * Limpa os valores dos atributos. 
-     */
     protected function clear() {
         $this->accesskey = null;
         $this->for = null;

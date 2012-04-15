@@ -1,19 +1,19 @@
 <?php
-require_once 'Element.class.php';
 /**
- * ****************************************************************
- * Classe Input                                                    *
- *----------------------------------------------------------------*
- * Elemento de Input XHTML
+ * DFW Framework PHP - Classe Singleton Input
  * 
- * Data de Criação: 14 de Abril de 2012                           *
- *                                                                *
- * @author      Daniel Bonfim <daniel.fb88@gmail.com>             *
- * @version     1.0                                               *
- *                                                                *
- * ****************************************************************
+ * Elemento Input XHTML
+ * Data de Criação: 14 de Abril de 2012
+ * 
+ * @author      Daniel Bonfim <daniel.fb88@gmail.com>
+ * @version     1.0
+ * @final
+ * 
  */
-class Input extends Element {    
+
+require_once 'Element.class.php';
+
+final class Input extends Element {    
     /**
      * Tipo do controle
      * @var string 
@@ -85,8 +85,26 @@ class Input extends Element {
      * @var string 
      */
     protected $onfocus;
+     /**
+     * Instância do Singleton
+     * @var Label
+     */
+    private static $instance;
     
-    public function setType($type) {        
+    private function __construct() { }
+    
+    /**
+     * Retorna instância única do singleton
+     * @return Input
+     */
+    public static function getInstance() {
+        if(empty(self::$instance))
+            self::$instance = new Input();
+        
+        return self::$instance;
+    }
+    
+    public function setType($type = 'text') {        
         switch ($type) {
             case 'text':
             case 'password':
@@ -228,6 +246,26 @@ class Input extends Element {
         $element .= '/>';
                 
         echo $element;
+        
+        $this->clear();
+    }
+    
+    protected function clear() {
+        $this->accept = null;
+        $this->accesskey = null;
+        $this->alt = null;
+        $this->checked = null;
+        $this->disabled = null;
+        $this->maxlength = null;
+        $this->onblur = null;
+        $this->onfocus = null;
+        $this->readonly = null;
+        $this->size = null;
+        $this->src = null;
+        $this->tabindex = null;
+        $this->type = null;
+        $this->value = null;
+        parent::clear();
     }
 }
 ?>

@@ -39,14 +39,10 @@ require_once 'lib/dfw/view/html/Label.class.php';
         <legend>Minha legenda</legend>
             <?php 
             
-            $input = new Input();
-            $input->setName('input_id')->setMaxlength(12)->setSize(30)->setId('input_id')->setOnclick('alert("teste")')->setOnmousemove('alert("moveu-se")');
-            
-            
             Label::getInstance()->setFor('radio1')->setMessage('TESTEEE LABEL')->setOnclick('alert("voce clicou no label")')->show();
-            $input->setType('radio')->setName('grupo1')->setChecked(true)->setId('radio1')->setOnclick('alert("radio1")')->show();
+            Input::getInstance()->setType('radio')->setName('grupo1')->setChecked(true)->setId('radio1')->setOnclick('alert("radio1")')->show();
             Label::getInstance()->setFor('radio2')->setMessage('TESTEEE LABEL 2222')->setOnclick('alert("voce clicou no label 222")')->show();
-            $input->setType('radio')->setName('grupo1')->setChecked(true)->setId('radio2')->setOnclick('alert("radio2")')->show();
+            Input::getInstance()->setType('radio')->setName('grupo1')->setChecked(true)->setId('radio2')->setOnclick('alert("radio2")')->show();
             
             /*
             $input = new Input();
