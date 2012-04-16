@@ -100,7 +100,9 @@ final class Label extends Element {
             $element .= 'accesskey=\''.$this->accesskey.'\' ';
         
         if(!empty($this->for))
-            $element .= 'for=\''.$this->for.'\' ';
+            $element .= 'for=\''.$this->for.'\' ';        
+        
+        $element .= parent::show();
         
         # Eventos Intrínsecos
         if(!empty($this->onblur))
@@ -108,8 +110,6 @@ final class Label extends Element {
         
         if(!empty($this->onfocus))
             $element .= 'onfocus=\''.$this->onfocus.'\' ';
-        
-        $element .= parent::show();
         
         $element .= '>';
         $element .= $this->text;

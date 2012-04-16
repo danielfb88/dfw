@@ -207,16 +207,16 @@ final class HiperLink extends Element {
         if(!empty($this->target)) {
             $element .= 'target=\''.$this->target.'\' ';
         }
-                
+        
+        $element .= parent::show();
+        
         # Eventos Intrínsecos
         if(!empty($this->onblur))
             $element .= 'onblur=\''.$this->onblur.'\' ';
         
         if(!empty($this->onfocus))
             $element .= 'onfocus=\''.$this->onfocus.'\' ';
-        
-        $element .= parent::show();
-        
+                
         $element .= '>';
         $element .= $this->text;
         $element .= '</a>';

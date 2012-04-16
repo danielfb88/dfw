@@ -30,6 +30,7 @@ require_once 'lib/dfw/view/classes/Option.class.php';
 require_once 'lib/dfw/view/classes/Button.class.php';
 require_once 'lib/dfw/view/classes/HiperLink.class.php';
 require_once 'lib/dfw/view/classes/FieldSet.class.php';
+require_once 'lib/dfw/view/classes/Form.class.php';
 
 ?>
 
@@ -72,10 +73,27 @@ require_once 'lib/dfw/view/classes/FieldSet.class.php';
         
         <?php
         
+        if(!empty($_REQUEST['input1'])) {
+            echo '<br/><br/>';
+            echo 'REQUEST: '.$_REQUEST['input1'];
+            echo '<br/><br/>';
+        }
+        
         echo '<br/><br/>';
         $label1 = Label::getInstance()->setFor("input1")->setText("Testeeee huhu")->returnAsString();
-        $input1 = Input::getInstance()->setValue("123")->setId('input1')->returnAsString();
-        FieldSet::getInstance()->setLegend("Teste de FieldSet")->appendContent($label1)->appendContent($input1)->setStyle("width: 223px; height: 162px")->setOndblclick("alert('voce clicou 2 vezes')")->show();
+        $input1 = Input::getInstance()->setValue("123")->setName('input1')->setId('input1')->returnAsString();
+        $submit = Input::getInstance()->setType("submit")->setValue("submit")->setTitle("Enviar")->returnAsString();
+        
+        $fieldSet = FieldSet::getInstance()->
+                setLegend("Teste de FieldSet")->
+                appendContent($label1)->
+                appendContent($input1)->
+                appendContent($submit)->
+                setStyle("width: 223px; height: 162px")->
+                setOndblclick("alert('voce clicou 2 vezes')")->
+                returnAsString();
+        
+        Form::getInstance()->setAction("index.php")->setMethod('post')->setContent($fieldSet)->show();
         
         ?>
         

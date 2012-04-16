@@ -163,6 +163,8 @@ final class Select extends Element {
         if(!empty($this->tabindex))
             $element .= 'tabindex=\''.$this->tabindex.'\' ';
         
+        $element .= parent::show();
+        
         # Eventos Intrínsecos
         if(!empty($this->onblur))
             $element .= 'onblur=\''.$this->onblur.'\' ';
@@ -172,8 +174,7 @@ final class Select extends Element {
         
         if(!empty($this->onfocus))
             $element .= 'onfocus=\''.$this->onfocus.'\' ';
-        
-        $element .= parent::show();        
+          
         $element .= '>';
         
         // Inserindo options

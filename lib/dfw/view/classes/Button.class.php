@@ -158,6 +158,8 @@ final class Button extends Element {
         
         if(!empty($this->value))
             $element .= 'value=\''.$this->value.'\' ';
+                
+        $element .= parent::show();
         
         # Eventos Intrínsecos
         if(!empty($this->onblur))
@@ -165,9 +167,7 @@ final class Button extends Element {
         
         if(!empty($this->onfocus))
             $element .= 'onfocus=\''.$this->onfocus.'\' ';
-        
-        $element .= parent::show();
-        
+                
         $element .= '>';
         $element .= $this->text;
         $element .= '</button>';

@@ -342,6 +342,7 @@ final class Input extends Element {
         $this->src = null;
         $this->tabindex = null;
         $this->type = null;
+        $this->name = null;
         $this->value = null;        
         $this->onblur = null;
         $this->onchange = null;
