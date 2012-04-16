@@ -1,20 +1,17 @@
 <?php
-require_once 'Event.class.php';
-
 /**
- * ****************************************************************
- * Classe Element                                                 *
- *----------------------------------------------------------------*
- * Elemento XHTML
+ * DFW Framework PHP - Classe abstrata Element
  * 
- * Data de Criação: 14 de Abril de 2012                           *
- *                                                                *
- * @author      Daniel Bonfim <daniel.fb88@gmail.com>             *
- * @version     1.0                                               *
- * @abstract                                                      *
- *                                                                *
- * ****************************************************************
+ * Possui atributos HTML comum para todos os elementos.
+ * Data de Criação: 14 de Abril de 2012
+ * 
+ * @author      Daniel Bonfim <daniel.fb88@gmail.com>
+ * @version     1.0
+ * @abstract
+ * 
  */
+
+require_once 'Event.class.php';
 
 abstract class Element extends Event {
     /**

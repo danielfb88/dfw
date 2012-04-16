@@ -1,17 +1,14 @@
 <?php
 /**
- * ****************************************************************
- * Classe Event                                                 *
- *----------------------------------------------------------------*
- * Eventos
+ * DFW Framework PHP - Classe abstrata Event
  * 
- * Data de Criação: 14 de Abril de 2012                           *
- *                                                                *
- * @author      Daniel Bonfim <daniel.fb88@gmail.com>             *
- * @version     1.0                                               *
- * @abstract                                                      *
- *                                                                *
- * ****************************************************************
+ * Possui eventos comum para todos os elementos.
+ * Data de Criação: 14 de Abril de 2012
+ * 
+ * @author      Daniel Bonfim <daniel.fb88@gmail.com>
+ * @version     1.0
+ * @abstract
+ * 
  */
 
 abstract class Event {
