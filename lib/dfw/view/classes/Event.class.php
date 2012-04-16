@@ -29,6 +29,7 @@ abstract class Event {
      * @return \Event 
      */
     public function setOnclick($onclick) {
+        $onclick = $this->escapaAspasSimples($onclick);
         $this->onclick = $onclick;
         return $this;
     }
@@ -39,6 +40,7 @@ abstract class Event {
      * @return \Event 
      */
     public function setOndblclick($ondblclick) {
+        $ondblclick = $this->escapaAspasSimples($ondblclick);
         $this->ondblclick = $ondblclick;
         return $this;
     }
@@ -49,6 +51,7 @@ abstract class Event {
      * @return \Event 
      */
     public function setOnmousedown($onmousedown) {
+        $onmousedown = $this->escapaAspasSimples($onmousedown);
         $this->onmousedown = $onmousedown;
         return $this;
     }
@@ -59,6 +62,7 @@ abstract class Event {
      * @return \Event 
      */
     public function setOnmouseup($onmouseup) {
+        $onmouseup = $this->escapaAspasSimples($onmouseup);
         $this->onmouseup = $onmouseup;
         return $this;
     }
@@ -69,6 +73,7 @@ abstract class Event {
      * @return \Event 
      */
     public function setOnmouseover($onmouseover) {
+        $onmouseover = $this->escapaAspasSimples($onmouseover);
         $this->onmouseover = $onmouseover;
         return $this;
     }
@@ -79,6 +84,7 @@ abstract class Event {
      * @return \Event 
      */
     public function setOnmousemove($onmousemove) {
+        $onmousemove = $this->escapaAspasSimples($onmousemove);
         $this->onmousemove = $onmousemove;
         return $this;
     }
@@ -89,6 +95,7 @@ abstract class Event {
      * @return \Event 
      */
     public function setOnmouseout($onmouseout) {
+        $onmouseout = $this->escapaAspasSimples($onmouseout);
         $this->onmouseout = $onmouseout;
         return $this;
     }
@@ -99,6 +106,7 @@ abstract class Event {
      * @return \Event 
      */
     public function setOnkeypress($onkeypress) {
+        $onkeypress = $this->escapaAspasSimples($onkeypress);
         $this->onkeypress = $onkeypress;
         return $this;
     }
@@ -109,6 +117,7 @@ abstract class Event {
      * @return \Event 
      */
     public function setOnkeydown($onkeydown) {
+        $onkeydown = $this->escapaAspasSimples($onkeydown);
         $this->onkeydown = $onkeydown;
         return $this;
     }
@@ -119,8 +128,19 @@ abstract class Event {
      * @return \Event 
      */
     public function setOnkeyup($onkeyup) {
+        $onkeyup = $this->escapaAspasSimples($onkeyup);
         $this->onkeyup = $onkeyup;
         return $this;
+    }
+    
+    /**
+     * Escapa aspas simples
+     * @param string $valor
+     * @return string 
+     */
+    protected function escapaAspasSimples($valor) {
+        $valor = preg_replace("/'/", "\'", $valor);
+        return $valor;
     }
     
     /**

@@ -43,12 +43,18 @@ require_once 'lib/dfw/view/classes/Option.class.php';
             
         // PRIORIDADE: SEMPRE VERIFICAR ENVENTOS INTRINSECOS
             
-            Label::getInstance()->setFor('radio1')->setMessage('TESTEEE LABEL')->setOnclick('alert("voce clicou no label")')->show();
+            Label::getInstance()->setFor('radio1')->setText('TESTEEE LABEL')->setOnclick("alert('voce clicou no label')")->show();
             Input::getInstance()->setType('radio')->setName('grupo1')->setChecked(true)->setId('radio1')->setOnclick('alert("radio1")')->show();
-            Label::getInstance()->setFor('radio2')->setMessage('TESTEEE LABEL 2222')->setOnclick('alert("voce clicou no label 222")')->show();
+            Label::getInstance()->setFor('radio2')->setText('TESTEEE LABEL 2222')->setOnclick('alert("voce clicou no label 222")')->show();
             Input::getInstance()->setType('radio')->setName('grupo1')->setChecked(true)->setId('radio2')->setOnclick('alert("radio2")')->show();
             echo '<br/><br/>';
-            //Select::getInstance()->setNameId('selectTeste')->
+            
+            $opcoes[] = Option::getInstance()->setLabel('opcao1')->setClass("clss1")->setText("Mensagem 1")->returnAsString();
+            $opcoes[] = Option::getInstance()->setLabel('opcao2')->setSelected(true)->setText("Mensagem 2")->returnAsString();
+            $opcoes[] = Option::getInstance()->setLabel('opcao3')->setText("Mensagem 3")->returnAsString();
+            Select::getInstance()->setName('selectTest')->setOnchange('alert("mudou de opcao")');
+            Select::getInstance()->insertOptions($opcoes);
+            Select::getInstance()->show();
             
             /*
             $input = new Input();

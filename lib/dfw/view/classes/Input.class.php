@@ -240,6 +240,10 @@ final class Input extends Element {
         return $this;
     }
     
+    /**
+     * Exibe o elemento html na tela.
+     * As variáveis do Singleton são sempre limpas ao final deste método. 
+     */
     public function show() {
         $element = '<input ';
         
@@ -299,9 +303,12 @@ final class Input extends Element {
         
         $element .= '/>';
                 
-        echo $element;
         
+        // Limpando as configurações para uma nova chamada.
         $this->clear();
+        
+        // exibindo o resultado
+        echo $element;        
     }
     
     protected function clear() {

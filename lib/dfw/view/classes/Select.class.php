@@ -53,6 +53,15 @@ final class Select extends Element {
     }
     
     /**
+     * Insere array de Options
+     * @param array $arrOptions 
+     */
+    public function insertOptions(array $arrOptions) {
+        if(!empty($arrOptions) && is_array($arrOptions))
+            $this->arrOptions = $arrOptions;
+    }
+    
+    /**
      * Desabilita o controle de modo que o usuário não poderá interagir com ele
      * @param type $disabled
      * @return \Select 
@@ -133,6 +142,10 @@ final class Select extends Element {
     }
     
 
+    /**
+     * Exibe o elemento html na tela.
+     * As variáveis do Singleton são sempre limpas ao final deste método. 
+     */
     public function show() {
         $element = '<select ';
         
@@ -171,10 +184,12 @@ final class Select extends Element {
         
         $element .= '</select>';
                 
-        echo $element;
         
         // Limpando as configurações para uma nova chamada.
         $this->clear();
+        
+        // exibindo o resultado
+        echo $element;        
     }
     
     protected function clear() {

@@ -16,7 +16,7 @@ require_once 'Element.class.php';
 final class Label extends Element {
     protected $accesskey;
     protected $for;
-    protected $message;
+    protected $text;
     # Eventos Intrínsecos
     protected $onblur;
     protected $onfocus;
@@ -60,12 +60,12 @@ final class Label extends Element {
     }
     
     /**
-     * Mensagem do Label
-     * @param type $message
+     * Texto do Label
+     * @param type $text
      * @return \Label 
      */
-    public function setMessage($message) {
-        $this->message = $message;
+    public function setText($text) {
+        $this->text = $text;
         return $this;
     }
     
@@ -89,6 +89,10 @@ final class Label extends Element {
         return $this;
     }
 
+    /**
+     * Exibe o elemento html na tela.
+     * As variáveis do Singleton são sempre limpas ao final deste método. 
+     */
     public function show() {
         $element = '<label ';
         
@@ -108,19 +112,20 @@ final class Label extends Element {
         $element .= parent::show();
         
         $element .= '>';
-        $element .= $this->message;
+        $element .= $this->text;
         $element .= '</label>';
                 
-        echo $element;
-        
         // Limpando as configurações para uma nova chamada.
         $this->clear();
+        
+        // exibindo o resultado
+        echo $element;        
     }
     
     protected function clear() {
         $this->accesskey = null;
         $this->for = null;
-        $this->message = null;
+        $this->text = null;
         $this->onblur = null;
         $this->onfocus = null;
         parent::clear();

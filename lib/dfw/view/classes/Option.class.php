@@ -18,6 +18,7 @@ final class Option extends Element {
     protected $label;
     protected $selected;
     protected $value;
+    protected $text;
         
     /**
      * Instância do Singleton
@@ -79,10 +80,21 @@ final class Option extends Element {
     }
     
     /**
-     * Retorna a string de option para ser inserido no select
+     * Texto do Option
+     * @param type $text
+     * @return \Option 
+     */
+    public function setText($text) {
+        $this->text = $text;
+        return $this;
+    }
+    
+    /**
+     * Retorna a string de option para ser inserido no select.
+     * As variáveis do Singleton são sempre limpas ao final deste método. 
      * @return string 
      */
-    public function show() {
+    public function returnAsString() {
         $element = '<option ';
         
         if($this->disabled)
@@ -100,12 +112,14 @@ final class Option extends Element {
         $element .= parent::show();
         
         $element .= '>';        
+        $element .= $this->text;        
         $element .= '</option>';
                 
-        return $element;
-        
         // Limpando as configurações para uma nova chamada.
         $this->clear();
+        
+        // exibindo o resultado
+        return $element;
     }
     
     protected function clear() {
@@ -113,6 +127,7 @@ final class Option extends Element {
         $this->label = null;
         $this->selected = null;
         $this->value = null;
+        $this->text = null;
         parent::clear();
     }
 
