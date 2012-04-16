@@ -12,102 +12,112 @@
  */
 
 abstract class Event {
-    /**
-     * Ocorre quando se clica com o botão do mouse sobre o elemento
-     * @var string 
-     */
     protected $onclick;
-    /**
-     * Ocorre quando se faz duplo clique com o botão do mouse sobre o elemento
-     * @var string 
-     */ 
     protected $ondblclick;
-    /**
-     * Ocorre quando se pressiona com o botão do mouse sobre um elemento
-     * @var string 
-     */
     protected $onmousedown;
-    /**
-     * Ocorre quando se solta o botão do mouse que foi pressionado anteriormente
-     * @var string 
-     */ 
     protected $onmouseup;
-    /**
-     * Ocorre quando o ponteiro do mouse estiver parado sobre o elemento
-     * @var string
-     */
     protected $onmouseover;
-    /**
-     * Ocorre quando o ponteiro do mouse estiver em movimento sobre um elemento
-     * @var string
-     */
     protected $onmousemove;
-    /**
-     * Ocorre quando o ponteiro do mouse é movido para fora do elemento
-     * @var string
-     */
     protected $onmouseout;
-    /**
-     * Ocorre quando se pressiona e solta uma tecla sobre um elemento
-     * @var string
-     */
     protected $onkeypress;
-    /**
-     * Ocorre quando se pressiona uma tecla sobre um elemento
-     * @var string
-     */
     protected $onkeydown;
-    /**
-     * Ocorre quando se solta uma tecla sobre um elemento
-     * @var string
-     */
     protected $onkeyup;
     
+    /**
+     * Ocorre quando se clica com o botão do mouse sobre o elemento
+     * @param type $onclick
+     * @return \Event 
+     */
     public function setOnclick($onclick) {
         $this->onclick = $onclick;
         return $this;
     }
 
+    /**
+     * Ocorre quando se faz duplo clique com o botão do mouse sobre o elemento
+     * @param type $ondblclick
+     * @return \Event 
+     */
     public function setOndblclick($ondblclick) {
         $this->ondblclick = $ondblclick;
         return $this;
     }
 
+    /**
+     * Ocorre quando se pressiona com o botão do mouse sobre um elemento
+     * @param type $onmousedown
+     * @return \Event 
+     */
     public function setOnmousedown($onmousedown) {
         $this->onmousedown = $onmousedown;
         return $this;
     }
 
+    /**
+     * Ocorre quando se solta o botão do mouse que foi pressionado anteriormente
+     * @param type $onmouseup
+     * @return \Event 
+     */
     public function setOnmouseup($onmouseup) {
         $this->onmouseup = $onmouseup;
         return $this;
     }
 
+    /**
+     * Ocorre quando o ponteiro do mouse estiver parado sobre um elemento
+     * @param type $onmouseover
+     * @return \Event 
+     */
     public function setOnmouseover($onmouseover) {
         $this->onmouseover = $onmouseover;
         return $this;
     }
 
+    /**
+     * Ocorre enquanto o ponteiro do mouse estiver em movimento sobre um elemento
+     * @param type $onmousemove
+     * @return \Event 
+     */
     public function setOnmousemove($onmousemove) {
         $this->onmousemove = $onmousemove;
         return $this;
     }
 
+    /**
+     * Ocorre quando o ponteiro do mouse é movido para fora do elemento
+     * @param type $onmouseout
+     * @return \Event 
+     */
     public function setOnmouseout($onmouseout) {
         $this->onmouseout = $onmouseout;
         return $this;
     }
 
+    /**
+     * Ocorre quando se pressiona e solta uma tecla sobre um elemento
+     * @param type $onkeypress
+     * @return \Event 
+     */
     public function setOnkeypress($onkeypress) {
         $this->onkeypress = $onkeypress;
         return $this;
     }
 
+    /**
+     * Ocorre quando se pressiona uma tecla sobre um elemento
+     * @param type $onkeydown
+     * @return \Event 
+     */
     public function setOnkeydown($onkeydown) {
         $this->onkeydown = $onkeydown;
         return $this;
     }
 
+    /**
+     * Ocorre quando se solta uma tecla sobre um elemento
+     * @param type $onkeyup
+     * @return \Event 
+     */
     public function setOnkeyup($onkeyup) {
         $this->onkeyup = $onkeyup;
         return $this;

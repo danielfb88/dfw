@@ -14,60 +14,46 @@
 require_once 'Event.class.php';
 
 abstract class Element extends Event {
-    /**
-     * Identificador único e exclusivo
-     * @var string 
-     */
     protected $id;
-    /**
-     * Nome do controle que o identifica ao enviar o formulário
-     * @var string
-     */
-    protected $name;
-    /**
-     * Classe ou classes do elemento
-     * @var string
-     */
     protected $class;
-    /**
-     * Título do elemento
-     * @var string
-     */
     protected $title;
-    /**
-     * Declaração de estilo para um elemento
-     * @var string
-     */
     protected $style;
     
+    /**
+     * Identificador único e exclusivo
+     * @param type $id
+     * @return \Element 
+     */
     public function setId($id) {
         $this->id = $id;
         return $this;
-    }    
-    
-    public function setName($name) {
-        $this->name = $name;
-        return $this;
-    }
-    
-    /**
-     * Único valor para o atributo name e id
-     */
-    public function setNameId($nameId) {
-        $this->name = $nameId;
-        $this->id = $nameId;
     }
 
+    /**
+     * Classe ou classes do elemento
+     * @param type $class
+     * @return \Element 
+     */
     public function setClass($class) {
         $this->class = $class;
         return $this;
     }
 
+    /**
+     * Título do elemento
+     * @param type $title
+     * @return \Element 
+     */
     public function setTitle($title) {
         $this->title = $title;
         return $this;
     }
 
+    /**
+     * Declaração de estilo para um elemento
+     * @param type $style
+     * @return \Element 
+     */
     public function setStyle($style) {
         $this->style = $style;
         return $this;
@@ -99,7 +85,6 @@ abstract class Element extends Event {
     protected function clear() {
         $this->class = null;
         $this->id = null;
-        $this->name = null;
         $this->style = null;
         $this->title = null;
         parent::clear();

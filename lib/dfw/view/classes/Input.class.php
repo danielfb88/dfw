@@ -13,79 +13,26 @@
 
 require_once 'Element.class.php';
 
-final class Input extends Element {    
-    /**
-     * Tipo do controle
-     * @var string 
-     */
+final class Input extends Element {
     protected $type;
-    /**
-     * Tipos de conteúdo (MIME) que o servidor deve aceitar, usado quando type="text"
-     * @var string 
-     */
     protected $accept;
-    /**
-     * Caractere correspondente à tecla de atalho para acesso ao elemento
-     * @var string 
-     */
     protected $accesskey;
-    /**
-     * Texto alternativo
-     * @var string 
-     */
     protected $alt;
-    /**
-     * Indica que um 'checkbox' ou um 'radio' estará previamente marcado
-     * @var boolean
-     */
     protected $checked;
-    /**
-     * Desabilita o controle de modo que o usuário não poderá interagir com ele
-     * @var boolean 
-     */
     protected $disabled;
-    /**
-     * Número máximo de caracteres que o usuário pode inserir em um campo 'text' ou 'password’
-     * @var int 
-     */
     protected $maxlength;
-    /**
-     * Indica que o controle será utilizado somente para leitura, impedindo alterações em seus valores
-     * @var boolean 
-     */
+    protected $name;
     protected $readonly;
-    /**
-     * Tamanho inicial do controle 
-     * (Pode ser expresso em pixels. Quando type="password" ou type="text" o tamanho indica o número de caracteres)
-     * @var int 
-     */
     protected $size;
-    /**
-     * Quando type="image", indica a localização da imagem
-     * @var string
-     */
     protected $src;
-    /**
-     * Ordem de navegação na página quando se utiliza a tecla TAB
-     * @var int
-     */
     protected $tabindex;
-    /**
-     * Valor previamente definido
-     * @var string
-     */
     protected $value;
-    /**
-     * Ocorre quando o elemento perde o foco
-     * @var string 
-     */
+    # Eventos Intrínsecos
     protected $onblur;
-    /**
-     * Ocorre quando o elemento ganha foco
-     * @var string 
-     */
+    protected $onchange;
     protected $onfocus;
-     /**
+    protected $onselect;
+    /**
      * Instância do Singleton
      * @var Label
      */
@@ -104,6 +51,12 @@ final class Input extends Element {
         return self::$instance;
     }
     
+    /**
+     * Tipo do controle
+     * @param type $type
+     * @return \Input
+     * @throws type 
+     */
     public function setType($type = 'text') {        
         switch ($type) {
             case 'text':
@@ -126,68 +79,164 @@ final class Input extends Element {
         return $this;
     }
 
+    /**
+     * Tipos de conteúdo (MIME) que o servidor deve aceitar, usado quando type="text"
+     * @param type $accept
+     * @return \Input 
+     */
     public function setAccept($accept) {
         $this->accept = $accept;
         return $this;
     }
 
+    /**
+     * Caractere correspondente à tecla de atalho para acesso ao elemento
+     * @param type $accesskey
+     * @return \Input 
+     */
     public function setAccesskey($accesskey) {
         $this->accesskey = $accesskey;
         return $this;
     }
 
+    /**
+     * Texto alternativo
+     * @param type $alt
+     * @return \Input 
+     */
     public function setAlt($alt) {
         $this->alt = $alt;
         return $this;
     }
 
+    /**
+     * Indica que um 'checkbox' ou um 'radio' estará previamente marcado
+     * @param type $checked
+     * @return \Input 
+     */
     public function setChecked($checked) {
         $this->checked = $checked;
         return $this;
     }
 
+    /**
+     * Desabilita o controle de modo que o usuário não poderá interagir com ele
+     * @param type $disabled
+     * @return \Input 
+     */
     public function setDisabled($disabled) {
         $this->disabled = $disabled;
         return $this;
     }
 
+    /**
+     * Número máximo de caracteres que o usuário pode inserir em um campo 'text' ou 'password’
+     * @param type $maxlength
+     * @return \Input 
+     */
     public function setMaxlength($maxlength) {
         $this->maxlength = $maxlength;
         return $this;
+    }   
+    
+    /**
+     * Nome do controle que o identifica ao enviar o formulário
+     * @param type $name
+     * @return \Input 
+     */
+    public function setName($name) {
+        $this->name = $name;
+        return $this;
     }
 
+    /**
+     * Indica que o controle será utilizado somente para leitura, impedindo alterações em seus valores
+     * @param type $readonly
+     * @return \Input 
+     */
     public function setReadonly($readonly) {
         $this->readonly = $readonly;
         return $this;
     }
 
+    /**
+     * Tamanho inicial do controle 
+     * (Pode ser expresso em pixels. Quando type="password" ou type="text" o tamanho indica o número de caracteres)
+     * @param type $size
+     * @return \Input 
+     */
     public function setSize($size) {
         $this->size = $size;
         return $this;
     }
 
+    /**
+     * Quando type="image", indica a localização da imagem
+     * @param type $src
+     * @return \Input 
+     */
     public function setSrc($src) {
         $this->src = $src;
         return $this;
     }
 
+    /**
+     * Ordem de navegação na página quando se utiliza a tecla TAB
+     * @param type $tabindex
+     * @return \Input 
+     */
     public function setTabindex($tabindex) {
         $this->tabindex = $tabindex;
         return $this;
     }
 
+    /**
+     * Valor previamente definido
+     * @param type $value
+     * @return \Input 
+     */
     public function setValue($value) {
         $this->value = $value;
         return $this;
     }
 
+    /**
+     * Ocorre quando o elemento perde o foco por um clique do mouse ou mediante navegação por tabulação
+     * @param type $onblur
+     * @return \Input 
+     */
     public function setOnblur($onblur) {
         $this->onblur = $onblur;
         return $this;
     }
 
+    /**
+     * Ocorre quando o conteúdo do controle é alterado
+     * @param type $onchange
+     * @return \Input 
+     */
+    public function setOnchange($onchange) {
+        $this->onchange = $onchange;
+        return $this;
+    }
+
+    /**
+     * Ocorre quando o elemento entra em foco por um clique do mouse ou mediante navegação por tabulação
+     * @param type $onfocus
+     * @return \Input 
+     */
     public function setOnfocus($onfocus) {
         $this->onfocus = $onfocus;
+        return $this;
+    }
+
+    /**
+     * Ocorre quando se seleciona algum texto dentro do controle
+     * @param type $onselect
+     * @return \Input 
+     */
+    public function setOnselect($onselect) {
+        $this->onselect = $onselect;
         return $this;
     }
     
@@ -196,8 +245,7 @@ final class Input extends Element {
         
         if(!empty($this->type))
             $element .= 'type=\''.$this->type.'\' ';
-        
-        
+                
         if(!empty($this->accept))
             $element .= 'accept=\''.$this->accept.'\' ';
         
@@ -216,6 +264,9 @@ final class Input extends Element {
         if(!empty($this->maxlength))
             $element .= 'maxlength=\''.$this->maxlength.'\' ';
         
+        if(!empty($this->name))
+            $element .= 'name=\''.$this->name.'\' ';
+        
         if($this->readonly)
             $element .= 'readonly=\'readonly\' ';
         
@@ -231,17 +282,20 @@ final class Input extends Element {
         if(!empty($this->value))
             $element .= 'value=\''.$this->value.'\' ';
         
-        if(!empty($this->name))
-            $element .= 'name=\''.$this->name.'\' ';
-        
         $element .= parent::show();
         
-        # Eventos Específicos
+        # Eventos Intrínsecos
         if(!empty($this->onblur))
             $element .= ' onblur=\''.$this->onblur.'\' ';
         
+        if(!empty($this->onchange))
+            $element .= ' onchange=\''.$this->onchange.'\' ';
+        
         if(!empty($this->onfocus))
             $element .= ' onfocus=\''.$this->onfocus.'\' ';
+        
+        if(!empty($this->onselect))
+            $element .= ' onselect=\''.$this->onselect.'\' ';
         
         $element .= '/>';
                 
@@ -257,14 +311,16 @@ final class Input extends Element {
         $this->checked = null;
         $this->disabled = null;
         $this->maxlength = null;
-        $this->onblur = null;
-        $this->onfocus = null;
         $this->readonly = null;
         $this->size = null;
         $this->src = null;
         $this->tabindex = null;
         $this->type = null;
-        $this->value = null;
+        $this->value = null;        
+        $this->onblur = null;
+        $this->onchange = null;
+        $this->onfocus = null;
+        $this->onselect = null;
         parent::clear();
     }
 }
