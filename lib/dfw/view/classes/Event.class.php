@@ -139,7 +139,7 @@ abstract class Event {
      * @return string 
      */
     protected function escapaAspasSimples($valor) {
-        $valor = preg_replace("/'/", "\'", $valor);
+        $valor = preg_replace("/'/", "\"", $valor);
         return $valor;
     }
     

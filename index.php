@@ -28,6 +28,7 @@ require_once 'lib/dfw/view/classes/Label.class.php';
 require_once 'lib/dfw/view/classes/Select.class.php';
 require_once 'lib/dfw/view/classes/Option.class.php';
 require_once 'lib/dfw/view/classes/Button.class.php';
+require_once 'lib/dfw/view/classes/HiperLink.class.php';
 
 ?>
 
@@ -59,6 +60,11 @@ require_once 'lib/dfw/view/classes/Button.class.php';
             
             echo '<br/><br/>';
             Button::getInstance()->setValue(12)->setText("Botão")->setOnclick('alert("clicou no botao")')->setOnmousemove('alert("onmousemove button")')->show();
+            
+            echo '<br/><br/>';
+            HiperLink::getInstance()->setHref("http://www.google.com")->setTarget("_blank")->
+                    setText('Google')->setOnclick("alert('Voce vai para o google')")->show();
+            
             
             
             

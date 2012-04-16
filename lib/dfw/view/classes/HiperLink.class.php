@@ -1,8 +1,8 @@
 <?php
 /**
- * DFW Framework PHP - Classe Singleton Button
+ * DFW Framework PHP - Classe Singleton HiperText
  * 
- * Elemento Button XHTML
+ * Elemento HiperText XHTML
  * Data de Criação: 16 de Abril de 2012
  * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
@@ -13,20 +13,23 @@
 
 require_once 'Element.class.php';
 
-final class Button extends Element {
+final class HiperLink extends Element {
     protected $accesskey;
-    protected $disabled;
-    protected $name;
+    protected $charset;
+    protected $href;
+    protected $hreflang;
+    protected $rel;
+    protected $rev;
     protected $tabindex;
     protected $type;
-    protected $value;
+    protected $target;
     protected $text;
     # Eventos Intrínsecos
     protected $onblur;
     protected $onfocus;
     /**
      * Instância do Singleton
-     * @var Button
+     * @var HiperLink
      */
     private static $instance;
     
@@ -34,11 +37,11 @@ final class Button extends Element {
     
     /**
      * Retorna instância única do singleton
-     * @return Button
+     * @return HiperLink
      */
     public static function getInstance() {
         if(empty(self::$instance))
-            self::$instance = new Button();
+            self::$instance = new HiperLink();
         
         return self::$instance;
     }
@@ -46,48 +49,77 @@ final class Button extends Element {
     /**
      * Caractere correspondente à tecla de atalho para acesso ao elemento
      * @param type $accesskey
-     * @return \Button 
+     * @return \HHiperLink
      */
     public function setAccesskey($accesskey) {
         $this->accesskey = $accesskey;
         return $this;
     }
-
+    
     /**
-     * Desabilita o controle de modo que o usuário não poderá interagir com ele
-     * @param type $disabled
-     * @return \Button 
+     * Codificação de caracteres utilizada no documento hiperlinkado
+     * @param type $charset
+     * @return \HHiperLink
      */
-    public function setDisabled($disabled) {
-        $this->disabled = $disabled;
+    public function setCharset($charset) {
+        $this->charset = $charset;
         return $this;
     }
 
     /**
-     * Nome do controle que o identifica ao enviar o formulário
-     * @param type $name
-     * @return \Button 
+     * Localização de destino do hiperlink
+     * @param type $href
+     * @return \HHiperLink
      */
-    public function setName($name) {
-        $this->name = $name;
+    public function setHref($href) {
+        $this->href = $href;
+        return $this;
+    }
+
+    /**
+     * Idioma do documento hiperlinkado
+     * @param type $hreflang
+     * @return \HHiperLink
+     */
+    public function setHreflang($hreflang) {
+        $this->hreflang = $hreflang;
+        return $this;
+    }
+
+    /**
+     * Tipos de relacionamento entre o documento corrente e o documento hiperlinkado
+     * @param type $rel
+     * @return \HHiperLink
+     */
+    public function setRel($rel) {
+        $this->rel = $rel;
+        return $this;
+    }
+
+    /**
+     * Tipos de relacionamento entre o documento hiperlinkado e o documento corrente (link reverso)
+     * @param type $rev
+     * @return \HHiperLink
+     */
+    public function setRev($rev) {
+        $this->rev = $rev;
         return $this;
     }
 
     /**
      * Ordem de navegação na página quando se utiliza a tecla TAB
      * @param type $tabindex
-     * @return \Button 
+     * @return \HHiperLink
      */
     public function setTabindex($tabindex) {
         $this->tabindex = $tabindex;
         return $this;
     }
-
+    
     /**
-     * Tipo do botão 
-     * (button:genérico; submit: para envio do formulário, submetendo os dados; ou reset: para restaurar o conteúdo original do formulário)
+     * Tipo do conteúdo que será acessado no documento hiperlinkado
      * @param type $type
-     * @return \Button 
+     * @return \HHiperLink
      */
     public function setType($type) {
         $this->type = $type;
@@ -95,19 +127,26 @@ final class Button extends Element {
     }
     
     /**
-     * Valor previamente definido
-     * @param type $type
-     * @return \Button 
+     * Alvo no qual o documento será aberto
+     * Tipos: \n
+     *      _blank: Opens the linked document in a new window or tab.
+     *      _self: Opens the linked document in the same frame as it was clicked (this is default).
+     *      _parent: Opens the linked document in the parent frame.
+     *      _top: Opens the linked document in the full body of the window.
+     *      framename: Opens the linked document in a named frame.
+     * 
+     * @param type $target
+     * @return \HiperLink 
      */
-    public function setValue($value) {
-        $this->value = $value;
+    public function setTarget($target) {
+        $this->target = $target;
         return $this;
     }
     
     /**
      * Texto do Option
      * @param type $text
-     * @return \Button 
+     * @return \HHiperLink
      */
     public function setText($text) {
         $this->text = $text;
@@ -117,7 +156,7 @@ final class Button extends Element {
     /**
      * Ocorre quando o elemento perde o foco por um clique do mouse ou mediante navegação por tabulação
      * @param type $onblur
-     * @return \Button 
+     * @return \HHiperLink
      */
     public function setOnblur($onblur) {
         $this->onblur = $onblur;
@@ -127,7 +166,7 @@ final class Button extends Element {
     /**
      * Ocorre quando o elemento entra em foco por um clique do mouse ou mediante navegação por tabulação
      * @param type $onfocus
-     * @return \Button 
+     * @return \HHiperLink
      */
     public function setOnfocus($onfocus) {
         $this->onfocus = $onfocus;
@@ -139,26 +178,36 @@ final class Button extends Element {
      * @return string 
      */
     private function mountElement() {
-        $element = '<button ';
+        $element = '<a ';
         
         if(!empty($this->accesskey))
             $element .= 'accesskey=\''.$this->accesskey.'\' ';
         
-        if(!empty($this->disabled))
-            $element .= 'disabled=\''.$this->disabled.'\' ';
+        if(!empty($this->charset))
+            $element .= 'charset=\''.$this->charset.'\' ';
         
-        if(!empty($this->name))
-            $element .= 'name=\''.$this->name.'\' ';
+        if(!empty($this->href))
+            $element .= 'href=\''.$this->href.'\' ';
+        
+        if(!empty($this->hreflang))
+            $element .= 'hreflang=\''.$this->hreflang.'\' ';
+        
+        if(!empty($this->rel))
+            $element .= 'rel=\''.$this->rel.'\' ';
+        
+        if(!empty($this->rev))
+            $element .= 'rev=\''.$this->rev.'\' ';
         
         if(!empty($this->tabindex))
             $element .= 'tabindex=\''.$this->tabindex.'\' ';
-        
+                
         if(!empty($this->type))
             $element .= 'type=\''.$this->type.'\' ';
         
-        if(!empty($this->value))
-            $element .= 'value=\''.$this->value.'\' ';
-        
+        if(!empty($this->target)) {
+            $element .= 'target=\''.$this->target.'\' ';
+        }
+                
         # Eventos Intrínsecos
         if(!empty($this->onblur))
             $element .= 'onblur=\''.$this->onblur.'\' ';
@@ -170,7 +219,7 @@ final class Button extends Element {
         
         $element .= '>';
         $element .= $this->text;
-        $element .= '</button>';
+        $element .= '</a>';
         
         return $element;
     }
@@ -201,12 +250,15 @@ final class Button extends Element {
     
     protected function clear() {
         $this->accesskey = null;
-        $this->disabled = null;
-        $this->name = null;        
+        $this->charset = null;
+        $this->href = null;
+        $this->hreflang = null;        
+        $this->rel = null;
+        $this->rev = null;
         $this->tabindex = null;
-        $this->type = null;
-        $this->value = null;
+        $this->target = null;
         $this->text = null;
+        $this->type = null;
         $this->onblur = null;
         $this->onfocus = null;
         parent::clear();
