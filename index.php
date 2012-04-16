@@ -41,7 +41,7 @@ require_once 'lib/dfw/view/classes/Option.class.php';
         <legend>Minha legenda</legend>
             <?php 
             
-        // TODO: SEMPRE VERIFICAR ENVENTOS INTRINSECOS
+        // PRIORIDADE: SEMPRE VERIFICAR ENVENTOS INTRINSECOS
             
             Label::getInstance()->setFor('radio1')->setMessage('TESTEEE LABEL')->setOnclick('alert("voce clicou no label")')->show();
             Input::getInstance()->setType('radio')->setName('grupo1')->setChecked(true)->setId('radio1')->setOnclick('alert("radio1")')->show();

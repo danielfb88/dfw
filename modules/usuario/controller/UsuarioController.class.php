@@ -45,6 +45,6 @@ class UsuarioController extends Controller {
     /*
      * Ações customizadas
      */
-    // TODO: Desenvolver Ações customizadas qaundo necessário
+
 }
 ?>

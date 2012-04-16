@@ -1,7 +1,7 @@
 <?php
 // TODO: Todas as classes controllers herdarão desta e os metodos de autenticaçao ficarao aqui.
 // TODO: CRIAR AUTENTICAÇÃO.
-// TODO: CONTINUAR DESENOLVIMENTO DE COMPONENTES VIEW PARA OS OUTROS ELEMENTOS XHTML
+// PRIORIDADE: CONTINUAR DESENOLVIMENTO DE COMPONENTES VIEW PARA OS OUTROS ELEMENTOS XHTML
 
 // modificar
 // TODO: Analizar este metodo para sessao

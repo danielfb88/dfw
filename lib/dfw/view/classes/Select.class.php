@@ -183,6 +183,7 @@ final class Select extends Element {
         $this->name = null;
         $this->size = null;
         $this->tabindex = null;
+        $this->arrOptions = array();
         $this->onblur = null;
         $this->onchange = null;
         $this->onfocus = null;
