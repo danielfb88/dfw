@@ -1,8 +1,8 @@
 <?php
 /**
- * DFW Framework PHP - Classe Singleton HiperText
+ * DFW Framework PHP - Classe Singleton HiperLink
  * 
- * Elemento HiperText XHTML
+ * Elemento HiperLink XHTML
  * Data de Criação: 16 de Abril de 2012
  * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
@@ -144,7 +144,7 @@ final class HiperLink extends Element {
     }
     
     /**
-     * Texto do Option
+     * Texto do Elemento
      * @param type $text
      * @return \HHiperLink
      */

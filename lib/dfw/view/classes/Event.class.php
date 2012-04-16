@@ -184,6 +184,12 @@ abstract class Event {
     }
     
     /**
+     * Retorna o elemento html como uma string
+     * @return string 
+     */
+    public abstract function returnAsString();
+    
+    /**
      * Limpa os valores dos atributos. 
      */
     protected function clear() {

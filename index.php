@@ -29,6 +29,7 @@ require_once 'lib/dfw/view/classes/Select.class.php';
 require_once 'lib/dfw/view/classes/Option.class.php';
 require_once 'lib/dfw/view/classes/Button.class.php';
 require_once 'lib/dfw/view/classes/HiperLink.class.php';
+require_once 'lib/dfw/view/classes/FieldSet.class.php';
 
 ?>
 
@@ -66,20 +67,18 @@ require_once 'lib/dfw/view/classes/HiperLink.class.php';
                     setText('Google')->setOnclick("alert('Voce vai para o google')")->show();
             
             
-            
-            
-            /*
-            $input = new Input();
-            $input->id = 'input_id';
-            $input->name = 'input_id';
-            $input->maxlength = '12';
-            $input->size = 30;
-            $input->onclick = 'alert("teste")';
-            $input->onmousemove = 'alert("moveu-se")';
-            $input->show();
-             * 
-             */
             ?>
         </fieldset>
+        
+        <?php
+        
+        echo '<br/><br/>';
+        $label1 = Label::getInstance()->setFor("input1")->setText("Testeeee huhu")->returnAsString();
+        $input1 = Input::getInstance()->setValue("123")->setId('input1')->returnAsString();
+        FieldSet::getInstance()->setLegend("Teste de FieldSet")->appendContent($label1)->appendContent($input1)->setStyle("width: 223px; height: 162px")->setOndblclick("alert('voce clicou 2 vezes')")->show();
+        
+        ?>
+        
+        
     </body>
 </html>

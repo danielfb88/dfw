@@ -105,7 +105,7 @@ final class Button extends Element {
     }
     
     /**
-     * Texto do Option
+     * Texto do Elemento
      * @param type $text
      * @return \Button 
      */

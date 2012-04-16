@@ -60,7 +60,7 @@ final class Label extends Element {
     }
     
     /**
-     * Texto do Label
+     * Texto do Elemento
      * @param type $text
      * @return \Label 
      */
