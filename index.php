@@ -27,6 +27,7 @@ require_once 'lib/dfw/view/classes/Input.class.php';
 require_once 'lib/dfw/view/classes/Label.class.php';
 require_once 'lib/dfw/view/classes/Select.class.php';
 require_once 'lib/dfw/view/classes/Option.class.php';
+require_once 'lib/dfw/view/classes/Button.class.php';
 
 ?>
 
@@ -55,6 +56,11 @@ require_once 'lib/dfw/view/classes/Option.class.php';
             Select::getInstance()->setName('selectTest')->setOnchange('alert("mudou de opcao")');
             Select::getInstance()->insertOptions($opcoes);
             Select::getInstance()->show();
+            
+            echo '<br/><br/>';
+            Button::getInstance()->setValue(12)->setText("Botão")->setOnclick('alert("clicou no botao")')->show();
+            
+            
             
             /*
             $input = new Input();
