@@ -58,7 +58,7 @@ require_once 'lib/dfw/view/classes/Button.class.php';
             Select::getInstance()->show();
             
             echo '<br/><br/>';
-            Button::getInstance()->setValue(12)->setText("Botão")->setOnclick('alert("clicou no botao")')->show();
+            Button::getInstance()->setValue(12)->setText("Botão")->setOnclick('alert("clicou no botao")')->setOnmousemove('alert("onmousemove button")')->show();
             
             
             

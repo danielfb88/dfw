@@ -13,15 +13,13 @@ class MultipleSelectBox {
         $this->arrOptions = $options;
     }
     
-    public function show() {
-        // criar javascript para pegar conteudo de um select e inserir no outro
+    // criar javascript para pegar conteudo de um select e inserir no outro
         // criar tabela
         // criar select
         // criar opcoes
         // criar botoao
         
         // criar select vazio
-    }
     
 }
 ?>

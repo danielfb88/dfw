@@ -241,10 +241,10 @@ final class Input extends Element {
     }
     
     /**
-     * Exibe o elemento html na tela.
-     * As variáveis do Singleton são sempre limpas ao final deste método. 
+     * Monta o elemento
+     * @return string 
      */
-    public function show() {
+    private function mountElement() {
         $element = '<input ';
         
         if(!empty($this->type))
@@ -302,13 +302,32 @@ final class Input extends Element {
             $element .= ' onselect=\''.$this->onselect.'\' ';
         
         $element .= '/>';
-                
         
+        return $element;
+    }
+    
+    /**
+     * Exibe o elemento html na tela.
+     * As variáveis do Singleton são sempre limpas ao final deste método. 
+     */
+    public function show() {
+        $element = $this->mountElement(); 
         // Limpando as configurações para uma nova chamada.
-        $this->clear();
-        
+        $this->clear();        
         // exibindo o resultado
-        echo $element;        
+        echo $element;
+    }
+    
+    /**
+     * Retorna o elemento html como uma string
+     * @return string 
+     */
+    public function returnAsString() {
+        $element = $this->mountElement(); 
+        // Limpando as configurações para uma nova chamada.
+        $this->clear();        
+        // retornando o resultado
+        return $element;
     }
     
     protected function clear() {

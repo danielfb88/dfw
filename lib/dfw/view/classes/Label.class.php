@@ -88,12 +88,12 @@ final class Label extends Element {
         $this->onfocus = $onfocus;
         return $this;
     }
-
+    
     /**
-     * Exibe o elemento html na tela.
-     * As variáveis do Singleton são sempre limpas ao final deste método. 
+     * Monta o elemento
+     * @return string 
      */
-    public function show() {
+    private function mountElement() {
         $element = '<label ';
         
         if(!empty($this->accesskey))
@@ -114,12 +114,32 @@ final class Label extends Element {
         $element .= '>';
         $element .= $this->text;
         $element .= '</label>';
-                
-        // Limpando as configurações para uma nova chamada.
-        $this->clear();
         
+        return $element;
+    }
+
+    /**
+     * Exibe o elemento html na tela.
+     * As variáveis do Singleton são sempre limpas ao final deste método. 
+     */
+    public function show() {
+        $element = $this->mountElement();        
+        // Limpando as configurações para uma nova chamada.
+        $this->clear();        
         // exibindo o resultado
         echo $element;        
+    }
+    
+    /**
+     * Retorna o elemento html como uma string
+     * @return string 
+     */
+    public function returnAsString() {
+        $element = $this->mountElement(); 
+        // Limpando as configurações para uma nova chamada.
+        $this->clear();        
+        // retornando o resultado
+        return $element;
     }
     
     protected function clear() {

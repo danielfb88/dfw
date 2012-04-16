@@ -139,14 +139,13 @@ final class Select extends Element {
     public function setOnfocus($onfocus) {
         $this->onfocus = $onfocus;
         return $this;
-    }
-    
-
+    }    
+        
     /**
-     * Exibe o elemento html na tela.
-     * As variáveis do Singleton são sempre limpas ao final deste método. 
+     * Monta o elemento
+     * @return string 
      */
-    public function show() {
+    private function mountElement() {
         $element = '<select ';
         
         if($this->disabled)
@@ -184,12 +183,31 @@ final class Select extends Element {
         
         $element .= '</select>';
                 
-        
+        return $element;
+    }
+    
+    /**
+     * Exibe o elemento html na tela.
+     * As variáveis do Singleton são sempre limpas ao final deste método. 
+     */
+    public function show() {
+        $element = $this->mountElement();        
         // Limpando as configurações para uma nova chamada.
-        $this->clear();
-        
+        $this->clear();        
         // exibindo o resultado
-        echo $element;        
+        echo $element;
+    }
+    
+    /**
+     * Retorna o elemento html como uma string
+     * @return string 
+     */
+    public function returnAsString() {
+        $element = $this->mountElement(); 
+        // Limpando as configurações para uma nova chamada.
+        $this->clear();        
+        // retornando o resultado
+        return $element;
     }
     
     protected function clear() {
