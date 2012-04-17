@@ -57,8 +57,7 @@ require_once 'lib/dfw/view/classes/Form.class.php';
             $opcoes[] = Option::getInstance()->setLabel('opcao2')->setSelected(true)->setText("Mensagem 2")->returnAsString();
             $opcoes[] = Option::getInstance()->setLabel('opcao3')->setText("Mensagem 3")->returnAsString();
             Select::getInstance()->setName('selectTest')->setOnchange('alert("mudou de opcao")');
-            Select::getInstance()->insertOptions($opcoes);
-            Select::getInstance()->show();
+            Select::getInstance()->insertOptions($opcoes)->show();
             
             echo '<br/><br/>';
             Button::getInstance()->setValue(12)->setText("Botão")->setOnclick('alert("clicou no botao")')->setOnmousemove('alert("onmousemove button")')->show();
@@ -95,6 +94,8 @@ require_once 'lib/dfw/view/classes/Form.class.php';
         
         Form::getInstance()->setAction("index.php")->setMethod('post')->setContent($fieldSet)->show();
         
+        
+        // TODO: VAI CONTINUAR SENDO SINGLETON E PONTO FINAL.
         ?>
         
         

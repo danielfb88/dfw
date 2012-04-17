@@ -43,22 +43,27 @@ final class Select extends Element {
         
         return self::$instance;
     }
+    
     /**
      * Adiciona string com a option montada
-     * @param string $strOption 
+     * @param type $strOption
+     * @return \Select 
      */
     public function addOption($strOption) {
         if(!empty($strOption) && is_string($strOption))
             $this->arrOptions[] = $strOption;
+        return $this;
     }
     
     /**
      * Insere array de Options
-     * @param array $arrOptions 
+     * @param array $arrOptions
+     * @return \Select 
      */
     public function insertOptions(array $arrOptions) {
         if(!empty($arrOptions) && is_array($arrOptions))
             $this->arrOptions = $arrOptions;
+        return $this;
     }
     
     /**
