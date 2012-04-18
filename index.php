@@ -95,7 +95,8 @@ require_once 'lib/dfw/view/classes/Form.class.php';
         Form::getInstance()->setAction("index.php")->setMethod('post')->setContent($fieldSet)->show();
         
         
-        // TODO: VAI CONTINUAR SENDO SINGLETON E PONTO FINAL.
+        // TODO: TRANSFORMAR TUDO EM ESTATICO. FAZER PARA CLASSES PAI E DEPOIS PARA O RESTO
+        
         ?>
         
         

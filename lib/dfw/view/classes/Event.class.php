@@ -147,7 +147,7 @@ abstract class Event {
      * Exibe o elemento criado
      * @return string 
      */
-    public function show() {
+    public function returnAttributesAsString() {
         
         $event = '';
         if(!empty($this->onclick))

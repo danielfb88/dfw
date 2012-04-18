@@ -1,6 +1,6 @@
 <?php
 /**
- * DFW Framework PHP - Classe Singleton Form
+ * DFW Framework PHP - Classe Form
  * 
  * Elemento Form XHTML
  * Data de Criação: 16 de Abril de 2012
@@ -104,9 +104,10 @@ class Form extends Element {
     
     /**
      * Monta o elemento
+     * @param $tableParams Parâmetros da Tabela que comporta-rá os fields
      * @return string 
      */
-    private static function mountElement() {
+    private static function mountElement(array $tableParams) {
         // Abrindo a Tag
         $element = '<form ';
         
@@ -123,7 +124,7 @@ class Form extends Element {
             $element .= 'method=\''.self::$method.'\' ';
                 
         // Atributo dos pais
-        $element .= parent::show();
+        $element .= parent::returnAttributesAsString();
         
         // Eventos Intrínsecos
         if(!empty(self::$onreset))
@@ -134,7 +135,7 @@ class Form extends Element {
         // Fechando a Tag de atributos
         $element .= '>';
         
-        // configurar a tabela
+        // configurar a tabela $tableParams
         // TODO: colocar todos os fields dentro da tabela
         // Conteúdo do Form
         $element .= self::$content;

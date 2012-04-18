@@ -59,7 +59,7 @@ abstract class Element extends Event {
         return $this;
     }
     
-    public function show() {
+    public function returnAttributesAsString() {
         
         $element = '';
         if(!empty($this->id))
@@ -74,7 +74,7 @@ abstract class Element extends Event {
         if(!empty($this->style))
             $element .= ' style=\''.$this->style.'\' ';
         
-        $element .= parent::show();
+        $element .= parent::returnAttributesAsString();
         
         return $element;
     }
