@@ -5,6 +5,9 @@
  * Classe que abstrai as operaçoes mais básicas entre a aplicação e o banco de dados.
  * Data de Criação: 31 de Março de 2012
  * 
+ * Ultima modificação: 18 de Abril de 2012
+ *      - Adicionado parâmetro orderBy em ao método getAll
+ * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
  * @version     1.0
  * @abstract
@@ -141,15 +144,32 @@ abstract class DAO {
      * 
      * @param array $filterValues - Valores a serem usados para filtragem
      * @param char $whereType - Tipo de pesquisa where. ex: $whereType = "="; ou $whereType = "like";
+     * @param string $orderBy - Campo da ordenação
      * @param boolean $useBindValue - true para usar bindValue nos filtros
      * @return string SQL montada.
      * @throws Exception 
      */
-    private function select(array $filterValues, $whereType, $useBindValue = false) {
+    private function select(array $filterValues, $whereType, $orderBy = null, $useBindValue = false) {
         if($whereType != '=' && $whereType != 'like') {
             throw $e = new Exception('Parâmetro whereType inválido. Use \'=\' ou \'like\'');
             $e->getTraceAsString();
-        }            
+        }
+        
+        // Verifica se o orderBy informado existe
+        if($orderBy && is_string($orderBy)) {
+            $orderByFound = false;
+            foreach($this->properties as $key => $value) {
+                if($key == $orderBy) {
+                    $orderByFound = true;
+                    break;
+                }            
+            }
+            if(!$orderByFound) {
+                throw $e = new Exception("O parâmetro orderBy informado não existe");
+                $e->getTraceAsString();
+            }
+        }
+        
         
         $i = 0;
         $sql = 'SELECT ';   
@@ -212,6 +232,9 @@ abstract class DAO {
                 }
             }
         }
+        
+        if($orderBy && is_string($orderBy))
+            $sql .= ' ORDER BY '.$orderBy.' ';
         
         $this->lastQuery = $sql;
         
@@ -447,14 +470,15 @@ abstract class DAO {
      * Caso o objeto DTO não tenha sido definido na subclasse, retorna um array associativo.
      * Este método utiliza o tipo de pesquisa where "like"
      * 
+     * @param string $orderBy - Campo da ordenação
      * @param type $useBindValue
      * @return DTO|array
      * @throws type 
      */
-    public function getAll($useBindValue = true) {
+    public function getAll($orderBy = null, $useBindValue = true) {
         $filterValues = $this->getFilterValues();
 
-        $sql = $this->select($filterValues, 'like', $useBindValue);
+        $sql = $this->select($filterValues, 'like', $orderBy, $useBindValue);
                 
         try {
             
