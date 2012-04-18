@@ -13,179 +13,133 @@
 
 require_once 'Element.class.php';
 
-final class Form extends Element {
-    protected $accept;
-    protected $accept_charset;
-    protected $action;
-    protected $method;
-    protected $enctype;
-    protected $content;
+class Form extends Element {
+    private static $accept;
+    private static $accept_charset;
+    private static $action;
+    private static $method;
+    private static $enctype;
+    private static $content;
+    
+    private static $field;
+    
     # Eventos Intrínsecos
-    protected $onreset;
-    protected $onsubmit;
-    
-    /**
-     * Instância do Singleton
-     * @var Form
-     */
-    private static $instance;
-    
-    private function __construct() { }
-    
-    /**
-     * Retorna instância única do singleton
-     * @return Form
-     */
-    public static function getInstance() {
-        if(empty(self::$instance))
-            self::$instance = new Form();
+    private static $onreset;
+    private static $onsubmit;
         
-        return self::$instance;
-    }
-    
     /**
      * Tipos de conteúdo (MIME) que o servidor deve aceitar
      * @param type $accept
-     * @return \Form 
      */
-    public function setAccept($accept) {
-        $this->accept = $accept;
-        return $this;
+    public static function setAccept($accept) {
+        self::$accept = $accept;
     }
 
     /**
      * Codificação de caracteres que será enviada e que o servidor deve suportar
      * @param type $accept_charset
-     * @return \Form 
      */
-    public function setAccept_charset($accept_charset) {
-        $this->accept_charset = $accept_charset;
-        return $this;
+    public static function setAccept_charset($accept_charset) {
+        self::$accept_charset = $accept_charset;
     }
 
     /**
      * Endereço da aplicação para onde o formulário e seus dados serão enviados
      * @param type $action
-     * @return \Form 
      */
-    public function setAction($action) {
-        $this->action = $action;
-        return $this;
+    public static function setAction($action) {
+        self::$action = $action;
     }
 
     /**
      * Método utilizado para envio do formulário
      * @param type $method
-     * @return \Form 
      */
-    public function setMethod($method = "post") {
+    public static function setMethod($method = "post") {
         switch($method) {
             case "post":
             case "get":
-                $this->method = $method;
-                return $this;
+                self::$method = $method;
                 break;
             
             default:
                 throw $e = new Exception("O atributo method='".$method."' não existe");
-        }
-    
-        
+        }        
     }
 
     /**
      * Tipo de codificação dos dados do formulário
      * @param type $enctype
-     * @return \Form 
      */
-    public function setEnctype($enctype) {
-        $this->enctype = $enctype;
-        return $this;
+    public static function setEnctype($enctype) {
+        self::$enctype = $enctype;
     }
     
     /**
      * Ocorre quando um form é reiniciado
      * @param type $onreset
-     * @return \Form 
      */
-    public function setOnreset($onreset) {
-        $this->onreset = $onreset;
-        return $this;
+    public static function setOnreset($onreset) {
+        self::$onreset = $onreset;
     }
 
     /**
      * Ocorre quando um form é enviado
      * @param type $onsubmit
-     * @return \Form 
      */
-    public function setOnsubmit($onsubmit) {
-        $this->onsubmit = $onsubmit;
-        return $this;
+    public static function setOnsubmit($onsubmit) {
+        self::$onsubmit = $onsubmit;
     }
-    
-    /**
-     * TODO: Deleter
-     * Insere Conteúdo ao FieldSet
-     * @param string $text
-     * @return \Form 
-     */
-    public function setContent($content) {
-        $this->content = $content;
-        return $this;
-    }
-    
-    /**
-     * TODO: Deletar
-     * Adiciona Conteúdo ao FieldSet
-     * @param type $content
-     * @return \Form 
-     */
-    public function appendContent($content) {
-        $this->content .= $content;
-        return $this;
-    }
-    
-    public function addField($field) {
         
+    public static function addField(array $field) {
+        self::$field[] = $field;
     }
     
-    public function addFields(array $fields) {
-        // o form vai gerar uma tabela e organizar os fields pela ordem que estao definidos
+    // o form vai gerar uma tabela e organizar os fields pela ordem que estao definidos
+    // cada field é um array: ex: $field[0] = array($field);
+    // que pode ser $field[0] = array($label, $field);
+    public static function addFields(array $fields) {
+        self::$field = $fields;
     }
     
     /**
      * Monta o elemento
      * @return string 
      */
-    private function mountElement() {
+    private static function mountElement() {
+        // Abrindo a Tag
         $element = '<form ';
         
-        if(!empty($this->accept))
-            $element .= 'accept=\''.$this->accept.'\' ';
-        
-        if(!empty($this->accept_charset))
-            $element .= 'accept_charset=\''.$this->accept_charset.'\' ';
-        
-        if(!empty($this->action))
-            $element .= 'action=\''.$this->action.'\' ';
-        
-        if(!empty($this->enctype))
-            $element .= 'enctype=\''.$this->enctype.'\' ';
-        
-        if(!empty($this->method))
-            $element .= 'method=\''.$this->method.'\' ';
+        // Atributos
+        if(!empty(self::$accept))
+            $element .= 'accept=\''.self::$accept.'\' ';        
+        if(!empty(self::$accept_charset))
+            $element .= 'accept_charset=\''.self::$accept_charset.'\' ';        
+        if(!empty(self::$action))
+            $element .= 'action=\''.self::$action.'\' ';        
+        if(!empty(self::$enctype))
+            $element .= 'enctype=\''.self::$enctype.'\' ';        
+        if(!empty(self::$method))
+            $element .= 'method=\''.self::$method.'\' ';
                 
+        // Atributo dos pais
         $element .= parent::show();
-        $element .= '>';      
         
-        # Eventos Intrínsecos
-        if(!empty($this->onreset))
-            $element .= 'onreset=\''.$this->onreset.'\' ';
+        // Eventos Intrínsecos
+        if(!empty(self::$onreset))
+            $element .= 'onreset=\''.self::$onreset.'\' ';        
+        if(!empty(self::$onsubmit))
+            $element .= 'onsubmit=\''.self::$onsubmit.'\' ';
         
-        if(!empty($this->onsubmit))
-            $element .= 'onsubmit=\''.$this->onsubmit.'\' ';
+        // Fechando a Tag de atributos
+        $element .= '>';
         
-        $element .= $this->content;
+        // configurar a tabela
+        // TODO: colocar todos os fields dentro da tabela
+        // Conteúdo do Form
+        $element .= self::$content;
+        
+        // Fechando a Tag
         $element .= '</form>';
         
         return $element;
@@ -195,10 +149,10 @@ final class Form extends Element {
      * Exibe o elemento html na tela.
      * As variáveis do Singleton são sempre limpas ao final deste método. 
      */
-    public function show() {
-        $element = $this->mountElement();                
+    public static function show() {
+        $element = self::mountElement();                
         // Limpando as configurações para uma nova chamada.
-        $this->clear();        
+        self::clear();        
         // exibindo o resultado
         echo $element;        
     }
@@ -207,23 +161,23 @@ final class Form extends Element {
      * Retorna o elemento html como uma string
      * @return string 
      */
-    public function returnAsString() {
-        $element = $this->mountElement(); 
+    public static function returnAsString() {
+        $element = self::mountElement(); 
         // Limpando as configurações para uma nova chamada.
-        $this->clear();        
+        self::clear();        
         // retornando o resultado
         return $element;
     }
     
-    protected function clear() {
-        $this->accept = null;
-        $this->accept_charset = null;
-        $this->action = null;
-        $this->enctype = null;
-        $this->method = null;
-        $this->content = null;   
-        $this->onreset = null;
-        $this->onsubmit = null;
+    protected static function clear() {
+        self::$accept = null;
+        self::$accept_charset = null;
+        self::$action = null;
+        self::$enctype = null;
+        self::$method = null;
+        self::$field = null;   
+        self::$onreset = null;
+        self::$onsubmit = null;
         parent::clear();
     }
 
