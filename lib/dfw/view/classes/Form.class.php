@@ -124,6 +124,7 @@ final class Form extends Element {
     }
     
     /**
+     * TODO: Deleter
      * Insere Conteúdo ao FieldSet
      * @param string $text
      * @return \Form 
@@ -134,6 +135,7 @@ final class Form extends Element {
     }
     
     /**
+     * TODO: Deletar
      * Adiciona Conteúdo ao FieldSet
      * @param type $content
      * @return \Form 
@@ -141,6 +143,14 @@ final class Form extends Element {
     public function appendContent($content) {
         $this->content .= $content;
         return $this;
+    }
+    
+    public function addField($field) {
+        
+    }
+    
+    public function addFields(array $fields) {
+        // o form vai gerar uma tabela e organizar os fields pela ordem que estao definidos
     }
     
     /**
