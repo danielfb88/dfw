@@ -6,7 +6,7 @@
  * Data de Criação: 31 de Março de 2012
  * 
  * Ultima modificação: 18 de Abril de 2012
- *      - Adicionado parâmetro orderBy em ao método getAll
+ *      - Adicionado parâmetro orderBy ao método getAll
  * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
  * @version     1.0
@@ -420,9 +420,9 @@ abstract class DAO {
             $e->getTraceAsString();                        
         }
         
-        $sql = $this->select($filterValues, '=', $useBindValue);            
+        $sql = $this->select($filterValues, '=', null, $useBindValue);            
         $sql .= ' LIMIT 1;';
-                
+
         try {
             
             $this->connect();   
@@ -479,7 +479,7 @@ abstract class DAO {
         $filterValues = $this->getFilterValues();
 
         $sql = $this->select($filterValues, 'like', $orderBy, $useBindValue);
-                
+
         try {
             
             $this->connect();   
@@ -541,11 +541,13 @@ abstract class DAO {
      * Caso tenha inserido o id do registro é feito um UPDATE.
      * Caso contrário é feito um INSERT.
      * 
-     * @param type $useBindValue
+     * @param type $useBindValue Se ira usar vinculagem para os valores da filtragem
+     * @param string forceInsert Insere o registro forçadamente. Com esta opção, se a primary key for informada
+     * será um Insert, e não um Update.
      * @return boolean
      * @throws type 
      */
-    public function save($useBindValue = true) {
+    public function save($forceInsert = false, $useBindValue = true) {
         /*
          * ## Excessão de NotNull ##
          * Verifica se os valores definidos como notNull foram preenchidos
@@ -571,9 +573,9 @@ abstract class DAO {
         $properties = array();
         
         /*
-         * Se existe valor na(s) PrimaryKey(s) é UPDATE
+         * Se existe valor na(s) PrimaryKey(s) e o $forceInsert está desligado é UPDATE
          */
-        if($this->checkValuePrimaryKeyExists()) {
+        if($this->checkValuePrimaryKeyExists() && !$forceInsert) {
             /*
              * O update atualiza todos os dados da tabela. 
              * Por isso ele usa o $this->properties
@@ -590,6 +592,10 @@ abstract class DAO {
             $sql = $this->insert($properties, $useBindValue);
         }
                 
+        echo '<br/><br/>';
+        echo $sql;
+        echo '<br/><br/>';
+        
         try {
             
             $this->connect();
