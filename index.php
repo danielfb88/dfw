@@ -6,11 +6,11 @@ require_once 'config.php';
 require_once PATH . 'model/DAO/DAOUsuario.class.php';
 
 $usr = new DAOUsuario();
-$usr->id_usuario = 12;
-//$usr->status = 1;
-//$usr->nome = "Daniel Ferreira Bonfim";
-//$usr->password = "000";
-//$usr->email = "marilza@marilza.com";
+//$usr->id_usuario = 22;
+$usr->status = 1;
+$usr->nome = "Novo Mário Bros";
+$usr->password = "000";
+$usr->email = "mario@bros.com";
 //$usr->data_criacao = date("d-m-Y");
 // o read usa o '='
 //$arrDTOUsuarios = $usr->getAll(false);
@@ -18,9 +18,9 @@ $usr->id_usuario = 12;
 // getAll usa o 'like'
 //$usr->getAll();
 //$usr->delete();
-//$usr->save();
-$usr->read();
-var_dump($usr);die;
+$usr->insert();
+//$usr->read();
+//var_dump($usr);die;
 
 $arr = $usr->getAll('nome');
 var_dump($arr);

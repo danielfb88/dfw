@@ -251,7 +251,7 @@ abstract class DAO {
      * @return string
      * @throws type 
      */
-    private function insert(array $insertValues, $useBindValue = false) {
+    private function insertSQL(array $insertValues, $useBindValue = false) {
         // insert values inválido
         if(!$insertValues && !is_array($insertValues)) {
             throw $e = new Exception('Parâmetro passado para insert inválido.');
@@ -299,7 +299,7 @@ abstract class DAO {
      * @return string $sql SQL Gerada.
      * @throws type 
      */
-    private function update(array $updateValues, $useBindValue = false) {
+    private function updateSQL(array $updateValues, $useBindValue = false) {
         // update values inválido
         if(!$updateValues && !is_array($updateValues)) {
             throw $e = new Exception('Parâmetro passado para update inválido.');
@@ -540,20 +540,14 @@ abstract class DAO {
     
     /**
      * Salva os dados que foram inseridos nas variaveis da subClasse ($this->properties).
-     * Caso tenha inserido o id do registro é feito um UPDATE.
-     * Caso contrário é feito um INSERT.
-     * 
-     * @param boolean $useBindValue Se ira usar vinculagem para os valores da filtragem
-     * @param string forceInsert Insere o registro forçadamente. Com esta opção, se a primary key for informada
-     * será um Insert, e não um Update.
+     * @since 19-04-2012
+     * @param boolean $useBindValue Vinculação das variáveis de filtragem
      * @return boolean
      * @throws type 
      */
-    public function save($forceInsert = false, $useBindValue = true) {
-        /*
-         * ## Excessão de NotNull ##
-         * Verifica se os valores definidos como notNull foram preenchidos
-         */
+    public function insert($useBindValue = true) {        
+          ## Excessão de NotNull ##
+         // Verifica se os valores definidos como notNull foram preenchidos         
         if(!$this->checkValuesNotNullFieldsExists()) {
             $fields = '';
             foreach($this->configProps['notNull'] as $notNullField) {
@@ -564,46 +558,19 @@ abstract class DAO {
         }
         
         $filterValues = $this->getFilterValues();
-
-        /*
-         * INSERT usará $filterValues para inserir apenas os campos que o usuário preencher na subclasse.
-         * 
-         * Será:
-         * $filterValues para INSERT ou 
-         * $filterValues para UPDATE.
-         */
-        $properties = array();
+        $sql = $this->insertSQL($filterValues, $useBindValue);
         
-        /*
-         * Se existe valor na(s) PrimaryKey(s) e o $forceInsert está desligado é UPDATE
-         */
-        if($this->checkValuePrimaryKeyExists() && !$forceInsert) {
-            /*
-             * O update atualiza todos os dados da tabela. 
-             * Por isso ele usa o $this->properties
-             */
-            $properties = $filterValues;
-            $sql = $this->update($properties, $useBindValue);
-            
-        } else {
-            /*
-             * O insert só insere os valores que forem especificados. 
-             * Por isso usa o $filterValues
-             */
-            $properties = $filterValues;
-            $sql = $this->insert($properties, $useBindValue);
-        }
-                   
         try {
             
             $this->connect();
             $preparedStatment = $this->con->getPreparedStatment($sql);
             
             if($useBindValue)
-                $this->con->bindValue($preparedStatment, $properties, '='); 
+                $this->con->bindValue($preparedStatment, $filterValues, '='); 
             
             // guardando a query
             $this->lastQuery = $sql;
+            
             if(!$retornoOk = $preparedStatment->execute()) {
                 $this->informaErro($preparedStatment->errorInfo());                
             }
@@ -624,7 +591,67 @@ abstract class DAO {
     }
     
     /**
-     * Deleta o registro. É obrigatório inserir a primary key.
+     * Atualiza os dados que foram inseridos nas variaveis da subClasse ($this->properties).
+     * @since 19-04-2012
+     * @param boolean $useBindValue Vinculação das variáveis de filtragem
+     * @return string
+     * @throws type 
+     */
+    public function update($useBindValue = true) {
+        ## Excessão de NotNull ##
+        // Verifica se os valores definidos como notNull foram preenchidos        
+        if(!$this->checkValuesNotNullFieldsExists()) {
+            $fields = '';
+            foreach($this->configProps['notNull'] as $notNullField) {
+                $fields .= ' \''.$notNullField.'\' ';
+            }
+            throw $e = new Exception('Alguns dos campos '.$fields.' definidos como NotNull estão vazios.');
+            $e->getTraceAsString();
+        }
+        
+        // Se o valor da PrimaryKey tiver sido definido
+        if($this->checkValuePrimaryKeyExists()) {
+            $filterValues = $this->getFilterValues();
+            $sql = $this->updateSQL($filterValues, $useBindValue);
+            
+        } else {
+            ## Excessão de Primary Key sem valor ##
+            throw $e = new Exception('O valor da primarykey não foi informado');
+            $e->getTraceAsString();
+        }
+        
+        try {
+            
+            $this->connect();
+            $preparedStatment = $this->con->getPreparedStatment($sql);
+            
+            if($useBindValue)
+                $this->con->bindValue($preparedStatment, $filterValues, '='); 
+            
+            // guardando a query
+            $this->lastQuery = $sql;
+            
+            if(!$retornoOk = $preparedStatment->execute()) {
+                $this->informaErro($preparedStatment->errorInfo());                
+            }
+                        
+            $this->disconnect();
+                    
+        } catch (PDOException $e1) {
+            $e1->getMessage();
+            $e1->getTraceAsString();
+            
+        } catch (Exception $e2) {
+            $e2->getMessage();
+            $e2->getTraceAsString();
+        }
+        
+        unset($preparedStatment);
+        return $retornoOk;
+    }
+    
+    /**
+     * Deleta o registro. É obrigatório que o valor da primary key tenha sido inserido.
      * @param type $useBindValue
      * @return type
      * @throws type 
