@@ -1,17 +1,19 @@
 <?php
-// TODO: Criar getMaxCount.. algo do tipo para pegar o numero do ultimo campo e compor a primarykey
-// TODO: Dividir o insert do update
 /**
  * DFW Framework PHP - Classe DAO
  * 
  * Classe que abstrai as operaçoes mais básicas entre a aplicação e o banco de dados.
  * Data de Criação: 31 de Março de 2012
  * 
- * Ultima modificação: 18 de Abril de 2012
+ * 18 de Abril de 2012
  *      - Adicionado parâmetro orderBy ao método getAll
+ * Ultima modificação: 20 de Abril de 2012
+ *      - Dividido o antigo método save em insert e update
+ *      - Adicionado a propriedade ao array confgProps 'is_autoIncrement'
+ *      - Adicionado os métodos: getMaxCount() e getNextId()
  * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
- * @version     1.1
+ * @version     1.2
  * @abstract
  * 
  */
@@ -42,11 +44,23 @@ abstract class DAO {
      */
     protected $configProps = array(
         /**
-         * Chave Primária da Tabela.
-         * Se existir apenas 1 chave primária, esta chave deve ser auto-increment. 
-         * @example $this->configProps['primaryKey'] = array('id1', 'id2');
+         * Configurações da PrimaryKey 
          */
-        'primaryKey' => array(),
+        'primaryKey' => array(
+            /**
+            * Chave Primária da Tabela.
+            * Se existir apenas 1 chave primária, esta chave deve ser auto-increment. 
+            * @example $this->configProps['primaryKey'] = array('id1', 'id2');
+            */
+            'field' => array(),
+            /**
+            * Especifica se a primaryKey é auto-increment.
+            * @var boolean
+            * @since 20-04-2012 
+            */
+            'is_autoIncrement' => false
+            ),
+        
         /**
          * Campos que são notNull. 
          * Essa validação será feita antes de enviar a requisição para o Banco de Dados. 
@@ -344,8 +358,8 @@ abstract class DAO {
         
         // contando a(s) primary key(s)
         $i = 0;
-        foreach($this->configProps['primaryKey'] as $primaryKey) {
-            if($i++ == count($this->configProps['primaryKey'])-1) {
+        foreach($this->configProps['primaryKey']['field'] as $primaryKey) {
+            if($i++ == count($this->configProps['primaryKey']['field'])-1) {
                 // ultima posição sem virgula
                 if($useBindValue)
                     $sql .= $primaryKey.' = :'.$primaryKey.' ';
@@ -373,7 +387,7 @@ abstract class DAO {
      * @return boolean 
      */
     private function checkFieldPrimaryKeyExists() {
-        if(!$this->configProps['primaryKey']) {
+        if(!$this->configProps['primaryKey']['field']) {
             throw $e = new Exception('Não há primary key definida.');
             $e->getTraceAsString();
         }
@@ -391,7 +405,7 @@ abstract class DAO {
         $this->checkFieldPrimaryKeyExists();
         $this->refreshPropertiesValues();
         
-        foreach($this->configProps['primaryKey'] as $primaryKey) {
+        foreach($this->configProps['primaryKey']['field'] as $primaryKey) {
             /*
             * Retorna false se houver primary key sem valor
             */
@@ -539,6 +553,51 @@ abstract class DAO {
     }
     
     /**
+     * Sugere um valor para Id usando o total de registros + 1
+     * @since 20-04-2012
+     * @return int 
+     */
+    public function getNextId() {
+        return $this->getMaxCount()+1;
+    }
+    
+    /**
+     * Recupera a quantidade total de registros existentes na tabela
+     * @since 20-04-2012
+     * @return int 
+     */
+    protected function getMaxCount() {
+        $sql = 'SELECT count(*) as total_registros FROM '.$this->tableName;
+        
+        try {
+            
+            $this->connect();   
+            $preparedStatment = $this->con->getPreparedStatment($sql);
+            
+            if(!$retornoOk = $preparedStatment->execute()) {
+                $this->informaErro($preparedStatment->errorInfo());
+                
+            } else {
+                $total_registros = $preparedStatment->fetchAll(PDO::FETCH_ASSOC);
+                $total_registros = $total_registros[0]['total_registros'];
+            }
+                     
+            $this->disconnect();
+                    
+        } catch (PDOException $e1) {
+            $e1->getMessage();
+            $e1->getTraceAsString();
+            
+        } catch (Exception $e2) {
+            $e2->getMessage();
+            $e2->getTraceAsString();
+        }
+        
+        unset($preparedStatment);
+        return $total_registros;
+    }
+    
+    /**
      * Salva os dados que foram inseridos nas variaveis da subClasse ($this->properties).
      * @since 19-04-2012
      * @param boolean $useBindValue Vinculação das variáveis de filtragem
@@ -557,9 +616,19 @@ abstract class DAO {
             $e->getTraceAsString();
         }
         
+        // se não for auto incremento
+        if(!$this->configProps['primaryKey']['is_autoIncrement']) {
+            // Se o valor da PrimaryKey nao tiver sido definido
+            if(!$this->checkValuePrimaryKeyExists()) {
+                ## Excessão de Primary Key sem valor ##
+                throw $e = new Exception('O valor da primarykey não foi informado');
+                $e->getTraceAsString();
+            }
+        }
+        
         $filterValues = $this->getFilterValues();
         $sql = $this->insertSQL($filterValues, $useBindValue);
-        
+                
         try {
             
             $this->connect();
@@ -668,8 +737,8 @@ abstract class DAO {
         
         $i = 0;
         $arrPk = array();
-        foreach($this->configProps['primaryKey'] as $primaryKey) {
-            if($i++ == count($this->configProps['primaryKey'])-1) { // sem virgula
+        foreach($this->configProps['primaryKey']['field'] as $primaryKey) {
+            if($i++ == count($this->configProps['primaryKey']['field'])-1) { // sem virgula
                 if($useBindValue)
                     $sql .= $primaryKey.' = :'.$primaryKey.' ';
                 else

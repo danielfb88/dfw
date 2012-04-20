@@ -6,7 +6,7 @@ require_once 'config.php';
 require_once PATH . 'model/DAO/DAOUsuario.class.php';
 
 $usr = new DAOUsuario();
-//$usr->id_usuario = 22;
+//$usr->id_usuario = $usr->getNextId();
 $usr->status = 1;
 $usr->nome = "Novo Mário Bros";
 $usr->password = "000";
@@ -19,6 +19,7 @@ $usr->email = "mario@bros.com";
 //$usr->getAll();
 //$usr->delete();
 $usr->insert();
+die;
 //$usr->read();
 //var_dump($usr);die;
 

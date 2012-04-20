@@ -23,7 +23,8 @@ class DAOUsuario extends DAO {
     public function __construct() {
         parent::__construct();
         $this->tableName = "usuario";
-        $this->configProps['primaryKey'] = array("id_usuario");
+        $this->configProps['primaryKey']['field'] = array("id_usuario");
+        $this->configProps['primaryKey']['is_autoIncrement'] = true;
         $this->dtoClassName = "DTOUsuario";
     }
     
