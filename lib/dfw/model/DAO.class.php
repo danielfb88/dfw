@@ -1,4 +1,6 @@
 <?php
+// TODO: Criar getMaxCount.. algo do tipo para pegar o numero do ultimo campo e compor a primarykey
+// TODO: Dividir o insert do update
 /**
  * DFW Framework PHP - Classe DAO
  * 
@@ -9,7 +11,7 @@
  *      - Adicionado parâmetro orderBy ao método getAll
  * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
- * @version     1.0
+ * @version     1.1
  * @abstract
  * 
  */
@@ -541,7 +543,7 @@ abstract class DAO {
      * Caso tenha inserido o id do registro é feito um UPDATE.
      * Caso contrário é feito um INSERT.
      * 
-     * @param type $useBindValue Se ira usar vinculagem para os valores da filtragem
+     * @param boolean $useBindValue Se ira usar vinculagem para os valores da filtragem
      * @param string forceInsert Insere o registro forçadamente. Com esta opção, se a primary key for informada
      * será um Insert, e não um Update.
      * @return boolean
@@ -591,11 +593,7 @@ abstract class DAO {
             $properties = $filterValues;
             $sql = $this->insert($properties, $useBindValue);
         }
-                
-        echo '<br/><br/>';
-        echo $sql;
-        echo '<br/><br/>';
-        
+                   
         try {
             
             $this->connect();

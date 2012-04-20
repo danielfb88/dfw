@@ -19,8 +19,15 @@ $usr->id_usuario = 12;
 //$usr->getAll();
 //$usr->delete();
 //$usr->save();
-$usr->getAll();
-var_dump($usr->getLastQueryAsString());
+$usr->read();
+var_dump($usr);die;
+
+$arr = $usr->getAll('nome');
+var_dump($arr);
+
+die;
+
+
 echo '<br/><br/>';
 
 require_once 'lib/dfw/view/classes/Input.class.php';
