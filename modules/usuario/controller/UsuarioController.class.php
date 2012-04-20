@@ -8,22 +8,22 @@ class UsuarioController extends Controller {
      * Açoes básicas
      */
     
-    static function add($data) {
+    static function adicionar($data) {
         $daoUsuario = new DAOUsuario();
         $daoUsuario->setData($data);
-        $daoUsuario->save();
+        $daoUsuario->insert();
     }
     
-    static function edit($data) {
+    static function editar($data) {
         if(!$data['id_usuario']) {
             // trata o fluxo
         }
         $daoUsuario = new DAOUsuario();
         $daoUsuario->setData($data);
-        $daoUsuario->save();
+        $daoUsuario->update();
     }
     
-    static function delete($params) {
+    static function deletar($params) {
         if(!$data['id_usuario']) {
             // trata o fluxo
         }
