@@ -7,13 +7,20 @@
  * 
  * 18 de Abril de 2012
  *      - Adicionado parâmetro orderBy ao método getAll
- * Ultima modificação: 20 de Abril de 2012
- *      - Dividido o antigo método save em insert e update
- *      - Adicionado a propriedade ao array confgProps 'is_autoIncrement'
+ * 20 de Abril de 2012
+ *      - Excluído o método 'save' e adicionado os métodos 'insert' e 'update'
+ *      - Adicionado a propriedade ao array $confgProps 'is_autoIncrement'
  *      - Adicionado os métodos: getMaxCount() e getNextId()
+ * 21 de Abril de 2012
+ *      - Adicionado o método getNextAutoIncrementId()
+ *      - Modificado verificação de tabela inexistente para o construtor
+ *      - Deletado o metodo privado checkFieldPrimaryKey e adicionado verificação da existência da 
+ *          primary key no construtor
+ *      - Criado método abstrato config() para ser sobrescrito pela subclasse
+ *      - Modificado os métodos connect() e disconnect() para usar a instância de Conexão criada no construtor
  * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
- * @version     1.2
+ * @version     1.0
  * @abstract
  * 
  */
@@ -90,14 +97,26 @@ abstract class DAO {
      */
     private $lastQuery = null;
         
-    protected function __construct() { 
-        $reflect = new ReflectionClass($this);
-        
+    protected function __construct() {
+        $reflect = new ReflectionClass($this);        
         $this->className = $reflect->getName();
         
-        /**
-         * Inserindo as propriedades da subclasse em um array (pegando apenas atributos publicos)
-         */
+        // Recebendo as configuraçõe da subclasse
+        $this->config();
+        
+        ## Excessão para TABELA INEXISTENTE ##
+        if(empty($this->tableName)) {
+            throw $e = new Exception('Não há uma tabela definida na subclasse '.$this->className);
+            $e->getTraceAsString();
+        }
+        
+        ## Excessão para CAMPO DA PRIMARY KEY INEXISTENTE ##
+        if(!$this->configProps['primaryKey']['field']) {
+            throw $e = new Exception('Não há primary key definida na subclasse '.$this->className);
+            $e->getTraceAsString();
+        }
+        
+        // Inserindo as propriedades da subclasse em um array (pegando apenas atributos publicos)
         $properties = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
         
         $this->properties = array();
@@ -108,23 +127,33 @@ abstract class DAO {
             }
         }
         
-        /*
-         * ## Excessão para PROPRIEDADES INEXISTENTE ##
-         */
+        ## Excessão para PROPRIEDADES INEXISTENTE ##
         if(!$this->properties) {
             throw $e = new Exception('Os campos da tabela não foram definidos na subclasse.');
             $e->getTraceAsString();
         } 
+        
+        // Criando objeto para a Conexão
+        $this->con = new Conexao();
     }
     
+    /**
+     * A subclasse deve sobrecarregar este método para setar as suas configurações
+     */
+    abstract protected function config();
+    
+    /**
+     * Conecta ao DB
+     */
     protected function connect() {
-        $this->con = new Conexao();
         $this->con->connect();
     }
     
+    /**
+     * Desconecta do DB
+     */
     protected function disconnect() {
         $this->con->disconnect();
-        unset($this->con);
     }
          
     /**
@@ -380,29 +409,14 @@ abstract class DAO {
         
         return $sql;
     }
-    
-    /**
-     * Verifica se a primarykey foi definida na subclasse.
-     * Caso não tenha sido lança uma excessão.
-     * @return boolean 
-     */
-    private function checkFieldPrimaryKeyExists() {
-        if(!$this->configProps['primaryKey']['field']) {
-            throw $e = new Exception('Não há primary key definida.');
-            $e->getTraceAsString();
-        }
-        
-        return true;
-    }
-    
+       
     /**
      * Verifica se as primarykeys definidas na subclasse possuem valor preenchido.
      * 
      * @param array $properties
      * @return boolean 
      */
-    private function checkValuePrimaryKeyExists() {        
-        $this->checkFieldPrimaryKeyExists();
+    private function checkValuePrimaryKeyExists() {
         $this->refreshPropertiesValues();
         
         foreach($this->configProps['primaryKey']['field'] as $primaryKey) {
@@ -554,11 +568,53 @@ abstract class DAO {
     
     /**
      * Sugere um valor para Id usando o total de registros + 1
+     * Este método deve ser usando quando existir apenas 1 campo numérico para a primary key.
+     *      1 - É recomendado usar este método quando 'is_autoIncrement' for FALSE.
      * @since 20-04-2012
      * @return int 
      */
     public function getNextId() {
         return $this->getMaxCount()+1;
+    }
+    
+    /**
+     * ## APENAS PARA POSTGRES ##
+     * Antecipa qual valor será usado pela sequência para compor a primary key.
+     *      1 - Este método deve ser usado quando existir apenas 1 campo numérico para a primary key.
+     *      2 - Este método deve ser usado quando quando 'is_autoIncrement' for TRUE
+     * @since 21-04-2012
+     * @return int
+     */
+    public function getNextAutoIncrementId() {
+        $sql = 'SELECT nextval(\''.$this->tableName.'_'.$this->configProps['primaryKey']['field'].'_seq\');';
+        
+        try {
+            
+            $this->connect();   
+            $preparedStatment = $this->con->getPreparedStatment($sql);
+            
+            if(!$retornoOk = $preparedStatment->execute()) {
+                $this->informaErro($preparedStatment->errorInfo());
+                
+            } else {
+                $nextVal = $preparedStatment->fetch(PDO::FETCH_ASSOC);
+                $nextVal = $nextVal['nextval'];
+            }
+                     
+            $this->disconnect();
+                    
+        } catch (PDOException $e1) {
+            $e1->getMessage();
+            $e1->getTraceAsString();
+            
+        } catch (Exception $e2) {
+            $e2->getMessage();
+            $e2->getTraceAsString();
+        }
+        
+        unset($preparedStatment);
+        return $nextVal;
+        
     }
     
     /**
@@ -578,8 +634,8 @@ abstract class DAO {
                 $this->informaErro($preparedStatment->errorInfo());
                 
             } else {
-                $total_registros = $preparedStatment->fetchAll(PDO::FETCH_ASSOC);
-                $total_registros = $total_registros[0]['total_registros'];
+                $total_registros = $preparedStatment->fetch(PDO::FETCH_ASSOC);
+                $total_registros = $total_registros['total_registros'];
             }
                      
             $this->disconnect();

@@ -3,7 +3,7 @@
  * config.php sempre deve ser requerido nos arquivos que usam require ou include. Pq todos eles usarão a constante PATH. 
  */
 require_once 'config.php';
-require_once PATH . 'model/DAO/DAOUsuario.class.php';
+require_once 'lib/dfw/model/DAOUsuario.class.php';
 
 $usr = new DAOUsuario();
 //$usr->id_usuario = $usr->getNextId();
