@@ -23,7 +23,7 @@
  *              arquivo especificado
  * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
- * @version     1.0
+ * @version     2.0
  * @abstract
  * 
  */

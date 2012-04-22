@@ -5,8 +5,11 @@
  * Classe de Conexao com o Banco de Dados utilizando PDO
  * Data de Criação: 31 de Março de 2012
  * 
+ * 22 de Abril de 2012
+ *      - Adicionado os métodos do PDO: beginTransaction(), commit() e rollBack()
+ * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
- * @version     1.0
+ * @version     1.1
  * 
  */
 
@@ -115,6 +118,16 @@ class Conexao {
         }
     }
     
+    public function beginTransaction() {
+        $this->db->beginTransaction();
+    }
+    
+    public function commit() {
+        $this->db->commit();
+    }
+    
+    public function rollBack() {
+        $this->db->rollBack();
+    }
+    
 }
-
-?>
