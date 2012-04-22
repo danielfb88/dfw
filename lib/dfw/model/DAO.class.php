@@ -586,7 +586,7 @@ abstract class DAO {
      * @return int
      */
     public function getNextAutoIncrementId() {
-        $sql = 'SELECT nextval(\''.$this->tableName.'_'.$this->configProps['primaryKey']['field'].'_seq\');';
+        $sql = 'SELECT nextval(\''.$this->tableName.'_'.$this->configProps['primaryKey']['field'][0].'_seq\');';
         
         try {
             
@@ -938,4 +938,3 @@ abstract class DAO {
     }
     
 }
-?>

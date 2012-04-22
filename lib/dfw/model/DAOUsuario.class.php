@@ -1,5 +1,17 @@
 <?php
+/**
+ * DFW Framework PHP - Classe DAO
+ * 
+ * Classe Usuário padrão
+ * 
+ * @author      Daniel Bonfim <daniel.fb88@gmail.com>
+ * @version     1.0
+ * @abstract
+ * 
+ */
+
 require_once 'DAO.class.php';
+require_once 'DTOUsuario.class.php';
 
 class DAOUsuario extends DAO {
     public $id_usuario;
@@ -22,4 +34,3 @@ class DAOUsuario extends DAO {
         $this->dtoClassName = "DTOUsuario";
     }
 }
-?>
