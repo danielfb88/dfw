@@ -18,6 +18,9 @@
  *          primary key no construtor
  *      - Criado método abstrato config() para ser sobrescrito pela subclasse
  *      - Modificado os métodos connect() e disconnect() para usar a instância de Conexão criada no construtor
+ * 22 de Abril de 2012
+ *      - Criado o método logIntoFile() - Todas as queries enviadas para o banco são automaticamente salvas no
+ *              arquivo especificado
  * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
  * @version     1.0
@@ -194,7 +197,7 @@ abstract class DAO {
      * @return string SQL montada.
      * @throws Exception 
      */
-    private function select(array $filterValues, $whereType, $orderBy = null, $useBindValue = false) {
+    private function selectSQL(array $filterValues, $whereType, $orderBy = null, $useBindValue = false) {
         if($whereType != '=' && $whereType != 'like') {
             throw $e = new Exception('Parâmetro whereType inválido. Use \'=\' ou \'like\'');
             $e->getTraceAsString();
@@ -280,9 +283,7 @@ abstract class DAO {
         
         if($orderBy && is_string($orderBy))
             $sql .= ' ORDER BY '.$orderBy.' ';
-        
-        $this->lastQuery = $sql;
-        
+                
         return $sql;
     }
     
@@ -450,7 +451,7 @@ abstract class DAO {
             $e->getTraceAsString();                        
         }
         
-        $sql = $this->select($filterValues, '=', null, $useBindValue);            
+        $sql = $this->selectSQL($filterValues, '=', null, $useBindValue);            
         $sql .= ' LIMIT 1;';
 
         try {
@@ -461,13 +462,15 @@ abstract class DAO {
             if($useBindValue)
                 $this->con->bindValue($preparedStatment, $filterValues, '='); 
             
-            if(!$retornoOk = $preparedStatment->execute()) {
-                $this->informaErro($preparedStatment->errorInfo());
-                
-            } else {
+            $retornoOk = $preparedStatment->execute();
+            // guardando a query
+            $this->lastQuery = $sql;
+            $this->logIntoFile($sql);
+            
+            if($retornoOk) {
                 $registro = $preparedStatment->fetch(PDO::FETCH_ASSOC);
             
-                if($registro) {                    
+                if($registro) {
                     // alimentando o objeto com os seus valores
                     foreach($registro as $key => $value) {
                         $this->$key = $value;
@@ -477,6 +480,9 @@ abstract class DAO {
                 } else {
                     $this->found = false;
                 }
+                
+            } else {
+                $this->informaErro($preparedStatment->errorInfo());
             }
                         
             $this->disconnect();
@@ -508,7 +514,7 @@ abstract class DAO {
     public function getAll($orderBy = null, $useBindValue = true) {
         $filterValues = $this->getFilterValues();
 
-        $sql = $this->select($filterValues, 'like', $orderBy, $useBindValue);
+        $sql = $this->selectSQL($filterValues, 'like', $orderBy, $useBindValue);
 
         try {
             
@@ -518,10 +524,12 @@ abstract class DAO {
             if($useBindValue)
                 $this->con->bindValue($preparedStatment, $filterValues, 'like'); 
             
-            if(!$retornoOk = $preparedStatment->execute()) {
-                $this->informaErro($preparedStatment->errorInfo());
-                
-            } else {
+            $retornoOk = $preparedStatment->execute();
+            // guardando a query
+            $this->lastQuery = $sql;
+            $this->logIntoFile($sql);
+            
+            if($retornoOk) {
 
                 // se foi definido um DTO na subclasse, preencha-o com os registros
                 if($this->dtoClassName) {
@@ -538,6 +546,10 @@ abstract class DAO {
                 } else {
                     $this->found = false;
                 }
+                
+            } else {                
+                $this->informaErro($preparedStatment->errorInfo());
+                
             }
                         
             $this->disconnect();
@@ -593,12 +605,18 @@ abstract class DAO {
             $this->connect();   
             $preparedStatment = $this->con->getPreparedStatment($sql);
             
-            if(!$retornoOk = $preparedStatment->execute()) {
-                $this->informaErro($preparedStatment->errorInfo());
+            $retornoOk = $preparedStatment->execute();
+            // guardando a query
+            $this->lastQuery = $sql;
+            $this->logIntoFile($sql);
+            
+            if($retornoOk) {
                 
-            } else {
                 $nextVal = $preparedStatment->fetch(PDO::FETCH_ASSOC);
-                $nextVal = $nextVal['nextval'];
+                $nextVal = $nextVal['nextval'];         
+                
+            } else {                
+                $this->informaErro($preparedStatment->errorInfo());
             }
                      
             $this->disconnect();
@@ -630,12 +648,18 @@ abstract class DAO {
             $this->connect();   
             $preparedStatment = $this->con->getPreparedStatment($sql);
             
-            if(!$retornoOk = $preparedStatment->execute()) {
-                $this->informaErro($preparedStatment->errorInfo());
+            $retornoOk = $preparedStatment->execute();
+            // guardando a query
+            $this->lastQuery = $sql;
+            $this->logIntoFile($sql);
+            
+            if($retornoOk) {
                 
-            } else {
                 $total_registros = $preparedStatment->fetch(PDO::FETCH_ASSOC);
                 $total_registros = $total_registros['total_registros'];
+                
+            } else {
+                $this->informaErro($preparedStatment->errorInfo());
             }
                      
             $this->disconnect();
@@ -693,11 +717,13 @@ abstract class DAO {
             if($useBindValue)
                 $this->con->bindValue($preparedStatment, $filterValues, '='); 
             
+            $retornoOk = $preparedStatment->execute();            
             // guardando a query
             $this->lastQuery = $sql;
+            $this->logIntoFile($sql);
             
-            if(!$retornoOk = $preparedStatment->execute()) {
-                $this->informaErro($preparedStatment->errorInfo());                
+            if(!$retornoOk) {
+                $this->informaErro($preparedStatment->errorInfo());          
             }
                         
             $this->disconnect();
@@ -753,10 +779,12 @@ abstract class DAO {
             if($useBindValue)
                 $this->con->bindValue($preparedStatment, $filterValues, '='); 
             
+            $retornoOk = $preparedStatment->execute();
             // guardando a query
             $this->lastQuery = $sql;
+            $this->logIntoFile($sql);
             
-            if(!$retornoOk = $preparedStatment->execute()) {
+            if(!$retornoOk) {
                 $this->informaErro($preparedStatment->errorInfo());                
             }
                         
@@ -820,9 +848,12 @@ abstract class DAO {
             if($useBindValue)
                 $this->con->bindValue($preparedStatment, $arrPk, '='); 
             
+            $retornoOk = $preparedStatment->execute();            
             // guardando a query
             $this->lastQuery = $sql;
-            if(!$retornoOk = $preparedStatment->execute()) {
+            $this->logIntoFile($sql);
+            
+            if(!$retornoOk) {
                 $this->informaErro($preparedStatment->errorInfo());                
             }
                         
@@ -859,6 +890,7 @@ abstract class DAO {
     
     /**
      * Executa uma query livre
+     * Não é usado bindValue neste método
      * @param string $sql
      * @param boolean $returnValues true se for um select, false para insert update delete
      * @return boolean|array retorna um boolean caso $returnValues seja false. Retorna um array caso seja true 
@@ -866,17 +898,19 @@ abstract class DAO {
     public function executeQuery($sql, $returnValues = false) {
         try {            
             $this->connect();   
-            $preparedStatment = $this->con->getPreparedStatment($sql);
-
+            $preparedStatment = $this->con->getPreparedStatment($sql);            
+            
+            $retornoOk = $preparedStatment->execute();
             // guardando a query
             $this->lastQuery = $sql;
-            if(!$retornoOk = $preparedStatment->execute()) {
-                $this->informaErro($preparedStatment->errorInfo());
+            $this->logIntoFile($sql);
                 
-            } else {
+            if($retornoOk) {
                 if($returnValues)
                     $arr = $preparedStatment->fetchAll(PDO::FETCH_ASSOC);
-
+                                
+            } else {
+                $this->informaErro($preparedStatment->errorInfo());
             }
                         
             $this->disconnect();
@@ -935,6 +969,17 @@ abstract class DAO {
      */
     public function getLastQueryAsString() {
         return $this->lastQuery;
+    }
+    
+    /**
+     * Salva todas as queries enviadas para o banco no arquivo 'queryLogger.txt'
+     * @since 22-04-2012
+     * @param type $sql 
+     */
+    private function logIntoFile($sql) {
+        $fhandle = fopen('lib/dfw/logs/queryLogger.txt','ab');
+        fwrite($fhandle,"[".date("d-m-Y H:i:s")."] ".$sql."\r\n"); 
+        fclose($fhandle); 
     }
     
 }

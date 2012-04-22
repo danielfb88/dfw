@@ -1,6 +1,11 @@
 <?php
+
+require_once '../model/DAOUsuario.class.php';
+
 class Auth {
-    public static function login($usuario, $senha) {
+    
+    public static function login($login, $password) {
+        
 
     }
 
@@ -17,4 +22,3 @@ class Auth {
 
 	
 }
-?>
