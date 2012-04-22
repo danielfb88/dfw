@@ -118,16 +118,33 @@ class Conexao {
         }
     }
     
+    /**
+     * Inicia a transação
+     */
     public function beginTransaction() {
         $this->db->beginTransaction();
     }
     
+    /**
+     * Commita a transação 
+     */
     public function commit() {
         $this->db->commit();
     }
     
+    /**
+     * Reverte as alterações 
+     */
     public function rollBack() {
         $this->db->rollBack();
+    }
+    
+    /**
+     * Verifica se está em alguma transação
+     * @return boolean
+     */
+    public function inTransaction() {
+        return $this->db->inTransaction();
     }
     
 }
