@@ -1,6 +1,6 @@
 <?php
 
-require_once '../model/DAOUsuario.class.php';
+require_once '../model/Usuario.class.php';
 
 class Auth {
     

@@ -1,8 +1,9 @@
 <?php
-require_once PATH.'controller/Controller.class.php';
-require_once PATH.'model/DAO/DAOUsuario.class.php';
+//require_once PATH.'controller/Controller.class.php';
+//require_once PATH.'model/DAO/DAOUsuario.class.php';
 
-class UsuarioController extends Controller {
+//class UsuarioController extends Controller {
+class UsuarioController {
     
     /*
      * Açoes básicas

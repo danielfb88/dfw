@@ -2,10 +2,19 @@
 /**
  * config.php sempre deve ser requerido nos arquivos que usam require ou include. Pq todos eles usarão a constante PATH. 
  */
-require_once 'config.php';
-require_once 'lib/dfw/model/Usuario.class.php';
+//require_once 'config.php';
+require_once dirname(__FILE__).'/lib/dfw/model/Usuario.class.php';
+require_once dirname(__FILE__).'/lib/dfw/controller/Controller.class.php';
 
+echo dirname(__FILE__);
+echo '<br/><br/>';
 print_r($_SERVER);
+
+// log
+Controller::log(7, $_SERVER['SERVER_ADDR'], "SELECT * FROM TESTE", "teste");
+die;
+
+
 $usr = new Usuario();
 //$usr->id_usuario = $usr->getNextId();
 $usr->id_usuario = 32;
@@ -57,8 +66,6 @@ require_once 'lib/dfw/view/classes/Form.class.php';
         <legend>Minha legenda</legend>
             <?php 
             
-        // PRIORIDADE: SEMPRE VERIFICAR ENVENTOS INTRINSECOS
-            
             Label::getInstance()->setFor('radio1')->setText('TESTEEE LABEL')->setOnclick("alert('voce clicou no label')")->show();
             Input::getInstance()->setType('radio')->setName('grupo1')->setChecked(true)->setId('radio1')->setOnclick('alert("radio1")')->show();
             Label::getInstance()->setFor('radio2')->setText('TESTEEE LABEL 2222')->setOnclick('alert("voce clicou no label 222")')->show();
@@ -106,8 +113,6 @@ require_once 'lib/dfw/view/classes/Form.class.php';
         
         Form::getInstance()->setAction("index.php")->setMethod('post')->setContent($fieldSet)->show();
         
-        
-        // TODO: TRANSFORMAR TUDO EM ESTATICO. FAZER PARA CLASSES PAI E DEPOIS PARA O RESTO
         
         ?>
         

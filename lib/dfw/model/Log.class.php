@@ -1,5 +1,4 @@
 <?php
-// TODO: será usado pela superclasse Controller
 /**
  * DFW Framework PHP
  * 
