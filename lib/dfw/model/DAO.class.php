@@ -87,7 +87,7 @@ abstract class DAO {
      * Informa se o registro foi encontrado no banco de dados
      * @var boolean 
      */
-    protected $found = false;
+    public $found = false;
     /**
      * Atributos da da subClasse com os valores inseridos pelo usuário.
      * Será usado para efetuar para os métodos de busca e/ou persistencia.

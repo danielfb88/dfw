@@ -1,13 +1,20 @@
 <?php
-// TODO: Instalar versao mais estavel do netbenas. Versão 7.1 possui bugs de herança de atributos
+// TODO: Trabalhar no controller. métodos de autenticação.
+// TODO: Como instalar plugin no vim?
 require_once 'lib/dfw/model/Log.class.php';
+require_once 'Auth.class.php';
 
-class Controller {
+abstract class Controller {
     /**
      * Registra as ações no DB
      * @var Log 
      */
     protected static $log;
+    /**
+     * Autenticação
+     * @var Auth
+     */
+    public static $auth;
     
     public static function log($id_usuario, $ip, $sql, $mensagem = null) {
         // TODO: Usar lastQuery para pegar o sql
@@ -22,6 +29,22 @@ class Controller {
         
         self::$log->insert();
     }
+    
+    public static function login($user, $password) {
+        if(self::$auth == null)
+            self::$auth = new Auth();
+        
+        if(self::$auth->login($user, $password)) {
+            // logado
+        } else {
+            // nao logado
+        }
+    }
+    
+    abstract function adicionar();
+    abstract function editar();
+    abstract function excluir();
+    
     
     
     /*
