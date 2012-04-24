@@ -977,7 +977,7 @@ abstract class DAO {
      * @param type $sql 
      */
     private function logIntoFile($sql) {
-        $fhandle = fopen('lib/dfw/logs/queryLogger.txt','ab');
+        $fhandle = fopen(dirname(__FILE__).'/log/queries.txt','ab');
         fwrite($fhandle,"[".date("d-m-Y H:i:s")."] ".$sql."\r\n"); 
         fclose($fhandle); 
     }

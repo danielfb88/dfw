@@ -12,7 +12,6 @@ print_r($_SERVER);
 
 // log
 Controller::log(7, $_SERVER['SERVER_ADDR'], "SELECT * FROM TESTE", "teste");
-die;
 
 
 $usr = new Usuario();
@@ -22,6 +21,12 @@ $usr->status = 1;
 $usr->nome = "Novo Mário Bros";
 $usr->password = "000";
 $usr->email = "mario@bros.com";
+
+
+$usr->read();
+die;
+//
+//
 //$usr->data_criacao = date("d-m-Y");
 // o read usa o '='
 //$arrDTOUsuarios = $usr->getAll(false);
@@ -32,8 +37,7 @@ echo '<br/><br/><br/>';
 $usr->getAll();
 //$usr->insert();
 echo 'sucesso!';
-die;
-//$usr->read();
+
 //var_dump($usr);die;
 
 $arr = $usr->getAll('nome');

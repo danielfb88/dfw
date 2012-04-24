@@ -16,8 +16,8 @@ class Usuario extends DAO {
     public $id_usuario;
     public $nome;
     public $email;
-    public $login;
-    public $password;
+    public $usuario;
+    public $senha;
     public $status; 
     public $data_criacao;
     
