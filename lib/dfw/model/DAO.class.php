@@ -30,7 +30,7 @@
 
 require_once 'Conexao.class.php';
 
-abstract class DAO { 
+abstract class DAO {
     /**
      * Nome da subclasse.
      * @var string 
@@ -684,7 +684,7 @@ abstract class DAO {
      * @return boolean
      * @throws type 
      */
-    public function insert($useBindValue = true) {        
+    public function insert($useBindValue = true) {
           ## Excessão de NotNull ##
          // Verifica se os valores definidos como notNull foram preenchidos         
         if(!$this->checkValuesNotNullFieldsExists()) {
@@ -977,7 +977,7 @@ abstract class DAO {
      * @param type $sql 
      */
     private function logIntoFile($sql) {
-        $fhandle = fopen(dirname(__FILE__).'/log/queries.txt','ab');
+        $fhandle = fopen(dirname(__FILE__).'/.log/queries.txt','ab');
         fwrite($fhandle,"[".date("d-m-Y H:i:s")."] ".$sql."\r\n"); 
         fclose($fhandle); 
     }

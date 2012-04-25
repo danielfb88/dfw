@@ -4,16 +4,16 @@
  */
 //require_once 'config.php';
 require_once dirname(__FILE__).'/lib/dfw/model/Usuario.class.php';
-require_once dirname(__FILE__).'/lib/dfw/controller/Controller.class.php';
+require_once dirname(__FILE__).'/lib/dfw/log.php';
 
 echo dirname(__FILE__);
 echo '<br/><br/>';
 print_r($_SERVER);
 
 // log
-Controller::log(7, $_SERVER['SERVER_ADDR'], "SELECT * FROM TESTE", "teste");
+registraLog(7, "HH'); INSERT INTO userlog (id_usuario, ip, mensagem, sql, data_hora) VALUES ('7','127.0.0.1','injection', '08-02-1988' ); --", "teste");
 
-
+die;
 $usr = new Usuario();
 //$usr->id_usuario = $usr->getNextId();
 $usr->id_usuario = 32;
