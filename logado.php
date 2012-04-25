@@ -6,8 +6,9 @@ session_start();
 require_once dirname(__FILE__).'/lib/dfw/security_functions.php';
 loggedUser();
 
-
-echo '<br/>';
-die("logado!");
+echo '<br/>
+    logado!<br/><br/>';
 
 ?>
+
+<a href="lib/dfw/auth.php?a=logout">logout</a>

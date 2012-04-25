@@ -11,7 +11,7 @@
         
     </head>
     <body>
-        <form id="frmLogin" name="frmLogin" action="lib/dfw/auth.php?action=login" method='post' onsubmit="">
+        <form id="frmLogin" name="frmLogin" action="lib/dfw/auth.php?a=login" method='post' onsubmit="">
             <div style="text-align: center;">
 
             </div>

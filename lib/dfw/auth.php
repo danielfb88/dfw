@@ -9,7 +9,7 @@ require_once 'Helper.php';
 require_once 'security_functions.php';
 require_once 'location.php';
 
-$action = $_REQUEST['action'];
+$action = $_REQUEST['a'];
 
 switch($action) {    
     case 'login':
@@ -47,9 +47,18 @@ function login($user, $password) {
     $usuario->senha = $password;
     $usuario->read();
     
+    /**
+     * Dados que serão escritos na SESSÃO:
+     *  $_SESSION['SESS_TOKEN']: Token para permitir maior segurança em formulários
+     *  $_SESSION['USER']['logado']: Informa se o usuário está logado no sistema
+     *  $_SESSION['USER']['DAOUSUARIO']: Informações sobre o usuário logado
+     */
     if($usuario->found) { 
-        //$_SESSION['SESS_TOKEN'] = gerarToken(); // cria token
-        $_SESSION['DAOUSUARIO'] = serialize($usuario); // serializa o dao e coloca-o na sessao
+        $_SESSION['SESS_TOKEN'] = gerarToken(); // cria token
+        $_SESSION['USER'] = array(
+            "logged" => true,
+            "DAOUSUARIO" => serialize($usuario) // serializa o dao e coloca-o na sessao
+            );
         return true;
         
     } else {
