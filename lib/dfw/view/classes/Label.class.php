@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DFW Framework PHP - Classe Label
  * 
@@ -9,17 +10,17 @@
  * @version     1.0
  * 
  */
-
 require_once 'Element.class.php';
 
 class Label extends Element {
+
     protected $accesskey;
     protected $for;
     protected $text;
     # Eventos Intrínsecos
     protected $onblur;
     protected $onfocus;
-    
+
     /**
      *
      * @param string $text
@@ -29,8 +30,8 @@ class Label extends Element {
         $this->id = $id;
         $this->text = $text;
         $this->for = $for;
-   }
-    
+    }
+
     /**
      * Caractere correspondente à tecla de atalho para acesso ao elemento
      * @param type $accesskey
@@ -46,7 +47,7 @@ class Label extends Element {
     public function setFor($for) {
         $this->for = $for;
     }
-    
+
     /**
      * Texto do Elemento
      * @param type $text
@@ -54,7 +55,7 @@ class Label extends Element {
     public function setText($text) {
         $this->text = $text;
     }
-    
+
     /**
      * Ocorre quando o elemento perde o foco por um clique do mouse ou mediante navegação por tabulação
      * @param type $onblur
@@ -62,7 +63,7 @@ class Label extends Element {
     public function setOnblur($onblur) {
         $this->onblur = $onblur;
     }
-    
+
     /**
      * Ocorre quando o elemento entra em foco por um clique do mouse ou mediante navegação por tabulação
      * @param type $onfocus
@@ -70,32 +71,32 @@ class Label extends Element {
     public function setOnfocus($onfocus) {
         $this->onfocus = $onfocus;
     }
-    
+
     /**
      * Monta o elemento
      */
     private function mountElement() {
         $element = '<label ';
-        
-        if(!empty($this->accesskey))
-            $element .= 'accesskey=\''.$this->accesskey.'\' ';
-        
-        if(!empty($this->for))
-            $element .= 'for=\''.$this->for.'\' ';        
-        
+
+        if (!empty($this->accesskey))
+            $element .= 'accesskey=\'' . $this->accesskey . '\' ';
+
+        if (!empty($this->for))
+            $element .= 'for=\'' . $this->for . '\' ';
+
         $element .= $this->returnAttributesAsString();
-        
+
         # Eventos Intrínsecos
-        if(!empty($this->onblur))
-            $element .= 'onblur=\''.$this->onblur.'\' ';
-        
-        if(!empty($this->onfocus))
-            $element .= 'onfocus=\''.$this->onfocus.'\' ';
-        
+        if (!empty($this->onblur))
+            $element .= 'onblur=\'' . $this->onblur . '\' ';
+
+        if (!empty($this->onfocus))
+            $element .= 'onfocus=\'' . $this->onfocus . '\' ';
+
         $element .= '>';
         $element .= $this->text;
         $element .= '</label>';
-        
+
         return $element;
     }
 
@@ -104,9 +105,9 @@ class Label extends Element {
      */
     public function show() {
         $element = $this->mountElement();
-        echo $element;        
+        echo $element;
     }
-    
+
     /**
      * Retorna o elemento html como uma string
      * @return string 
@@ -115,4 +116,5 @@ class Label extends Element {
         $element = $this->mountElement();
         return $element;
     }
+
 }

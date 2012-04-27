@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DFW Framework PHP - Classe Select
  * 
@@ -9,11 +10,11 @@
  * @version     1.0
  * 
  */
-
 require_once 'Element.class.php';
 require_once 'Option.class.php';
 
 class Select extends Element {
+
     protected $disabled;
     protected $multiple;
     protected $name;
@@ -24,7 +25,7 @@ class Select extends Element {
     protected $onblur;
     protected $onchange;
     protected $onfocus;
-    
+
     /**
      *
      * @param string $name
@@ -37,25 +38,25 @@ class Select extends Element {
         $this->arrOptions = $arrOptions;
         $this->multiple = $multiple;
     }
-    
+
     /**
      * Adiciona objeto Option
      * @param Option $strOption
      */
     public function addOption($option) {
-        if($option != null && is_object($option))
+        if ($option != null && is_object($option))
             $this->arrOptions[] = $strOption;
     }
-    
+
     /**
      * Insere array de Options
      * @param array $arrOptions
      */
     public function insertOptions(array $arrOptions) {
-        if(!empty($arrOptions))
+        if (!empty($arrOptions))
             $this->arrOptions = $arrOptions;
     }
-    
+
     /**
      * Desabilita o controle de modo que o usuário não poderá interagir com ele
      * @param type $disabled
@@ -95,7 +96,7 @@ class Select extends Element {
     public function setTabindex($tabindex) {
         $this->tabindex = $tabindex;
     }
-    
+
     /**
      * Ocorre quando o elemento perde o foco por um clique do mouse ou mediante navegação por tabulação
      * @param type $onblur
@@ -118,55 +119,55 @@ class Select extends Element {
      */
     public function setOnfocus($onfocus) {
         $this->onfocus = $onfocus;
-    }    
-        
+    }
+
     /**
      * Monta o elemento
      * @return string 
      */
     private function mountElement() {
         $element = '<select ';
-        
-        if($this->disabled)
+
+        if ($this->disabled)
             $element .= 'disabled=\'disabled\' ';
-        
-        if($this->multiple)
+
+        if ($this->multiple)
             $element .= 'multiple=\'multiple\' ';
-        
-        if(!empty($this->name))
-            $element .= 'name=\''.$this->name.'\' ';
-        
-        if(!empty($this->size))
-            $element .= 'size=\''.$this->size.'\' ';
-        
-        if(!empty($this->tabindex))
-            $element .= 'tabindex=\''.$this->tabindex.'\' ';
-        
+
+        if (!empty($this->name))
+            $element .= 'name=\'' . $this->name . '\' ';
+
+        if (!empty($this->size))
+            $element .= 'size=\'' . $this->size . '\' ';
+
+        if (!empty($this->tabindex))
+            $element .= 'tabindex=\'' . $this->tabindex . '\' ';
+
         $element .= $this->returnAttributesAsString();
-        
+
         # Eventos Intrínsecos
-        if(!empty($this->onblur))
-            $element .= 'onblur=\''.$this->onblur.'\' ';
-        
-        if(!empty($this->onchange))
-            $element .= 'onchange=\''.$this->onchange.'\' ';
-        
-        if(!empty($this->onfocus))
-            $element .= 'onfocus=\''.$this->onfocus.'\' ';
-          
+        if (!empty($this->onblur))
+            $element .= 'onblur=\'' . $this->onblur . '\' ';
+
+        if (!empty($this->onchange))
+            $element .= 'onchange=\'' . $this->onchange . '\' ';
+
+        if (!empty($this->onfocus))
+            $element .= 'onfocus=\'' . $this->onfocus . '\' ';
+
         $element .= '>';
-        
+
         // Inserindo options
-        for($i=0; $i<count($this->arrOptions); $i++) {
+        for ($i = 0; $i < count($this->arrOptions); $i++) {
             $option = $this->arrOptions[$i];
             $element .= $option->returnAsString();
         }
-        
+
         $element .= '</select>';
 
         return $element;
     }
-    
+
     /**
      * Exibe o elemento html na tela.
      */
@@ -174,7 +175,7 @@ class Select extends Element {
         $element = $this->mountElement();
         echo $element;
     }
-    
+
     /**
      * Retorna o elemento html como uma string
      * @return string 
@@ -183,4 +184,5 @@ class Select extends Element {
         $element = $this->mountElement();
         return $element;
     }
+
 }

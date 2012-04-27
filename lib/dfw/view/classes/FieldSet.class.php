@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DFW Framework PHP - Classe FieldSet
  * 
@@ -9,33 +10,33 @@
  * @version     1.0
  * 
  */
-
 require_once 'Container.class.php';
 
 class FieldSet extends Container {
+
     protected $dir;
     protected $lang;
     protected $legend;
-    
+
     public function __construct($id, $legend = null) {
         $this->id = $id;
         $this->legend = $legend;
     }
-    
+
     /**
      * Direção de leitura do texto, sendo "ltr": esquerda para a direita; e "rtl": direita para esquerda 
      * (utilizado no Módulo Texto Bidirecional)
      * @param string $dir
      */
     public function setDir($dir) {
-        switch($dir) {
+        switch ($dir) {
             case "ltr":
             case "rtl":
                 $this->dir = $dir;
                 return $this;
                 break;
             default:
-                throw $e = new Exception("Atributo inválido para o parâmetro html dir='".$dir."'");
+                throw $e = new Exception("Atributo inválido para o parâmetro html dir='" . $dir . "'");
                 $e->getTraceAsString();
         }
     }
@@ -47,11 +48,11 @@ class FieldSet extends Container {
     public function setLang($lang) {
         $this->lang = $lang;
     }
-    
+
     public function setLegend($legend) {
         $this->legend = $legend;
     }
-    
+
     /**
      * Insere fields ao FieldSet
      * @param array $fields
@@ -59,7 +60,7 @@ class FieldSet extends Container {
     public function setFields(array $fields) {
         $this->fields = $fields;
     }
-    
+
     /**
      * Adiciona field ao FieldSet
      * @param array|object $field 
@@ -67,30 +68,30 @@ class FieldSet extends Container {
     public function addField($field) {
         $this->fields[] = $field;
     }
-    
+
     /**
      * Monta o elemento
      * @return string
      */
     private function mountElement() {
         $element = '<fieldset ';
-        
-        if(!empty($this->dir))
-            $element .= 'dir=\''.$this->dir.'\' ';
-        
-        if(!empty($this->lang))
-            $element .= 'lang=\''.$this->lang.'\' ';
-        
+
+        if (!empty($this->dir))
+            $element .= 'dir=\'' . $this->dir . '\' ';
+
+        if (!empty($this->lang))
+            $element .= 'lang=\'' . $this->lang . '\' ';
+
         $element .= $this->returnAttributesAsString();
-        
-        $element .= '>';        
-        if(!empty($this->legend))
-            $element .= '<legend>'.$this->legend.'</legend>';
-        
+
+        $element .= '>';
+        if (!empty($this->legend))
+            $element .= '<legend>' . $this->legend . '</legend>';
+
         $element .= $this->mountTable($this->fields, "table_fieldset");
-        
+
         $element .= '</fieldset>';
-        
+
         return $element;
     }
 
@@ -99,9 +100,9 @@ class FieldSet extends Container {
      */
     public function show() {
         $element = $this->mountElement();
-        echo $element;        
+        echo $element;
     }
-    
+
     /**
      * Retorna o elemento html como uma string
      * @return string 
@@ -110,4 +111,5 @@ class FieldSet extends Container {
         $element = $this->mountElement();
         return $element;
     }
+
 }

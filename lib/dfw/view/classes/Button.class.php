@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DFW Framework PHP - Classe Button
  * 
@@ -9,10 +10,10 @@
  * @version     1.0
  * 
  */
-
 require_once 'Element.class.php';
 
 final class Button extends Element {
+
     protected $accesskey;
     protected $disabled;
     protected $name;
@@ -23,7 +24,7 @@ final class Button extends Element {
     # Eventos Intrínsecos
     protected $onblur;
     protected $onfocus;
-    
+
     /**
      *
      * @param string $nameId
@@ -38,7 +39,7 @@ final class Button extends Element {
         $this->type = $type;
         $this->value = $value;
     }
-    
+
     /**
      * Caractere correspondente à tecla de atalho para acesso ao elemento
      * @param type $accesskey
@@ -79,7 +80,7 @@ final class Button extends Element {
      * @param type $type
      */
     public function setType($type) {
-        switch($type) {
+        switch ($type) {
             case 'button':
             case 'submit':
             case 'reset':
@@ -89,9 +90,8 @@ final class Button extends Element {
                 throw $e = new Exception('Tipo do Button inválido');
                 $e->getTraceAsString();
         }
-        
     }
-    
+
     /**
      * Valor previamente definido
      * @param type $type
@@ -99,7 +99,7 @@ final class Button extends Element {
     public function setValue($value) {
         $this->value = $value;
     }
-    
+
     /**
      * Texto do Elemento
      * @param type $text
@@ -123,45 +123,45 @@ final class Button extends Element {
     public function setOnfocus($onfocus) {
         $this->onfocus = $onfocus;
     }
-    
+
     /**
      * Monta o elemento
      * @return string 
      */
     private function mountElement() {
         $element = '<button ';
-        
-        if(!empty($this->accesskey))
-            $element .= 'accesskey=\''.$this->accesskey.'\' ';
-        
-        if($this->disabled)
+
+        if (!empty($this->accesskey))
+            $element .= 'accesskey=\'' . $this->accesskey . '\' ';
+
+        if ($this->disabled)
             $element .= 'disabled=\'disabled\' ';
-        
-        if(!empty($this->name))
-            $element .= 'name=\''.$this->name.'\' ';
-        
-        if(!empty($this->tabindex))
-            $element .= 'tabindex=\''.$this->tabindex.'\' ';
-        
-        if(!empty($this->type))
-            $element .= 'type=\''.$this->type.'\' ';
-        
-        if(!empty($this->value))
-            $element .= 'value=\''.$this->value.'\' ';
-                
+
+        if (!empty($this->name))
+            $element .= 'name=\'' . $this->name . '\' ';
+
+        if (!empty($this->tabindex))
+            $element .= 'tabindex=\'' . $this->tabindex . '\' ';
+
+        if (!empty($this->type))
+            $element .= 'type=\'' . $this->type . '\' ';
+
+        if (!empty($this->value))
+            $element .= 'value=\'' . $this->value . '\' ';
+
         $element .= $this->returnAttributesAsString();
-        
+
         # Eventos Intrínsecos
-        if(!empty($this->onblur))
-            $element .= 'onblur=\''.$this->onblur.'\' ';
-        
-        if(!empty($this->onfocus))
-            $element .= 'onfocus=\''.$this->onfocus.'\' ';
-                
+        if (!empty($this->onblur))
+            $element .= 'onblur=\'' . $this->onblur . '\' ';
+
+        if (!empty($this->onfocus))
+            $element .= 'onfocus=\'' . $this->onfocus . '\' ';
+
         $element .= '>';
         $element .= $this->text;
         $element .= '</button>';
-        
+
         return $element;
     }
 
@@ -170,9 +170,9 @@ final class Button extends Element {
      */
     public function show() {
         $element = $this->mountElement();
-        echo $element;        
+        echo $element;
     }
-    
+
     /**
      * Retorna o elemento html como uma string
      * @return string 
@@ -181,4 +181,5 @@ final class Button extends Element {
         $element = $this->mountElement();
         return $element;
     }
+
 }

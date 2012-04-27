@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DFW Framework PHP - Classe HiperLink
  * 
@@ -9,10 +10,10 @@
  * @version     1.0
  * 
  */
-
 require_once 'Element.class.php';
 
 class HiperLink extends Element {
+
     protected $accesskey;
     protected $charset;
     protected $href;
@@ -26,7 +27,7 @@ class HiperLink extends Element {
     # Eventos Intrínsecos
     protected $onblur;
     protected $onfocus;
-    
+
     /**
      *
      * @param string $id
@@ -38,7 +39,7 @@ class HiperLink extends Element {
         $this->text = $text;
         $this->href = $href;
     }
-    
+
     /**
      * Caractere correspondente à tecla de atalho para acesso ao elemento
      * @param type $accesskey
@@ -46,7 +47,7 @@ class HiperLink extends Element {
     public function setAccesskey($accesskey) {
         $this->accesskey = $accesskey;
     }
-    
+
     /**
      * Codificação de caracteres utilizada no documento hiperlinkado
      * @param type $charset
@@ -94,7 +95,7 @@ class HiperLink extends Element {
     public function setTabindex($tabindex) {
         $this->tabindex = $tabindex;
     }
-    
+
     /**
      * Tipo do conteúdo que será acessado no documento hiperlinkado
      * @param type $type
@@ -102,7 +103,7 @@ class HiperLink extends Element {
     public function setType($type) {
         $this->type = $type;
     }
-    
+
     /**
      * Alvo no qual o documento será aberto
      * Tipos: \n
@@ -117,7 +118,7 @@ class HiperLink extends Element {
     public function setTarget($target) {
         $this->target = $target;
     }
-    
+
     /**
      * Texto do Elemento
      * @param type $text
@@ -141,55 +142,55 @@ class HiperLink extends Element {
     public function setOnfocus($onfocus) {
         $this->onfocus = $onfocus;
     }
-    
+
     /**
      * Monta o elemento
      * @return string 
      */
     private function mountElement() {
         $element = '<a ';
-        
-        if(!empty($this->accesskey))
-            $element .= 'accesskey=\''.$this->accesskey.'\' ';
-        
-        if(!empty($this->charset))
-            $element .= 'charset=\''.$this->charset.'\' ';
-        
-        if(!empty($this->href))
-            $element .= 'href=\''.$this->href.'\' ';
-        
-        if(!empty($this->hreflang))
-            $element .= 'hreflang=\''.$this->hreflang.'\' ';
-        
-        if(!empty($this->rel))
-            $element .= 'rel=\''.$this->rel.'\' ';
-        
-        if(!empty($this->rev))
-            $element .= 'rev=\''.$this->rev.'\' ';
-        
-        if(!empty($this->tabindex))
-            $element .= 'tabindex=\''.$this->tabindex.'\' ';
-                
-        if(!empty($this->type))
-            $element .= 'type=\''.$this->type.'\' ';
-        
-        if(!empty($this->target)) {
-            $element .= 'target=\''.$this->target.'\' ';
+
+        if (!empty($this->accesskey))
+            $element .= 'accesskey=\'' . $this->accesskey . '\' ';
+
+        if (!empty($this->charset))
+            $element .= 'charset=\'' . $this->charset . '\' ';
+
+        if (!empty($this->href))
+            $element .= 'href=\'' . $this->href . '\' ';
+
+        if (!empty($this->hreflang))
+            $element .= 'hreflang=\'' . $this->hreflang . '\' ';
+
+        if (!empty($this->rel))
+            $element .= 'rel=\'' . $this->rel . '\' ';
+
+        if (!empty($this->rev))
+            $element .= 'rev=\'' . $this->rev . '\' ';
+
+        if (!empty($this->tabindex))
+            $element .= 'tabindex=\'' . $this->tabindex . '\' ';
+
+        if (!empty($this->type))
+            $element .= 'type=\'' . $this->type . '\' ';
+
+        if (!empty($this->target)) {
+            $element .= 'target=\'' . $this->target . '\' ';
         }
-        
+
         $element .= $this->returnAttributesAsString();
-        
+
         # Eventos Intrínsecos
-        if(!empty($this->onblur))
-            $element .= 'onblur=\''.$this->onblur.'\' ';
-        
-        if(!empty($this->onfocus))
-            $element .= 'onfocus=\''.$this->onfocus.'\' ';
-                
+        if (!empty($this->onblur))
+            $element .= 'onblur=\'' . $this->onblur . '\' ';
+
+        if (!empty($this->onfocus))
+            $element .= 'onfocus=\'' . $this->onfocus . '\' ';
+
         $element .= '>';
         $element .= $this->text;
         $element .= '</a>';
-        
+
         return $element;
     }
 
@@ -197,16 +198,17 @@ class HiperLink extends Element {
      * Exibe o elemento html na tela.
      */
     public function show() {
-        $element = $this->mountElement();     
-        echo $element;        
+        $element = $this->mountElement();
+        echo $element;
     }
-    
+
     /**
      * Retorna o elemento html como uma string
      * @return string 
      */
     public function returnAsString() {
-        $element = $this->mountElement(); 
+        $element = $this->mountElement();
         return $element;
     }
+
 }

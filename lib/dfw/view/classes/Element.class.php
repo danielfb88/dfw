@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DFW Framework PHP - Classe abstrata Element
  * 
@@ -10,15 +11,15 @@
  * @abstract
  * 
  */
-
 require_once 'Event.class.php';
 
 abstract class Element extends Event {
+
     protected $id;
     protected $class;
     protected $title;
     protected $style;
-        
+
     /**
      * Identificador único e exclusivo
      * @param type $id
@@ -54,24 +55,25 @@ abstract class Element extends Event {
     public function setStyle($style) {
         $this->style = $style;
     }
-    
+
     protected function returnAttributesAsString() {
-        
+
         $element = '';
-        if(!empty($this->id))
-            $element .= ' id=\''.$this->id.'\' ';
-        
-        if(!empty($this->class))
-            $element .= ' class=\''.$this->class.'\' ';
-        
-        if(!empty($this->title))
-            $element .= ' title=\''.$this->title.'\' ';
-        
-        if(!empty($this->style))
-            $element .= ' style=\''.$this->style.'\' ';
-        
+        if (!empty($this->id))
+            $element .= ' id=\'' . $this->id . '\' ';
+
+        if (!empty($this->class))
+            $element .= ' class=\'' . $this->class . '\' ';
+
+        if (!empty($this->title))
+            $element .= ' title=\'' . $this->title . '\' ';
+
+        if (!empty($this->style))
+            $element .= ' style=\'' . $this->style . '\' ';
+
         $element .= parent::returnAttributesAsString();
-        
+
         return $element;
-    }    
+    }
+
 }

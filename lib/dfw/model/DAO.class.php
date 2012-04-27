@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DFW Framework PHP - Classe DAO
  * 
@@ -27,27 +28,30 @@
  * @abstract
  * 
  */
-
 require_once 'Conexao.class.php';
 
 abstract class DAO {
+
     /**
      * Nome da subclasse.
      * @var string 
      */
     private $className;
+
     /**
      * Nome da classe do DTO que será usada para guardar os dados. 
      * A subclasse deverá configurar esta propriedade.
      * @var type 
      */
     protected $dtoClassName;
+
     /**
      * Nome da tabela. 
      * A subclasse deverá configurar esta propriedade.
      * @var string 
      */
     protected $tableName;
+
     /**
      * Configurações das propriedades
      * @var array 
@@ -58,107 +62,110 @@ abstract class DAO {
          */
         'primaryKey' => array(
             /**
-            * Chave Primária da Tabela.
-            * Se existir apenas 1 chave primária, esta chave deve ser auto-increment. 
-            * @example $this->configProps['primaryKey'] = array('id1', 'id2');
-            */
+             * Chave Primária da Tabela.
+             * Se existir apenas 1 chave primária, esta chave deve ser auto-increment. 
+             * @example $this->configProps['primaryKey'] = array('id1', 'id2');
+             */
             'field' => array(),
             /**
-            * Especifica se a primaryKey é auto-increment.
-            * @var boolean
-            * @since 20-04-2012 
-            */
+             * Especifica se a primaryKey é auto-increment.
+             * @var boolean
+             * @since 20-04-2012 
+             */
             'is_autoIncrement' => false
-            ),
-        
+        ),
         /**
          * Campos que são notNull. 
          * Essa validação será feita antes de enviar a requisição para o Banco de Dados. 
          * @example $this->configProps['notNull'] = array('numero', 'campo4');
          */
-        'notNull'   => array()
+        'notNull' => array()
     );
+
     /**
      * Classe Conexão que abstrai o relacionamento com um objeto PDO
      * @var Conexao 
      */
     private $con = null;
+
     /**
      * Informa se o registro foi encontrado no banco de dados
      * @var boolean 
      */
     public $found = false;
+
     /**
      * Atributos da da subClasse com os valores inseridos pelo usuário.
      * Será usado para efetuar para os métodos de busca e/ou persistencia.
      * @var array 
      */
     private $properties;
+
     /**
      * Ultima query executada.
      * @var string 
      */
     private $lastQuery = null;
-        
+
     protected function __construct() {
-        $reflect = new ReflectionClass($this);        
+        $reflect = new ReflectionClass($this);
         $this->className = $reflect->getName();
-        
+
         // Recebendo as configuraçõe da subclasse
         $this->config();
-        
+
         ## Excessão para TABELA INEXISTENTE ##
-        if(empty($this->tableName)) {
-            throw $e = new Exception('Não há uma tabela definida na subclasse '.$this->className);
+        if (empty($this->tableName)) {
+            throw $e = new Exception('Não há uma tabela definida na subclasse ' . $this->className);
             $e->getTraceAsString();
         }
-        
+
         ## Excessão para CAMPO DA PRIMARY KEY INEXISTENTE ##
-        if(!$this->configProps['primaryKey']['field']) {
-            throw $e = new Exception('Não há primary key definida na subclasse '.$this->className);
+        if (!$this->configProps['primaryKey']['field']) {
+            throw $e = new Exception('Não há primary key definida na subclasse ' . $this->className);
             $e->getTraceAsString();
         }
-        
+
         // Inserindo as propriedades da subclasse em um array (pegando apenas atributos publicos)
         $properties = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
-        
+
         $this->properties = array();
         foreach ($properties as $prop) {
-            if($prop->class != 'DAO') {     // pegando apenas propriedades da subclasse
+            if ($prop->class != 'DAO') {     // pegando apenas propriedades da subclasse
                 $property = $prop->name;
                 $this->properties[$property] = null;
             }
         }
-        
+
         ## Excessão para PROPRIEDADES INEXISTENTE ##
-        if(!$this->properties) {
+        if (!$this->properties) {
             throw $e = new Exception('Os campos da tabela não foram definidos na subclasse.');
             $e->getTraceAsString();
-        } 
-        
+        }
+
         // Criando objeto para a Conexão
         $this->con = new Conexao();
     }
-    
+
     /**
      * A subclasse deve sobrecarregar este método para setar as suas configurações
      */
     abstract protected function config();
-    
+
     /**
      * Conecta ao DB
      */
     protected function connect() {
         $this->con->connect();
     }
-    
+
     /**
      * Desconecta do DB
      */
     protected function disconnect() {
         $this->con->disconnect();
     }
-         
+
     /**
      * Atualiza a variável $this->properties com os valores que o usuario inserir
      * 
@@ -169,7 +176,7 @@ abstract class DAO {
             $this->properties[$key] = $this->$key;
         }
     }
-    
+
     /**
      * Retorna array com as propriedades e os valores inseridos pelo usuário para efetuar a filtragem.
      * 
@@ -178,15 +185,16 @@ abstract class DAO {
     private function getFilterValues() {
         // atualiza os valores
         $this->refreshPropertiesValues();
-        
+
         $filterValues = array();    // valores inseridos na subclasse
-        foreach($this->properties as $key => $value) {
+        foreach ($this->properties as $key => $value) {
             // criando um array apenas com os dados que tiverem valor
-            if($value !== null && $value !== '') $filterValues[$key] = $value;            
+            if ($value !== null && $value !== '')
+                $filterValues[$key] = $value;
         }
         return $filterValues;
     }
-        
+
     /**
      * Gera sql de Select From Where
      * 
@@ -198,95 +206,94 @@ abstract class DAO {
      * @throws Exception 
      */
     private function selectSQL(array $filterValues, $whereType, $orderBy = null, $useBindValue = false) {
-        if($whereType != '=' && $whereType != 'like') {
+        if ($whereType != '=' && $whereType != 'like') {
             throw $e = new Exception('Parâmetro whereType inválido. Use \'=\' ou \'like\'');
             $e->getTraceAsString();
         }
-        
+
         // Verifica se o orderBy informado existe
-        if($orderBy && is_string($orderBy)) {
+        if ($orderBy && is_string($orderBy)) {
             $orderByFound = false;
-            foreach($this->properties as $key => $value) {
-                if($key == $orderBy) {
+            foreach ($this->properties as $key => $value) {
+                if ($key == $orderBy) {
                     $orderByFound = true;
                     break;
-                }            
+                }
             }
-            if(!$orderByFound) {
+            if (!$orderByFound) {
                 throw $e = new Exception("O parâmetro orderBy informado não existe");
                 $e->getTraceAsString();
             }
         }
-        
-        
+
+
         $i = 0;
-        $sql = 'SELECT ';   
-        foreach($this->properties as $key => $value) {
-            if($i++ == count($this->properties)-1) {
-                $sql .= $key.' ';  // ultimo campo nao deve ter virgula
+        $sql = 'SELECT ';
+        foreach ($this->properties as $key => $value) {
+            if ($i++ == count($this->properties) - 1) {
+                $sql .= $key . ' ';  // ultimo campo nao deve ter virgula
             } else {
-                $sql .= $key.', ';
+                $sql .= $key . ', ';
             }
         }
-                
+
         $sql .= ' FROM ';
-        $sql .= $this->tableName.' ';
-        
-        if($filterValues && is_array($filterValues)) {
+        $sql .= $this->tableName . ' ';
+
+        if ($filterValues && is_array($filterValues)) {
             $i = 0;
-            $sql .= ' WHERE ';        
-            foreach($filterValues as $key => $value) {
-                
-                if($i++ == count($filterValues)-1) {
-                    
+            $sql .= ' WHERE ';
+            foreach ($filterValues as $key => $value) {
+
+                if ($i++ == count($filterValues) - 1) {
+
                     switch ($whereType) {
                         case '=':
-                            
-                            if($useBindValue)
-                                $sql .= ' '.$key.' = :'.$key.' ';
+
+                            if ($useBindValue)
+                                $sql .= ' ' . $key . ' = :' . $key . ' ';
                             else
-                                $sql .= ' '.$key.' = \''.$value.'\' ';
-                            
+                                $sql .= ' ' . $key . ' = \'' . $value . '\' ';
+
                             break;
                         case 'like':
-                            
-                            if($useBindValue)
-                                $sql .= 'upper(cast('.$key.' as varchar)) like upper(cast(:'.$key.' as varchar)) ';
+
+                            if ($useBindValue)
+                                $sql .= 'upper(cast(' . $key . ' as varchar)) like upper(cast(:' . $key . ' as varchar)) ';
                             else
-                                $sql .= 'upper(cast('.$key.' as varchar)) like upper(cast(\'%'.$value.'%\' as varchar)) ';
-                            
+                                $sql .= 'upper(cast(' . $key . ' as varchar)) like upper(cast(\'%' . $value . '%\' as varchar)) ';
+
                             break;
                     }
-                        
-                } else {  
+                } else {
                     switch ($whereType) {
                         case '=':
-                            
-                            if($useBindValue)
-                                $sql .= ' '.$key.' = :'.$key.' AND ';
+
+                            if ($useBindValue)
+                                $sql .= ' ' . $key . ' = :' . $key . ' AND ';
                             else
-                                $sql .= ' '.$key.' = \''.$value.'\' AND ';
-                            
+                                $sql .= ' ' . $key . ' = \'' . $value . '\' AND ';
+
                             break;
                         case 'like':
-                            
-                            if($useBindValue)
-                                $sql .= 'upper(cast('.$key.' as varchar)) like upper(cast(:'.$key.' as varchar)) AND ';
+
+                            if ($useBindValue)
+                                $sql .= 'upper(cast(' . $key . ' as varchar)) like upper(cast(:' . $key . ' as varchar)) AND ';
                             else
-                                $sql .= 'upper(cast('.$key.' as varchar)) like upper(cast(\'%'.$value.'%\' as varchar)) AND ';
-                            
+                                $sql .= 'upper(cast(' . $key . ' as varchar)) like upper(cast(\'%' . $value . '%\' as varchar)) AND ';
+
                             break;
                     }
                 }
             }
         }
-        
-        if($orderBy && is_string($orderBy))
-            $sql .= ' ORDER BY '.$orderBy.' ';
-                
+
+        if ($orderBy && is_string($orderBy))
+            $sql .= ' ORDER BY ' . $orderBy . ' ';
+
         return $sql;
     }
-    
+
     /**
      * Gera sql de INSERT
      * 
@@ -297,44 +304,43 @@ abstract class DAO {
      */
     private function insertSQL(array $insertValues, $useBindValue = false) {
         // insert values inválido
-        if(!$insertValues && !is_array($insertValues)) {
+        if (!$insertValues && !is_array($insertValues)) {
             throw $e = new Exception('Parâmetro passado para insert inválido.');
             $e->getTraceAsString();
         }
-        
+
         $i = 0;
-        $sql = 'INSERT INTO '.$this->tableName.' (';   
-        foreach($insertValues as $key => $value) {
-            if($i++ == count($insertValues)-1) {
-                $sql .= $key.' ';  // ultimo campo nao deve ter virgula
+        $sql = 'INSERT INTO ' . $this->tableName . ' (';
+        foreach ($insertValues as $key => $value) {
+            if ($i++ == count($insertValues) - 1) {
+                $sql .= $key . ' ';  // ultimo campo nao deve ter virgula
             } else {
-                $sql .= $key.', ';
+                $sql .= $key . ', ';
             }
         }
-                
+
         $sql .= ' ) VALUES ( ';
-        
+
         $i = 0;
-        foreach($insertValues as $key => $value) {
-            if($i++ == count($insertValues)-1) {
-                if($useBindValue)
-                    $sql .= ':'.$key.' ';  // ultimo campo nao deve ter virgula
+        foreach ($insertValues as $key => $value) {
+            if ($i++ == count($insertValues) - 1) {
+                if ($useBindValue)
+                    $sql .= ':' . $key . ' ';  // ultimo campo nao deve ter virgula
                 else
-                    $sql .= '\''.$value.'\' ';
-                
+                    $sql .= '\'' . $value . '\' ';
             } else {
-                if($useBindValue)
-                    $sql .= ':'.$key.', ';
+                if ($useBindValue)
+                    $sql .= ':' . $key . ', ';
                 else
-                    $sql .= '\''.$value.'\', ';
+                    $sql .= '\'' . $value . '\', ';
             }
         }
-        
+
         $sql .= ')';
-        
+
         return $sql;
     }
-    
+
     /**
      * Gerar sql de UPDATE
      * 
@@ -345,72 +351,68 @@ abstract class DAO {
      */
     private function updateSQL(array $updateValues, $useBindValue = false) {
         // update values inválido
-        if(!$updateValues && !is_array($updateValues)) {
+        if (!$updateValues && !is_array($updateValues)) {
             throw $e = new Exception('Parâmetro passado para update inválido.');
             $e->getTraceAsString();
-        } 
-                
-        // o valor da primaryKey nao foi informado
-        if(!$this->checkValuePrimaryKeyExists())
-            throw $e = new Exception('O valor da primarykey não foi informado');
-                
-        // colocando null nos campos que nao chegarem com um valor definido
-        foreach($updateValues as $key => &$value) {            
-            if($value === null || $value === '') $value = 'null';
         }
-                
-        $i = 0;
-        $sql = 'UPDATE '.$this->tableName.' SET ';   
-        foreach($updateValues as $key => &$value) {          
-            if($i++ == count($updateValues)-1) {
-                // tirando as aspas de value para nao inserir 'null' na tabela
-                if($value === 'null') {
-                    $sql .= $key.' = '.$value.' '; 
-                }                    
-                elseif($useBindValue)
-                    $sql .= $key.' = :'.$key.' ';
-                else
-                    $sql .= $key.' = \''.$value.'\' ';  // ultimo campo nao deve ter virgula
 
+        // o valor da primaryKey nao foi informado
+        if (!$this->checkValuePrimaryKeyExists())
+            throw $e = new Exception('O valor da primarykey não foi informado');
+
+        // colocando null nos campos que nao chegarem com um valor definido
+        foreach ($updateValues as $key => &$value) {
+            if ($value === null || $value === '')
+                $value = 'null';
+        }
+
+        $i = 0;
+        $sql = 'UPDATE ' . $this->tableName . ' SET ';
+        foreach ($updateValues as $key => &$value) {
+            if ($i++ == count($updateValues) - 1) {
+                // tirando as aspas de value para nao inserir 'null' na tabela
+                if ($value === 'null') {
+                    $sql .= $key . ' = ' . $value . ' ';
+                } elseif ($useBindValue)
+                    $sql .= $key . ' = :' . $key . ' ';
+                else
+                    $sql .= $key . ' = \'' . $value . '\' ';  // ultimo campo nao deve ter virgula
             } else {
                 // tirando as aspas de value para nao inserir 'null' na tabela
-                if($value === 'null') {
-                    $sql .= $key.' = '.$value.', ';
-                } 
-                elseif($useBindValue)
-                    $sql .= $key.' = :'.$key.', ';
+                if ($value === 'null') {
+                    $sql .= $key . ' = ' . $value . ', ';
+                } elseif ($useBindValue)
+                    $sql .= $key . ' = :' . $key . ', ';
                 else
-                    $sql .= $key.' = \''.$value.'\', ';
-            }            
-        }
-                
-        $sql .= ' WHERE '; 
-        
-        // contando a(s) primary key(s)
-        $i = 0;
-        foreach($this->configProps['primaryKey']['field'] as $primaryKey) {
-            if($i++ == count($this->configProps['primaryKey']['field'])-1) {
-                // ultima posição sem virgula
-                if($useBindValue)
-                    $sql .= $primaryKey.' = :'.$primaryKey.' ';
-                else
-                    // pega o valor real do campo
-                    $sql .= $primaryKey.' = \''.$updateValues[$primaryKey].'\' ';
-                
-            } else {
-                // com virgula
-                if($useBindValue)
-                    $sql .= $primaryKey.' = :'.$primaryKey.' AND ';
-                else
-                    // pega o valor real do campo                 
-                    $sql .= $primaryKey.' = \''.$updateValues[$primaryKey].'\' AND ';                    
-                
+                    $sql .= $key . ' = \'' . $value . '\', ';
             }
         }
-        
+
+        $sql .= ' WHERE ';
+
+        // contando a(s) primary key(s)
+        $i = 0;
+        foreach ($this->configProps['primaryKey']['field'] as $primaryKey) {
+            if ($i++ == count($this->configProps['primaryKey']['field']) - 1) {
+                // ultima posição sem virgula
+                if ($useBindValue)
+                    $sql .= $primaryKey . ' = :' . $primaryKey . ' ';
+                else
+                // pega o valor real do campo
+                    $sql .= $primaryKey . ' = \'' . $updateValues[$primaryKey] . '\' ';
+            } else {
+                // com virgula
+                if ($useBindValue)
+                    $sql .= $primaryKey . ' = :' . $primaryKey . ' AND ';
+                else
+                // pega o valor real do campo                 
+                    $sql .= $primaryKey . ' = \'' . $updateValues[$primaryKey] . '\' AND ';
+            }
+        }
+
         return $sql;
     }
-       
+
     /**
      * Verifica se as primarykeys definidas na subclasse possuem valor preenchido.
      * 
@@ -419,20 +421,19 @@ abstract class DAO {
      */
     private function checkValuePrimaryKeyExists() {
         $this->refreshPropertiesValues();
-        
-        foreach($this->configProps['primaryKey']['field'] as $primaryKey) {
+
+        foreach ($this->configProps['primaryKey']['field'] as $primaryKey) {
             /*
-            * Retorna false se houver primary key sem valor
-            */
-            if($this->properties[$primaryKey] === null || $this->properties[$primaryKey] === '') {
+             * Retorna false se houver primary key sem valor
+             */
+            if ($this->properties[$primaryKey] === null || $this->properties[$primaryKey] === '') {
                 return false;
             }
         }
-            
+
         return true;
-        
     }
-        
+
     /**
      * Retorna os dados no próprio objeto DAO pelos valores informados pelo usuário.
      * Este método retorna apenas um registro.
@@ -444,63 +445,59 @@ abstract class DAO {
      */
     public function read($useBindValue = true) {
         $filterValues = $this->getFilterValues();
-        
+
         // os valores para filtragem nao foram informados
-        if(!$filterValues) {              
+        if (!$filterValues) {
             throw $e = new Exception('Nenhum filtro foi especificado para o read()');
-            $e->getTraceAsString();                        
+            $e->getTraceAsString();
         }
-        
-        $sql = $this->selectSQL($filterValues, '=', null, $useBindValue);            
+
+        $sql = $this->selectSQL($filterValues, '=', null, $useBindValue);
         $sql .= ' LIMIT 1;';
 
         try {
-            
-            $this->connect();   
+
+            $this->connect();
             $preparedStatment = $this->con->getPreparedStatment($sql);
-            
-            if($useBindValue)
-                $this->con->bindValue($preparedStatment, $filterValues, '='); 
-            
+
+            if ($useBindValue)
+                $this->con->bindValue($preparedStatment, $filterValues, '=');
+
             $retornoOk = $preparedStatment->execute();
             // guardando a query
             $this->lastQuery = $sql;
             $this->logIntoFile($sql);
-            
-            if($retornoOk) {
+
+            if ($retornoOk) {
                 $registro = $preparedStatment->fetch(PDO::FETCH_ASSOC);
-            
-                if($registro) {
+
+                if ($registro) {
                     // alimentando o objeto com os seus valores
-                    foreach($registro as $key => $value) {
+                    foreach ($registro as $key => $value) {
                         $this->$key = $value;
-                    }                    
+                    }
                     $this->found = true;
-                    
                 } else {
                     $this->found = false;
                 }
-                
             } else {
                 $this->informaErro($preparedStatment->errorInfo());
             }
-                        
+
             $this->disconnect();
-                    
         } catch (PDOException $e1) {
             $e1->getMessage();
             $e1->getTraceAsString();
-            
         } catch (Exception $e2) {
             $e2->getMessage();
             $e2->getTraceAsString();
         }
-        
+
         unset($preparedStatment);
         unset($registro);
         return $retornoOk;
     }
-    
+
     /**
      * Retorna todos os registros que atendam aos filtros definidos pelo usuário em um objeto DTO.
      * Caso o objeto DTO não tenha sido definido na subclasse, retorna um array associativo.
@@ -517,67 +514,62 @@ abstract class DAO {
         $sql = $this->selectSQL($filterValues, 'like', $orderBy, $useBindValue);
 
         try {
-            
-            $this->connect();   
+
+            $this->connect();
             $preparedStatment = $this->con->getPreparedStatment($sql);
-            
-            if($useBindValue)
-                $this->con->bindValue($preparedStatment, $filterValues, 'like'); 
-            
+
+            if ($useBindValue)
+                $this->con->bindValue($preparedStatment, $filterValues, 'like');
+
             $retornoOk = $preparedStatment->execute();
             // guardando a query
             $this->lastQuery = $sql;
             $this->logIntoFile($sql);
-            
-            if($retornoOk) {
+
+            if ($retornoOk) {
 
                 // se foi definido um DTO na subclasse, preencha-o com os registros
-                if($this->dtoClassName) {
+                if ($this->dtoClassName) {
                     // recupera os registros e insere cada um no dto especificado na sub-classe retornando um array desses objetos
                     $arr = $preparedStatment->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->dtoClassName);
-                } else {    
+                } else {
                     // apenas retorne o array associativo
                     $arr = $preparedStatment->fetchAll(PDO::FETCH_ASSOC);
                 }
 
-                if($arr) {                                
+                if ($arr) {
                     $this->found = true;
-                    
                 } else {
                     $this->found = false;
                 }
-                
-            } else {                
+            } else {
                 $this->informaErro($preparedStatment->errorInfo());
-                
             }
-                        
+
             $this->disconnect();
-                    
         } catch (PDOException $e1) {
             $e1->getMessage();
             $e1->getTraceAsString();
-            
         } catch (Exception $e2) {
             $e2->getMessage();
             $e2->getTraceAsString();
         }
-        
+
         unset($preparedStatment);
         return $arr;
     }
-    
+
     /**
      * Seta as propriedades da subClasse como null para prepara-la para uma nova consulta
      */
     public function reset() {
-        foreach($this->properties as $key => $value) {
+        foreach ($this->properties as $key => $value) {
             $this->$key = null;
             $this->properties[$key] = null;
         }
         $this->found = false;
     }
-    
+
     /**
      * Sugere um valor para Id usando o total de registros + 1
      * Este método deve ser usando quando existir apenas 1 campo numérico para a primary key.
@@ -586,9 +578,9 @@ abstract class DAO {
      * @return int 
      */
     public function getNextId() {
-        return $this->getMaxCount()+1;
+        return $this->getMaxCount() + 1;
     }
-    
+
     /**
      * ## APENAS PARA POSTGRES ##
      * Antecipa qual valor será usado pela sequência para compor a primary key.
@@ -598,85 +590,78 @@ abstract class DAO {
      * @return int
      */
     public function getNextAutoIncrementId() {
-        $sql = 'SELECT nextval(\''.$this->tableName.'_'.$this->configProps['primaryKey']['field'][0].'_seq\');';
-        
+        $sql = 'SELECT nextval(\'' . $this->tableName . '_' . $this->configProps['primaryKey']['field'][0] . '_seq\');';
+
         try {
-            
-            $this->connect();   
+
+            $this->connect();
             $preparedStatment = $this->con->getPreparedStatment($sql);
-            
+
             $retornoOk = $preparedStatment->execute();
             // guardando a query
             $this->lastQuery = $sql;
             $this->logIntoFile($sql);
-            
-            if($retornoOk) {
-                
+
+            if ($retornoOk) {
+
                 $nextVal = $preparedStatment->fetch(PDO::FETCH_ASSOC);
-                $nextVal = $nextVal['nextval'];         
-                
-            } else {                
+                $nextVal = $nextVal['nextval'];
+            } else {
                 $this->informaErro($preparedStatment->errorInfo());
             }
-                     
+
             $this->disconnect();
-                    
         } catch (PDOException $e1) {
             $e1->getMessage();
             $e1->getTraceAsString();
-            
         } catch (Exception $e2) {
             $e2->getMessage();
             $e2->getTraceAsString();
         }
-        
+
         unset($preparedStatment);
         return $nextVal;
-        
     }
-    
+
     /**
      * Recupera a quantidade total de registros existentes na tabela
      * @since 20-04-2012
      * @return int 
      */
     protected function getMaxCount() {
-        $sql = 'SELECT count(*) as total_registros FROM '.$this->tableName;
-        
+        $sql = 'SELECT count(*) as total_registros FROM ' . $this->tableName;
+
         try {
-            
-            $this->connect();   
+
+            $this->connect();
             $preparedStatment = $this->con->getPreparedStatment($sql);
-            
+
             $retornoOk = $preparedStatment->execute();
             // guardando a query
             $this->lastQuery = $sql;
             $this->logIntoFile($sql);
-            
-            if($retornoOk) {
-                
+
+            if ($retornoOk) {
+
                 $total_registros = $preparedStatment->fetch(PDO::FETCH_ASSOC);
                 $total_registros = $total_registros['total_registros'];
-                
             } else {
                 $this->informaErro($preparedStatment->errorInfo());
             }
-                     
+
             $this->disconnect();
-                    
         } catch (PDOException $e1) {
             $e1->getMessage();
             $e1->getTraceAsString();
-            
         } catch (Exception $e2) {
             $e2->getMessage();
             $e2->getTraceAsString();
         }
-        
+
         unset($preparedStatment);
         return $total_registros;
     }
-    
+
     /**
      * Salva os dados que foram inseridos nas variaveis da subClasse ($this->properties).
      * @since 19-04-2012
@@ -685,62 +670,60 @@ abstract class DAO {
      * @throws type 
      */
     public function insert($useBindValue = true) {
-          ## Excessão de NotNull ##
-         // Verifica se os valores definidos como notNull foram preenchidos         
-        if(!$this->checkValuesNotNullFieldsExists()) {
+        ## Excessão de NotNull ##
+        // Verifica se os valores definidos como notNull foram preenchidos         
+        if (!$this->checkValuesNotNullFieldsExists()) {
             $fields = '';
-            foreach($this->configProps['notNull'] as $notNullField) {
-                $fields .= ' \''.$notNullField.'\' ';
+            foreach ($this->configProps['notNull'] as $notNullField) {
+                $fields .= ' \'' . $notNullField . '\' ';
             }
-            throw $e = new Exception('Alguns dos campos '.$fields.' definidos como NotNull estão vazios.');
+            throw $e = new Exception('Alguns dos campos ' . $fields . ' definidos como NotNull estão vazios.');
             $e->getTraceAsString();
         }
-        
+
         // se não for auto incremento
-        if(!$this->configProps['primaryKey']['is_autoIncrement']) {
+        if (!$this->configProps['primaryKey']['is_autoIncrement']) {
             // Se o valor da PrimaryKey nao tiver sido definido
-            if(!$this->checkValuePrimaryKeyExists()) {
+            if (!$this->checkValuePrimaryKeyExists()) {
                 ## Excessão de Primary Key sem valor ##
                 throw $e = new Exception('O valor da primarykey não foi informado');
                 $e->getTraceAsString();
             }
         }
-        
+
         $filterValues = $this->getFilterValues();
         $sql = $this->insertSQL($filterValues, $useBindValue);
-                
+
         try {
-            
+
             $this->connect();
             $preparedStatment = $this->con->getPreparedStatment($sql);
-            
-            if($useBindValue)
-                $this->con->bindValue($preparedStatment, $filterValues, '='); 
-            
-            $retornoOk = $preparedStatment->execute();            
+
+            if ($useBindValue)
+                $this->con->bindValue($preparedStatment, $filterValues, '=');
+
+            $retornoOk = $preparedStatment->execute();
             // guardando a query
             $this->lastQuery = $sql;
             $this->logIntoFile($sql);
-            
-            if(!$retornoOk) {
-                $this->informaErro($preparedStatment->errorInfo());          
+
+            if (!$retornoOk) {
+                $this->informaErro($preparedStatment->errorInfo());
             }
-                        
+
             $this->disconnect();
-                    
         } catch (PDOException $e1) {
             $e1->getMessage();
             $e1->getTraceAsString();
-            
         } catch (Exception $e2) {
             $e2->getMessage();
             $e2->getTraceAsString();
         }
-        
+
         unset($preparedStatment);
         return $retornoOk;
     }
-    
+
     /**
      * Atualiza os dados que foram inseridos nas variaveis da subClasse ($this->properties).
      * @since 19-04-2012
@@ -751,125 +734,119 @@ abstract class DAO {
     public function update($useBindValue = true) {
         ## Excessão de NotNull ##
         // Verifica se os valores definidos como notNull foram preenchidos        
-        if(!$this->checkValuesNotNullFieldsExists()) {
+        if (!$this->checkValuesNotNullFieldsExists()) {
             $fields = '';
-            foreach($this->configProps['notNull'] as $notNullField) {
-                $fields .= ' \''.$notNullField.'\' ';
+            foreach ($this->configProps['notNull'] as $notNullField) {
+                $fields .= ' \'' . $notNullField . '\' ';
             }
-            throw $e = new Exception('Alguns dos campos '.$fields.' definidos como NotNull estão vazios.');
+            throw $e = new Exception('Alguns dos campos ' . $fields . ' definidos como NotNull estão vazios.');
             $e->getTraceAsString();
         }
-        
+
         // Se o valor da PrimaryKey tiver sido definido
-        if($this->checkValuePrimaryKeyExists()) {
+        if ($this->checkValuePrimaryKeyExists()) {
             $filterValues = $this->getFilterValues();
             $sql = $this->updateSQL($filterValues, $useBindValue);
-            
         } else {
             ## Excessão de Primary Key sem valor ##
             throw $e = new Exception('O valor da primarykey não foi informado');
             $e->getTraceAsString();
         }
-        
+
         try {
-            
+
             $this->connect();
             $preparedStatment = $this->con->getPreparedStatment($sql);
-            
-            if($useBindValue)
-                $this->con->bindValue($preparedStatment, $filterValues, '='); 
-            
+
+            if ($useBindValue)
+                $this->con->bindValue($preparedStatment, $filterValues, '=');
+
             $retornoOk = $preparedStatment->execute();
             // guardando a query
             $this->lastQuery = $sql;
             $this->logIntoFile($sql);
-            
-            if(!$retornoOk) {
-                $this->informaErro($preparedStatment->errorInfo());                
+
+            if (!$retornoOk) {
+                $this->informaErro($preparedStatment->errorInfo());
             }
-                        
+
             $this->disconnect();
-                    
         } catch (PDOException $e1) {
             $e1->getMessage();
             $e1->getTraceAsString();
-            
         } catch (Exception $e2) {
             $e2->getMessage();
             $e2->getTraceAsString();
         }
-        
+
         unset($preparedStatment);
         return $retornoOk;
     }
-    
+
     /**
      * Deleta o registro. É obrigatório que o valor da primary key tenha sido inserido.
      * @param type $useBindValue
      * @return type
      * @throws type 
      */
-    public function delete($useBindValue = true) {        
+    public function delete($useBindValue = true) {
         // Tem que ter o valor da primaryKey para poder excluir.
-        if(!$this->checkValuePrimaryKeyExists()) {
+        if (!$this->checkValuePrimaryKeyExists()) {
             throw $e = new Exception('O valor da primarykey não foi informado');
             $e->getTraceAsString();
         }
-                
-        $sql = 'DELETE FROM '.$this->tableName.' ';
+
+        $sql = 'DELETE FROM ' . $this->tableName . ' ';
         $sql .= ' WHERE ';
-        
+
         $i = 0;
         $arrPk = array();
-        foreach($this->configProps['primaryKey']['field'] as $primaryKey) {
-            if($i++ == count($this->configProps['primaryKey']['field'])-1) { // sem virgula
-                if($useBindValue)
-                    $sql .= $primaryKey.' = :'.$primaryKey.' ';
+        foreach ($this->configProps['primaryKey']['field'] as $primaryKey) {
+            if ($i++ == count($this->configProps['primaryKey']['field']) - 1) { // sem virgula
+                if ($useBindValue)
+                    $sql .= $primaryKey . ' = :' . $primaryKey . ' ';
                 else
-                    $sql .= $primaryKey.' = '.$this->$primaryKey.' ';
-                
+                    $sql .= $primaryKey . ' = ' . $this->$primaryKey . ' ';
             } else {        // com virgula
-                if($useBindValue)
-                    $sql .= $primaryKey.' = :'.$primaryKey.', ';
+                if ($useBindValue)
+                    $sql .= $primaryKey . ' = :' . $primaryKey . ', ';
                 else
-                    $sql .= $primaryKey.' = '.$this->$primaryKey.', ';
+                    $sql .= $primaryKey . ' = ' . $this->$primaryKey . ', ';
             }
             /*
              * Array com as primarykey e seus valores
              */
             $arrPk[$primaryKey] = $this->$primaryKey;
         }
-                
+
         try {
-            
+
             $this->connect();
             $preparedStatment = $this->con->getPreparedStatment($sql);
-            
-            if($useBindValue)
-                $this->con->bindValue($preparedStatment, $arrPk, '='); 
-            
-            $retornoOk = $preparedStatment->execute();            
+
+            if ($useBindValue)
+                $this->con->bindValue($preparedStatment, $arrPk, '=');
+
+            $retornoOk = $preparedStatment->execute();
             // guardando a query
             $this->lastQuery = $sql;
             $this->logIntoFile($sql);
-            
-            if(!$retornoOk) {
-                $this->informaErro($preparedStatment->errorInfo());                
+
+            if (!$retornoOk) {
+                $this->informaErro($preparedStatment->errorInfo());
             }
-                        
+
             $this->disconnect();
-                    
         } catch (PDOException $e1) {
             $e1->getMessage();
             $e1->getTraceAsString();
-            
         } catch (Exception $e2) {
             $e2->getMessage();
             $e2->getTraceAsString();
         }
-        
+
         unset($preparedStatment);
-        return $retornoOk;        
+        return $retornoOk;
     }
 
     /**
@@ -877,17 +854,17 @@ abstract class DAO {
      */
     private function checkValuesNotNullFieldsExists() {
         $this->refreshPropertiesValues();
-        
-        if($this->configProps['notNull']) {
-            foreach($this->configProps['notNull'] as $notNullField) {
-                if($this->properties[$notNullField] === null)
+
+        if ($this->configProps['notNull']) {
+            foreach ($this->configProps['notNull'] as $notNullField) {
+                if ($this->properties[$notNullField] === null)
                     return false;
             }
         }
-        
-        return true;        
+
+        return true;
     }
-    
+
     /**
      * Executa uma query livre
      * Não é usado bindValue neste método
@@ -896,57 +873,54 @@ abstract class DAO {
      * @return boolean|array retorna um boolean caso $returnValues seja false. Retorna um array caso seja true 
      */
     public function executeQuery($sql, $returnValues = false) {
-        try {            
-            $this->connect();   
-            $preparedStatment = $this->con->getPreparedStatment($sql);            
-            
+        try {
+            $this->connect();
+            $preparedStatment = $this->con->getPreparedStatment($sql);
+
             $retornoOk = $preparedStatment->execute();
             // guardando a query
             $this->lastQuery = $sql;
             $this->logIntoFile($sql);
-                
-            if($retornoOk) {
-                if($returnValues)
+
+            if ($retornoOk) {
+                if ($returnValues)
                     $arr = $preparedStatment->fetchAll(PDO::FETCH_ASSOC);
-                                
             } else {
                 $this->informaErro($preparedStatment->errorInfo());
             }
-                        
+
             $this->disconnect();
-                    
         } catch (PDOException $e1) {
             $e1->getMessage();
             $e1->getTraceAsString();
-            
         } catch (Exception $e2) {
             $e2->getMessage();
             $e2->getTraceAsString();
         }
-        
+
         unset($preparedStatment);
-        
-        if($returnValues)
+
+        if ($returnValues)
             return $arr;
         else
             return $retornoOk;
     }
-    
+
     /**
      * Recebe array com os valores e os insere no objeto DAO.
      * @param array $data 
      */
-    public function setData(array $data) {        
-        if($data && is_array($data)) {
+    public function setData(array $data) {
+        if ($data && is_array($data)) {
             $this->refreshPropertiesValues();
-            
-            foreach($data as $key => $value) {
-                if(array_key_exists($key, $this->properties))
+
+            foreach ($data as $key => $value) {
+                if (array_key_exists($key, $this->properties))
                     $this->$key = $value;
             }
         }
     }
-    
+
     /**
      * Personaliza a mensagem de erro para debug
      * 
@@ -954,15 +928,15 @@ abstract class DAO {
      */
     private function informaErro($err) {
         echo '<br/><br/><b>SQL ERROR:</b><br/>';
-        
-        if(is_array($err))
+
+        if (is_array($err))
             print_r($err);
         else
             echo $err;
-        
+
         echo '<br/><br/>';
     }
-    
+
     /**
      * Retorna a ultima query
      * @return string 
@@ -970,16 +944,16 @@ abstract class DAO {
     public function getLastQueryAsString() {
         return $this->lastQuery;
     }
-    
+
     /**
      * Salva todas as queries enviadas para o banco no arquivo 'queryLogger.txt'
      * @since 22-04-2012
      * @param type $sql 
      */
     private function logIntoFile($sql) {
-        $fhandle = fopen(dirname(__FILE__).'/.log/queries.txt','ab');
-        fwrite($fhandle,"[".date("d-m-Y H:i:s")."] ".$sql."\r\n"); 
-        fclose($fhandle); 
+        $fhandle = fopen(dirname(__FILE__) . '/.log/queries.txt', 'ab');
+        fwrite($fhandle, "[" . date("d-m-Y H:i:s") . "] " . $sql . "\r\n");
+        fclose($fhandle);
     }
-    
+
 }

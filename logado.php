@@ -2,7 +2,7 @@
 session_start();
 
 // Código que deve ser inserido em todas as páginas para verificar se o usuario está logado
-require_once dirname(__FILE__).'/lib/dfw/security_functions.php';
+require_once dirname(__FILE__) . '/lib/dfw/security_functions.php';
 loggedUser();
 
 echo '<br/>

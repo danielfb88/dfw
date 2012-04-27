@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DFW Framework PHP - Classe Input
  * 
@@ -9,10 +10,10 @@
  * @version     1.0
  * 
  */
-
 require_once 'Element.class.php';
 
 class Input extends Element {
+
     protected $type;
     protected $accept;
     protected $accesskey;
@@ -31,7 +32,7 @@ class Input extends Element {
     protected $onchange;
     protected $onfocus;
     protected $onselect;
-    
+
     /**
      *
      * @param string $nameId Este parâmetro será usado para definir os atributos name e id do elemento.
@@ -46,13 +47,13 @@ class Input extends Element {
         $this->type = $type;
         $this->maxlength = $maxlength;
     }
-    
+
     /**
      * Tipo do controle
      * @param type $type
      * @throws type 
      */
-    public function setType($type = 'text') {        
+    public function setType($type = 'text') {
         switch ($type) {
             case 'text':
             case 'password':
@@ -118,8 +119,8 @@ class Input extends Element {
      */
     public function setMaxlength($maxlength) {
         $this->maxlength = $maxlength;
-    }   
-    
+    }
+
     /**
      * Nome do controle que o identifica ao enviar o formulário
      * @param type $name
@@ -200,73 +201,73 @@ class Input extends Element {
     public function setOnselect($onselect) {
         $this->onselect = $onselect;
     }
-    
+
     /**
      * Monta o elemento
      * @return string 
      */
     private function mountElement() {
         $element = '<input ';
-        
-        if(!empty($this->type))
-            $element .= 'type=\''.$this->type.'\' ';
-                
-        if(!empty($this->accept))
-            $element .= 'accept=\''.$this->accept.'\' ';
-        
-        if(!empty($this->accesskey))
-            $element .= 'accesskey=\''.$this->accesskey.'\' ';
-        
-        if(!empty($this->alt))
-            $element .= 'alt=\''.$this->alt.'\' ';
-        
-        if($this->checked)
+
+        if (!empty($this->type))
+            $element .= 'type=\'' . $this->type . '\' ';
+
+        if (!empty($this->accept))
+            $element .= 'accept=\'' . $this->accept . '\' ';
+
+        if (!empty($this->accesskey))
+            $element .= 'accesskey=\'' . $this->accesskey . '\' ';
+
+        if (!empty($this->alt))
+            $element .= 'alt=\'' . $this->alt . '\' ';
+
+        if ($this->checked)
             $element .= 'checked=\'checked\' ';
-        
-        if(($this->type == 'radio' || $this->type == 'checkbox') && $this->disabled)
+
+        if (($this->type == 'radio' || $this->type == 'checkbox') && $this->disabled)
             $element .= 'disabled=\'disabled\' ';
-        
-        if(!empty($this->maxlength))
-            $element .= 'maxlength=\''.$this->maxlength.'\' ';
-        
-        if(!empty($this->name))
-            $element .= 'name=\''.$this->name.'\' ';
-        
-        if($this->readonly)
+
+        if (!empty($this->maxlength))
+            $element .= 'maxlength=\'' . $this->maxlength . '\' ';
+
+        if (!empty($this->name))
+            $element .= 'name=\'' . $this->name . '\' ';
+
+        if ($this->readonly)
             $element .= 'readonly=\'readonly\' ';
-        
-        if(!empty($this->size))
-            $element .= 'size=\''.$this->size.'\' ';
-        
-        if($this->type == 'image' && !empty($this->src))
-            $element .= 'src=\''.$this->src.'\' ';
-        
-        if(!empty($this->tabindex))
-            $element .= 'tabindex=\''.$this->tabindex.'\' ';
-        
-        if(!empty($this->value))
-            $element .= 'value=\''.$this->value.'\' ';
-        
+
+        if (!empty($this->size))
+            $element .= 'size=\'' . $this->size . '\' ';
+
+        if ($this->type == 'image' && !empty($this->src))
+            $element .= 'src=\'' . $this->src . '\' ';
+
+        if (!empty($this->tabindex))
+            $element .= 'tabindex=\'' . $this->tabindex . '\' ';
+
+        if (!empty($this->value))
+            $element .= 'value=\'' . $this->value . '\' ';
+
         $element .= $this->returnAttributesAsString();
-        
+
         # Eventos Intrínsecos
-        if(!empty($this->onblur))
-            $element .= ' onblur=\''.$this->onblur.'\' ';
-        
-        if(!empty($this->onchange))
-            $element .= ' onchange=\''.$this->onchange.'\' ';
-        
-        if(!empty($this->onfocus))
-            $element .= ' onfocus=\''.$this->onfocus.'\' ';
-        
-        if(!empty($this->onselect))
-            $element .= ' onselect=\''.$this->onselect.'\' ';
-        
+        if (!empty($this->onblur))
+            $element .= ' onblur=\'' . $this->onblur . '\' ';
+
+        if (!empty($this->onchange))
+            $element .= ' onchange=\'' . $this->onchange . '\' ';
+
+        if (!empty($this->onfocus))
+            $element .= ' onfocus=\'' . $this->onfocus . '\' ';
+
+        if (!empty($this->onselect))
+            $element .= ' onselect=\'' . $this->onselect . '\' ';
+
         $element .= '/>';
-        
+
         return $element;
     }
-    
+
     /**
      * Exibe o elemento html na tela.
      */
@@ -274,7 +275,7 @@ class Input extends Element {
         $element = $this->mountElement();
         echo $element;
     }
-    
+
     /**
      * Retorna o elemento html como uma string
      * @return string 
@@ -283,4 +284,5 @@ class Input extends Element {
         $element = $this->mountElement();
         return $element;
     }
+
 }

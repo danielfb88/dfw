@@ -1,8 +1,8 @@
 <?php
+
 /**
  * Aquivo que efetua verificações de segurança 
  */
-
 require_once 'auth_location.php';
 
 /**
@@ -10,13 +10,13 @@ require_once 'auth_location.php';
  * @return boolean 
  */
 function loggedUser() {
-    if(isset($_SESSION['USER'])) {
-        if($_SESSION['USER']['logged'] == true) {
+    if (isset($_SESSION['USER'])) {
+        if ($_SESSION['USER']['logged'] == true) {
             return true;
         }
     }
     // falhou
-    header("Location: ".LOGIN_SCREEN);
+    header("Location: " . LOGIN_SCREEN);
     return false;
 }
 
@@ -39,14 +39,14 @@ function gerarToken() {
  * @return boolean 
  */
 function checkToken() {
-    if(isset($_SESSION['SESS_TOKEN'])) {
-        if($_SESSION['SESS_TOKEN'] == $_REQUEST['SESS_TOKEN']) {
+    if (isset($_SESSION['SESS_TOKEN'])) {
+        if ($_SESSION['SESS_TOKEN'] == $_REQUEST['SESS_TOKEN']) {
             $_SESSION['SESS_TOKEN'] == gerarToken();    // novo token
             return true;
         }
     }
     // falhou
     $_SESSION['SESS_TOKEN'] == gerarToken();    // novo token
-    header("Location: ".LOGIN_SCREEN);
+    header("Location: " . LOGIN_SCREEN);
     return false;
 }

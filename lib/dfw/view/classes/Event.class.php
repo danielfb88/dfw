@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DFW Framework PHP - Classe abstrata Event
  * 
@@ -10,8 +11,8 @@
  * @abstract
  * 
  */
-
 abstract class Event {
+
     protected $onclick;
     protected $ondblclick;
     protected $onmousedown;
@@ -22,7 +23,7 @@ abstract class Event {
     protected $onkeypress;
     protected $onkeydown;
     protected $onkeyup;
-    
+
     /**
      * Ocorre quando se clica com o botão do mouse sobre o elemento
      * @param type $onclick
@@ -122,7 +123,7 @@ abstract class Event {
         $onkeyup = $this->escapaAspasSimples($onkeyup);
         $this->onkeyup = $onkeyup;
     }
-    
+
     /**
      * Escapa aspas simples
      * @param string $valor
@@ -132,44 +133,45 @@ abstract class Event {
         $valor = preg_replace("/'/", "\"", $valor);
         return $valor;
     }
-    
+
     /**
      * Exibe o elemento criado
      * @return string 
      */
     protected function returnAttributesAsString() {
-        
+
         $event = '';
-        if(!empty($this->onclick))
-            $event .= ' onclick=\''.$this->onclick.'\' ';
-        
-        if(!empty($this->ondblclick))
-            $event .= ' ondblclick=\''.$this->ondblclick.'\' ';
-        
-        if(!empty($this->onmousedown))
-            $event .= ' onmousedown=\''.$this->onmousedown.'\' ';
-        
-        if(!empty($this->onmouseup))
-            $event .= ' onmouseup=\''.$this->onmouseup.'\' ';
-        
-        if(!empty($this->onmouseover))
-            $event .= ' onmouseover=\''.$this->onmouseover.'\' ';
-        
-        if(!empty($this->onmousemove))
-            $event .= ' onmousemove=\''.$this->onmousemove.'\' ';
-        
-        if(!empty($this->onmouseout))
-            $event .= ' onmouseout=\''.$this->onmouseout.'\' ';
-        
-        if(!empty($this->onkeypress))
-            $event .= ' onkeypress=\''.$this->onkeypress.'\' ';
-        
-        if(!empty($this->onkeydown))
-            $event .= ' onkeydown=\''.$this->onkeydown.'\' ';
-        
-        if(!empty($this->onkeyup))
-            $event .= ' onkeyup=\''.$this->onkeyup.'\' ';
-        
+        if (!empty($this->onclick))
+            $event .= ' onclick=\'' . $this->onclick . '\' ';
+
+        if (!empty($this->ondblclick))
+            $event .= ' ondblclick=\'' . $this->ondblclick . '\' ';
+
+        if (!empty($this->onmousedown))
+            $event .= ' onmousedown=\'' . $this->onmousedown . '\' ';
+
+        if (!empty($this->onmouseup))
+            $event .= ' onmouseup=\'' . $this->onmouseup . '\' ';
+
+        if (!empty($this->onmouseover))
+            $event .= ' onmouseover=\'' . $this->onmouseover . '\' ';
+
+        if (!empty($this->onmousemove))
+            $event .= ' onmousemove=\'' . $this->onmousemove . '\' ';
+
+        if (!empty($this->onmouseout))
+            $event .= ' onmouseout=\'' . $this->onmouseout . '\' ';
+
+        if (!empty($this->onkeypress))
+            $event .= ' onkeypress=\'' . $this->onkeypress . '\' ';
+
+        if (!empty($this->onkeydown))
+            $event .= ' onkeydown=\'' . $this->onkeydown . '\' ';
+
+        if (!empty($this->onkeyup))
+            $event .= ' onkeyup=\'' . $this->onkeyup . '\' ';
+
         return $event;
     }
+
 }

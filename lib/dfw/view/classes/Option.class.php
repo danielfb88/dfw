@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DFW Framework PHP - Classe Option
  * 
@@ -9,15 +10,15 @@
  * @version     1.0
  * 
  */
-
 require_once 'Element.class.php';
 
 class Option extends Element {
+
     protected $disabled;
     protected $selected;
     protected $value;
     protected $text;
-    
+
     /**
      * 
      * @param string $value
@@ -28,9 +29,9 @@ class Option extends Element {
         $this->id = $id;
         $this->value = $value;
         $this->text = $text;
-        $this->selected = $selected;      
+        $this->selected = $selected;
     }
-        
+
     /**
      * Desabilita o controle de modo que o usuário não poderá interagir com ele
      * @param boolean $disabled
@@ -54,7 +55,7 @@ class Option extends Element {
     public function setValue($value) {
         $this->value = $value;
     }
-    
+
     /**
      * Texto do Option
      * @param type $text
@@ -62,29 +63,30 @@ class Option extends Element {
     public function setText($text) {
         $this->text = $text;
     }
-    
+
     /**
      * Retorna a string de option para ser usado no select.
      * @return string 
      */
     public function returnAsString() {
         $element = '<option ';
-        
-        if($this->disabled)
+
+        if ($this->disabled)
             $element .= 'disabled=\'disabled\' ';
-                
-        if($this->selected)
+
+        if ($this->selected)
             $element .= 'selected=\'selected\' ';
-        
-        if(!empty($this->value))
-            $element .= 'value=\''.$this->value.'\' ';
-        
+
+        if (!empty($this->value))
+            $element .= 'value=\'' . $this->value . '\' ';
+
         $element .= $this->returnAttributesAsString();
-        
-        $element .= '>';        
-        $element .= $this->text;     
+
+        $element .= '>';
+        $element .= $this->text;
         $element .= '</option>';
-        
+
         return $element;
     }
+
 }

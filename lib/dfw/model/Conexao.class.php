@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DFW Framework PHP - Classe Conexao
  * 
@@ -12,50 +13,51 @@
  * @version     1.1
  * 
  */
-
 require_once "config_db.php";
 
-class Conexao {    
+class Conexao {
+
     private $driver = Config_DB::DRIVER;
     private $host = Config_DB::HOST;
     private $port = Config_DB::PORT;
     private $dbname = Config_DB::DBNAME;
     private $user = Config_DB::USER;
     private $password = Config_DB::PASSWORD;
+
     /**
      * Instância da classe PDO.
      * @var PDO 
      */
     private $db = null;
-    private $connected = false;    
+    private $connected = false;
     private $dns = '';
-    
-    public function __construct() { }
+
+    public function __construct() {
         
+    }
+
     public function connect() {
         try {
             $this->dns = "$this->driver:host=$this->host;port=$this->port;dbname=$this->dbname";
             $this->db = new PDO($this->dns, $this->user, $this->password);
             //$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->connected = true;
-
-       } catch ( PDOException $e ) {
+        } catch (PDOException $e) {
             echo 'Conexão falhou. Erro: ' . $e->getMessage();
             echo '<br/>';
             echo $e->getTraceAsString();
-       }
+        }
     }
-    
+
     public function disconnect() {
         unset($this->db);
         $this->connected = false;
     }
-      
-    
+
     public function is_connected() {
         return $this->connected;
     }
-    
+
     /**
      * Prepara a sql
      * @param type $sql
@@ -63,9 +65,7 @@ class Conexao {
      */
     public function getPreparedStatment($sql) {
         return $this->db->prepare($sql);
-        
     }
-    
 
     /**
      * Vincula o valor ao seu alias para aumentar a segurança contra sql injection
@@ -76,69 +76,69 @@ class Conexao {
      * Se for "=" ele bind o valor normalmente.
      */
     public function bindValue(PDOStatement &$preparedStatment, array &$filterValues, $whereType) {
-        if($whereType != "=" && $whereType != "like") {
+        if ($whereType != "=" && $whereType != "like") {
             throw $e = new Exception("Parâmetro whereType inválido. Use '=' ou 'like'");
             $e->getTraceAsString();
-        }    
-        
+        }
+
         // vinculando valor ao seu alias para preparação
-        foreach($filterValues as $key => $value) {  
-            
+        foreach ($filterValues as $key => $value) {
+
             switch ($whereType) {
                 case "=":
 
                     // Prefira bindValue a bindParam
                     if (is_int($value))
-                        $param = PDO::PARAM_INT;                
-                    else if(is_bool($value))
-                        $param = PDO::PARAM_BOOL;                
-                    else if(is_null($value))
-                        $param = PDO::PARAM_NULL;                
-                    else if(is_string($value))
-                        $param = PDO::PARAM_STR;                
-                    else 
+                        $param = PDO::PARAM_INT;
+                    else if (is_bool($value))
+                        $param = PDO::PARAM_BOOL;
+                    else if (is_null($value))
+                        $param = PDO::PARAM_NULL;
+                    else if (is_string($value))
+                        $param = PDO::PARAM_STR;
+                    else
                         $param = false;
 
-                    if($param) {                        
+                    if ($param) {
                         $preparedStatment->bindValue($key, $value, $param);
                     }
-                     
-                    break;                     
+
+                    break;
 
                 case "like":
 
-                    $value = "%".$value."%";                
+                    $value = "%" . $value . "%";
                     $preparedStatment->bindValue($key, $value, PDO::PARAM_STR);
 
-                    break;      
+                    break;
                 default:
                     throw $e = new Exception("Parâmetro whereType inválido. Use '=' ou 'like'");
                     $e->getTraceAsString();
             }
         }
     }
-    
+
     /**
      * Inicia a transação
      */
     public function beginTransaction() {
         $this->db->beginTransaction();
     }
-    
+
     /**
      * Commita a transação 
      */
     public function commit() {
         $this->db->commit();
     }
-    
+
     /**
      * Reverte as alterações 
      */
     public function rollBack() {
         $this->db->rollBack();
     }
-    
+
     /**
      * Verifica se está em alguma transação
      * @return boolean
@@ -146,5 +146,5 @@ class Conexao {
     public function inTransaction() {
         return $this->db->inTransaction();
     }
-    
+
 }

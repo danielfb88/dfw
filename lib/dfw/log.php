@@ -1,11 +1,10 @@
 <?php
+
 /**
  * Arquivo que registra no Banco de dados as açoes realizadas pelo usuário
  */
-
 // Mensagens do Log
 define("NOVO_USUARIO", "Novo Usuário criado");
-
 
 /**
  * Função que registra ação realizada no Banco
@@ -15,7 +14,7 @@ define("NOVO_USUARIO", "Novo Usuário criado");
  */
 function registraLog($id_usuario, $sql, $mensagem = null) {
     require_once 'lib/dfw/model/Log.class.php';
-    
+
     $log = new Log();
     $log->id_usuario = $id_usuario;
     $log->ip = $_SERVER['REMOTE_ADDR'];
