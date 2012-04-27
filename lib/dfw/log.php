@@ -1,6 +1,6 @@
 <?php
 /**
- * Arquivo que registra as açoes realizadas no Banco de dados 
+ * Arquivo que registra no Banco de dados as açoes realizadas pelo usuário
  */
 
 // Mensagens do Log

@@ -1,0 +1,30 @@
+calls
+Handler -> controller -> view
+
+
+
+usuario_handler
+$usuarioController = new UsuarioController();
+
+switch($_GET['action']) {
+	case 'add':
+		if($usuarioController->add($data)) {
+			// redirecione para onde quiser
+		}
+		break;
+	case 'edit':
+		$usuarioController->edit($data);
+		break;
+		
+}
+
+
+UsuarioController
+
+class UsuarioController {
+	private $daoUsuario = new DAOUsuario();
+	
+	public function add($data) {
+		$daoUsuario->setData($data);
+		$daoUsuario->insert();
+	}

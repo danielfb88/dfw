@@ -1,13 +1,14 @@
 <?php
-/**
- *  Responsável por operações de autenticação login e logout
- */
-
 session_start();
+
+/**
+ * Direcionamentos
+ */
+define("LOGIN_SCREEN", "http://localhost/dfw/page1.php");
+define("MAIN", "http://localhost/dfw/logado.php");
 
 require_once 'Helper.php';
 require_once 'security_functions.php';
-require_once 'location.php';
 
 $action = $_REQUEST['a'];
 
