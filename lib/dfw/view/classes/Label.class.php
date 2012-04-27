@@ -83,7 +83,7 @@ class Label extends Element {
         if(!empty($this->for))
             $element .= 'for=\''.$this->for.'\' ';        
         
-        $element .= parent::returnAttributesAsString();
+        $element .= $this->returnAttributesAsString();
         
         # Eventos Intrínsecos
         if(!empty($this->onblur))

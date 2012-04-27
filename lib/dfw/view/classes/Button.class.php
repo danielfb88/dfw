@@ -149,7 +149,7 @@ final class Button extends Element {
         if(!empty($this->value))
             $element .= 'value=\''.$this->value.'\' ';
                 
-        $element .= parent::returnAttributesAsString();
+        $element .= $this->returnAttributesAsString();
         
         # Eventos Intrínsecos
         if(!empty($this->onblur))

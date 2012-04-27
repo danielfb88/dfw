@@ -177,7 +177,7 @@ class HiperLink extends Element {
             $element .= 'target=\''.$this->target.'\' ';
         }
         
-        $element .= parent::returnAttributesAsString();
+        $element .= $this->returnAttributesAsString();
         
         # Eventos Intrínsecos
         if(!empty($this->onblur))

@@ -10,13 +10,12 @@
  * 
  */
 
-require_once 'Element.class.php';
+require_once 'Container.class.php';
 
-class FieldSet extends Element {
+class FieldSet extends Container {
     protected $dir;
     protected $lang;
     protected $legend;
-    protected $fields;
     
     public function __construct($id, $legend = null) {
         $this->id = $id;
@@ -63,9 +62,7 @@ class FieldSet extends Element {
     
     /**
      * Adiciona field ao FieldSet
-     * @param array $content - 
-     *      $field[0]: Label
-     *      $field[1]: Elemento
+     * @param array|object $field 
      */
     public function addField($field) {
         $this->fields[] = $field;
@@ -84,57 +81,17 @@ class FieldSet extends Element {
         if(!empty($this->lang))
             $element .= 'lang=\''.$this->lang.'\' ';
         
-        $element .= parent::returnAttributesAsString();
+        $element .= $this->returnAttributesAsString();
         
         $element .= '>';        
         if(!empty($this->legend))
             $element .= '<legend>'.$this->legend.'</legend>';
         
-        $element .= $this->mountTableWithFields();
+        $element .= $this->mountTable($this->fields, "table_fieldset");
         
         $element .= '</fieldset>';
         
         return $element;
-    }
-    
-    /**
-     * Monta tabela com os fields
-     */
-    protected function mountTableWithFields() {
-        $qtdMaximaCols = 1; // Quantidade máxima de colunas
-        
-        $table = "<table class='table_fieldset'>";
-        
-        for($i=0; $i<count($this->fields); $i++) {
-            $table .= "<tr>";
-            
-            if(is_array($this->fields[$i])) {
-                
-                // pegando a quantidade máxima de colunas
-                if(count($this->fields[$i]) > $qtdMaximaCols)
-                    $qtdMaximaCols = count($this->fields[$i]);
-                
-                for($j=0; $j<count($this->fields[$i]); $j++) {
-                    $table .= "<td>";
-                        $obj = $this->fields[$i][$j];
-                        $table .= $obj->returnAsString();
-                    $table .= "</td>";
-                }
-                
-            } else {
-                // não é um array, portanto tem apenas 1 coluna
-                $table .= "<td colspan='".$qtdMaximaCols."'>";
-                    $obj = $this->fields[$i];
-                    $table .= $obj->returnAsString();
-                $table .= "</td>";
-            }
-            
-            $table .= "</tr>";
-        }
-        
-        $table .= "</table>";
-        
-        return $table;
     }
 
     /**

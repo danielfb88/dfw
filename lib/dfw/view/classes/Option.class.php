@@ -79,7 +79,7 @@ class Option extends Element {
         if(!empty($this->value))
             $element .= 'value=\''.$this->value.'\' ';
         
-        $element .= parent::returnAttributesAsString();
+        $element .= $this->returnAttributesAsString();
         
         $element .= '>';        
         $element .= $this->text;     

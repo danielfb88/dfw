@@ -142,7 +142,7 @@ class Select extends Element {
         if(!empty($this->tabindex))
             $element .= 'tabindex=\''.$this->tabindex.'\' ';
         
-        $element .= parent::returnAttributesAsString();
+        $element .= $this->returnAttributesAsString();
         
         # Eventos Intrínsecos
         if(!empty($this->onblur))

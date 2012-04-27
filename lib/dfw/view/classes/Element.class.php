@@ -55,7 +55,7 @@ abstract class Element extends Event {
         $this->style = $style;
     }
     
-    public function returnAttributesAsString() {
+    protected function returnAttributesAsString() {
         
         $element = '';
         if(!empty($this->id))

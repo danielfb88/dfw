@@ -5,6 +5,7 @@ require_once dirname(__FILE__).'/lib/dfw/view/classes/Label.class.php';
 require_once dirname(__FILE__).'/lib/dfw/view/classes/Button.class.php';
 require_once dirname(__FILE__).'/lib/dfw/view/classes/HiperLink.class.php';
 require_once dirname(__FILE__).'/lib/dfw/view/classes/FieldSet.class.php';
+require_once dirname(__FILE__).'/lib/dfw/view/classes/Form.class.php';
 
 $arrOptions = array(
     new Option("1", "um"), 
@@ -49,5 +50,8 @@ $fieldSet->setFields($fieldsInput);
 $fieldSet->addField($button);
 $fieldSet->show();
 
+
+$form = new Form('frm1', array($fieldSet), 'http://www.google.com', 'get', true, 'Enviar', true, true);
+$form->show();
 
 ?>
