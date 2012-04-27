@@ -24,7 +24,8 @@ class Option extends Element {
      * @param string $text
      * @param boolean $selected
      */
-    public function __construct($value, $text, $selected = false) {
+    public function __construct($value, $text, $selected = false, $id = null) {
+        $this->id = $id;
         $this->value = $value;
         $this->text = $text;
         $this->selected = $selected;      

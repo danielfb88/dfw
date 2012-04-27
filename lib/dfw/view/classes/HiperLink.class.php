@@ -1,19 +1,18 @@
 <?php
 /**
- * DFW Framework PHP - Classe Singleton HiperLink
+ * DFW Framework PHP - Classe HiperLink
  * 
  * Elemento HiperLink XHTML
  * Data de Criação: 16 de Abril de 2012
  * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
  * @version     1.0
- * @final
  * 
  */
 
 require_once 'Element.class.php';
 
-final class HiperLink extends Element {
+class HiperLink extends Element {
     protected $accesskey;
     protected $charset;
     protected $href;
@@ -27,103 +26,81 @@ final class HiperLink extends Element {
     # Eventos Intrínsecos
     protected $onblur;
     protected $onfocus;
-    /**
-     * Instância do Singleton
-     * @var HiperLink
-     */
-    private static $instance;
-    
-    private function __construct() { }
     
     /**
-     * Retorna instância única do singleton
-     * @return HiperLink
+     *
+     * @param string $id
+     * @param string $text
+     * @param string $href 
      */
-    public static function getInstance() {
-        if(empty(self::$instance))
-            self::$instance = new HiperLink();
-        
-        return self::$instance;
+    public function __construct($id, $text, $href) {
+        $this->id = $id;
+        $this->text = $text;
+        $this->href = $href;
     }
     
     /**
      * Caractere correspondente à tecla de atalho para acesso ao elemento
      * @param type $accesskey
-     * @return \HHiperLink
      */
     public function setAccesskey($accesskey) {
         $this->accesskey = $accesskey;
-        return $this;
     }
     
     /**
      * Codificação de caracteres utilizada no documento hiperlinkado
      * @param type $charset
-     * @return \HHiperLink
      */
     public function setCharset($charset) {
         $this->charset = $charset;
-        return $this;
     }
 
     /**
      * Localização de destino do hiperlink
      * @param type $href
-     * @return \HHiperLink
      */
     public function setHref($href) {
         $this->href = $href;
-        return $this;
     }
 
     /**
      * Idioma do documento hiperlinkado
      * @param type $hreflang
-     * @return \HHiperLink
      */
     public function setHreflang($hreflang) {
         $this->hreflang = $hreflang;
-        return $this;
     }
 
     /**
      * Tipos de relacionamento entre o documento corrente e o documento hiperlinkado
      * @param type $rel
-     * @return \HHiperLink
      */
     public function setRel($rel) {
         $this->rel = $rel;
-        return $this;
     }
 
     /**
      * Tipos de relacionamento entre o documento hiperlinkado e o documento corrente (link reverso)
      * @param type $rev
-     * @return \HHiperLink
      */
     public function setRev($rev) {
         $this->rev = $rev;
-        return $this;
     }
 
     /**
      * Ordem de navegação na página quando se utiliza a tecla TAB
      * @param type $tabindex
-     * @return \HHiperLink
      */
     public function setTabindex($tabindex) {
         $this->tabindex = $tabindex;
-        return $this;
     }
     
     /**
      * Tipo do conteúdo que será acessado no documento hiperlinkado
      * @param type $type
-     * @return \HHiperLink
      */
     public function setType($type) {
         $this->type = $type;
-        return $this;
     }
     
     /**
@@ -136,41 +113,33 @@ final class HiperLink extends Element {
      *      framename: Opens the linked document in a named frame.
      * 
      * @param type $target
-     * @return \HiperLink 
      */
     public function setTarget($target) {
         $this->target = $target;
-        return $this;
     }
     
     /**
      * Texto do Elemento
      * @param type $text
-     * @return \HHiperLink
      */
     public function setText($text) {
         $this->text = $text;
-        return $this;
     }
 
     /**
      * Ocorre quando o elemento perde o foco por um clique do mouse ou mediante navegação por tabulação
      * @param type $onblur
-     * @return \HHiperLink
      */
     public function setOnblur($onblur) {
         $this->onblur = $onblur;
-        return $this;
     }
 
     /**
      * Ocorre quando o elemento entra em foco por um clique do mouse ou mediante navegação por tabulação
      * @param type $onfocus
-     * @return \HHiperLink
      */
     public function setOnfocus($onfocus) {
         $this->onfocus = $onfocus;
-        return $this;
     }
     
     /**
@@ -208,7 +177,7 @@ final class HiperLink extends Element {
             $element .= 'target=\''.$this->target.'\' ';
         }
         
-        $element .= parent::show();
+        $element .= parent::returnAttributesAsString();
         
         # Eventos Intrínsecos
         if(!empty($this->onblur))
@@ -226,13 +195,9 @@ final class HiperLink extends Element {
 
     /**
      * Exibe o elemento html na tela.
-     * As variáveis do Singleton são sempre limpas ao final deste método. 
      */
     public function show() {
-        $element = $this->mountElement();                
-        // Limpando as configurações para uma nova chamada.
-        $this->clear();        
-        // exibindo o resultado
+        $element = $this->mountElement();     
         echo $element;        
     }
     
@@ -242,27 +207,6 @@ final class HiperLink extends Element {
      */
     public function returnAsString() {
         $element = $this->mountElement(); 
-        // Limpando as configurações para uma nova chamada.
-        $this->clear();        
-        // retornando o resultado
         return $element;
     }
-    
-    protected function clear() {
-        $this->accesskey = null;
-        $this->charset = null;
-        $this->href = null;
-        $this->hreflang = null;        
-        $this->rel = null;
-        $this->rev = null;
-        $this->tabindex = null;
-        $this->target = null;
-        $this->text = null;
-        $this->type = null;
-        $this->onblur = null;
-        $this->onfocus = null;
-        parent::clear();
-    }
-
 }
-?>

@@ -31,8 +31,9 @@ class Select extends Element {
      * @param array $arrOptions
      * @param boolean $multiple 
      */
-    public function __construct($name, $arrOptions = array(), $multiple = false) {
-        $this->name = $name;
+    public function __construct($nameId, $arrOptions = array(), $multiple = false) {
+        $this->name = $nameId;
+        $this->id = $nameId;
         $this->arrOptions = $arrOptions;
         $this->multiple = $multiple;
     }

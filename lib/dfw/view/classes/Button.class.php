@@ -1,13 +1,12 @@
 <?php
 /**
- * DFW Framework PHP - Classe Singleton Button
+ * DFW Framework PHP - Classe Button
  * 
  * Elemento Button XHTML
  * Data de Criação: 16 de Abril de 2012
  * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
  * @version     1.0
- * @final
  * 
  */
 
@@ -24,114 +23,105 @@ final class Button extends Element {
     # Eventos Intrínsecos
     protected $onblur;
     protected $onfocus;
-    /**
-     * Instância do Singleton
-     * @var Button
-     */
-    private static $instance;
-    
-    private function __construct() { }
     
     /**
-     * Retorna instância única do singleton
-     * @return Button
+     *
+     * @param string $nameId
+     * @param string $text
+     * @param string $type
+     * @param string $value 
      */
-    public static function getInstance() {
-        if(empty(self::$instance))
-            self::$instance = new Button();
-        
-        return self::$instance;
+    public function __construct($nameId, $text, $type = 'button', $value = null) {
+        $this->name = $nameId;
+        $this->id = $nameId;
+        $this->text = $text;
+        $this->type = $type;
+        $this->value = $value;
     }
     
     /**
      * Caractere correspondente à tecla de atalho para acesso ao elemento
      * @param type $accesskey
-     * @return \Button 
      */
     public function setAccesskey($accesskey) {
         $this->accesskey = $accesskey;
-        return $this;
     }
 
     /**
      * Desabilita o controle de modo que o usuário não poderá interagir com ele
-     * @param type $disabled
-     * @return \Button 
+     * @param boolean $disabled
      */
     public function setDisabled($disabled) {
         $this->disabled = $disabled;
-        return $this;
     }
 
     /**
      * Nome do controle que o identifica ao enviar o formulário
      * @param type $name
-     * @return \Button 
      */
     public function setName($name) {
         $this->name = $name;
-        return $this;
     }
 
     /**
      * Ordem de navegação na página quando se utiliza a tecla TAB
      * @param type $tabindex
-     * @return \Button 
      */
     public function setTabindex($tabindex) {
         $this->tabindex = $tabindex;
-        return $this;
     }
 
     /**
      * Tipo do botão 
-     * (button:genérico; submit: para envio do formulário, submetendo os dados; ou reset: para restaurar o conteúdo original do formulário)
+     * button:genérico; 
+     * submit: para envio do formulário, submetendo os dados; 
+     * reset: para restaurar o conteúdo original do formulário
      * @param type $type
-     * @return \Button 
      */
     public function setType($type) {
-        $this->type = $type;
-        return $this;
+        switch($type) {
+            case 'button':
+            case 'submit':
+            case 'reset':
+                $this->type = $type;
+                break;
+            default:
+                throw $e = new Exception('Tipo do Button inválido');
+                $e->getTraceAsString();
+        }
+        
     }
     
     /**
      * Valor previamente definido
      * @param type $type
-     * @return \Button 
      */
     public function setValue($value) {
         $this->value = $value;
-        return $this;
     }
     
     /**
      * Texto do Elemento
      * @param type $text
-     * @return \Button 
      */
     public function setText($text) {
         $this->text = $text;
-        return $this;
     }
 
     /**
      * Ocorre quando o elemento perde o foco por um clique do mouse ou mediante navegação por tabulação
      * @param type $onblur
-     * @return \Button 
      */
     public function setOnblur($onblur) {
         $this->onblur = $onblur;
-        return $this;
     }
 
     /**
      * Ocorre quando o elemento entra em foco por um clique do mouse ou mediante navegação por tabulação
      * @param type $onfocus
-     * @return \Button 
      */
     public function setOnfocus($onfocus) {
         $this->onfocus = $onfocus;
-        return $this;
     }
     
     /**
@@ -144,8 +134,8 @@ final class Button extends Element {
         if(!empty($this->accesskey))
             $element .= 'accesskey=\''.$this->accesskey.'\' ';
         
-        if(!empty($this->disabled))
-            $element .= 'disabled=\''.$this->disabled.'\' ';
+        if($this->disabled)
+            $element .= 'disabled=\'disabled\' ';
         
         if(!empty($this->name))
             $element .= 'name=\''.$this->name.'\' ';
@@ -159,7 +149,7 @@ final class Button extends Element {
         if(!empty($this->value))
             $element .= 'value=\''.$this->value.'\' ';
                 
-        $element .= parent::show();
+        $element .= parent::returnAttributesAsString();
         
         # Eventos Intrínsecos
         if(!empty($this->onblur))
@@ -177,13 +167,9 @@ final class Button extends Element {
 
     /**
      * Exibe o elemento html na tela.
-     * As variáveis do Singleton são sempre limpas ao final deste método. 
      */
     public function show() {
-        $element = $this->mountElement();                
-        // Limpando as configurações para uma nova chamada.
-        $this->clear();        
-        // exibindo o resultado
+        $element = $this->mountElement();
         echo $element;        
     }
     
@@ -192,25 +178,7 @@ final class Button extends Element {
      * @return string 
      */
     public function returnAsString() {
-        $element = $this->mountElement(); 
-        // Limpando as configurações para uma nova chamada.
-        $this->clear();        
-        // retornando o resultado
+        $element = $this->mountElement();
         return $element;
     }
-    
-    protected function clear() {
-        $this->accesskey = null;
-        $this->disabled = null;
-        $this->name = null;        
-        $this->tabindex = null;
-        $this->type = null;
-        $this->value = null;
-        $this->text = null;
-        $this->onblur = null;
-        $this->onfocus = null;
-        parent::clear();
-    }
-
 }
-?>

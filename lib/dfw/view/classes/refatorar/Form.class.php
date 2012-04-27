@@ -27,6 +27,10 @@ class Form extends Element {
     private static $onreset;
     private static $onsubmit;
         
+    public function setFields(array $fields) {
+        // $field = array($field);
+    }
+    
     /**
      * Tipos de conteúdo (MIME) que o servidor deve aceitar
      * @param type $accept
