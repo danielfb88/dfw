@@ -1,8 +1,6 @@
 <?php
 
 /**
- * DFW Framework PHP - Classe Conexao
- * 
  * Classe de Conexao com o Banco de Dados utilizando PDO
  * Data de Criação: 31 de Março de 2012
  * 

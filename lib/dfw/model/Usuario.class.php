@@ -1,8 +1,6 @@
 <?php
 
 /**
- * DFW Framework PHP
- * 
  * Classe Usuário padrão
  * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>

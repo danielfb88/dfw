@@ -1,8 +1,6 @@
 <?php
 
 /**
- * DFW Framework PHP - Classe abstrata Element
- * 
  * Possui atributos HTML comum para todos os elementos.
  * Data de Criação: 14 de Abril de 2012
  * 
@@ -12,8 +10,9 @@
  * 
  */
 require_once 'Event.class.php';
+require_once 'HtmlElement.inter.php';
 
-abstract class Element extends Event {
+abstract class Element extends Event implements HtmlElement {
 
     protected $id;
     protected $class;

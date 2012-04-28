@@ -1,8 +1,6 @@
 <?php
 
 /**
- * DFW Framework PHP - Classe DAO
- * 
  * Classe que abstrai as operaçoes mais básicas entre a aplicação e o banco de dados.
  * Data de Criação: 31 de Março de 2012
  * 

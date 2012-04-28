@@ -1,8 +1,6 @@
 <?php
 
 /**
- * DFW Framework PHP
- * 
  * Elemento Img XHTML
  * Data de Criação: 14 de Abril de 2012
  * 
@@ -100,8 +98,7 @@ class Img extends Element {
      * Exibe o elemento html na tela.
      */
     public function show() {
-        $element = $this->mountElement();
-        echo $element;
+        echo $this->mountElement();
     }
 
     /**
@@ -109,8 +106,7 @@ class Img extends Element {
      * @return string 
      */
     public function returnAsString() {
-        $element = $this->mountElement();
-        return $element;
+        return $this->mountElement();
     }
 
 }

@@ -1,8 +1,6 @@
 <?php
 
 /**
- * DFW Framework PHP
- * 
  * Elemento Select XHTML
  * Data de Criação: 15 de Abril de 2012
  * 

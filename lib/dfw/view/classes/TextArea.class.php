@@ -1,8 +1,6 @@
 <?php
 
 /**
- * DFW Framework PHP
- * 
  * Elemento TextArea XHTML
  * Data de Criação: 14 de Abril de 2012
  * 

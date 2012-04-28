@@ -1,8 +1,6 @@
 <?php
 
 /**
- * DFW Framework PHP - Classe Option
- * 
  * Elemento Option usado pelo controle Select.  
  * Data de Criação: 15 de Abril de 2012
  * 
@@ -12,7 +10,7 @@
  */
 require_once 'Element.class.php';
 
-class Option extends Element {
+class Option {
 
     protected $disabled;
     protected $selected;
@@ -79,8 +77,6 @@ class Option extends Element {
 
         if (!empty($this->value))
             $element .= 'value=\'' . $this->value . '\' ';
-
-        $element .= $this->returnAttributesAsString();
 
         $element .= '>';
         $element .= $this->text;

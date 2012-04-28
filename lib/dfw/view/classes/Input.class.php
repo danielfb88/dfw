@@ -1,8 +1,6 @@
 <?php
 
 /**
- * DFW Framework PHP
- * 
  * Elemento Input XHTML
  * Data de Criação: 14 de Abril de 2012
  * 
@@ -40,7 +38,7 @@ class Input extends Element {
      * @param string $type
      * @param int $maxlength 
      */
-    public function __construct($nameId, $value, $type = 'text', $maxlength = null) {
+    public function __construct($nameId, $value = null, $type = 'text', $maxlength = null) {
         $this->name = $nameId;
         $this->id = $nameId;
         $this->value = $value;

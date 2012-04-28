@@ -1,8 +1,6 @@
 <?php
 
 /**
- * DFW Framework PHP
- * 
  * Registra açoes realizadas
  * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>

@@ -1,8 +1,6 @@
 <?php
 
 /**
- * DFW Framework PHP - Classe Button
- * 
  * Elemento Button XHTML
  * Data de Criação: 16 de Abril de 2012
  * 

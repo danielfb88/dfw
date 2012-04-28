@@ -1,8 +1,6 @@
 <?php
 
 /**
- * DFW Framework PHP - Classe abstrata Event
- * 
  * Possui eventos comum para todos os elementos.
  * Data de Criação: 14 de Abril de 2012
  * 

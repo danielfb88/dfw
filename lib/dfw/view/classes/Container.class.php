@@ -1,8 +1,6 @@
 <?php
 
 /**
- * DFW Framework PHP
- * 
  * SuperClasse para elementos conteiner do tipo Form e FieldSet
  * Data de Criação: 27 de Abril de 2012
  * 
@@ -36,7 +34,7 @@ abstract class Container extends Element {
 
                 for ($j = 0; $j < count($this->fields[$i]); $j++) {
                     $table .= "<td>";
-                    if ($this->fields[$i][$j] instanceof Element) {
+                    if ($this->fields[$i][$j] instanceof HtmlElement) {
                         $obj = $this->fields[$i][$j];
                         $table .= $obj->returnAsString();
                     } else {
@@ -48,7 +46,7 @@ abstract class Container extends Element {
             } else {
                 // não é um array, portanto tem apenas 1 coluna
                 $table .= "<td colspan='" . $qtdMaximaCols . "'>";
-                if ($this->fields[$i] instanceof Element) {
+                if ($this->fields[$i] instanceof HtmlElement) {
                     $obj = $this->fields[$i];
                     $table .= $obj->returnAsString();
                 } else {
