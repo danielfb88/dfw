@@ -6,6 +6,8 @@ require_once dirname(__FILE__).'/lib/dfw/view/classes/Button.class.php';
 require_once dirname(__FILE__).'/lib/dfw/view/classes/HiperLink.class.php';
 require_once dirname(__FILE__).'/lib/dfw/view/classes/FieldSet.class.php';
 require_once dirname(__FILE__).'/lib/dfw/view/classes/Form.class.php';
+require_once dirname(__FILE__).'/lib/dfw/view/classes/Img.class.php';
+require_once dirname(__FILE__).'/lib/dfw/view/classes/TextArea.class.php';
 
 $arrOptions = array(
     new Option("1", "um"), 
@@ -53,5 +55,13 @@ $fieldSet->show();
 
 $form = new Form('frm1', array($fieldSet), 'http://www.google.com', 'get', true, 'Enviar', true, true);
 $form->show();
+
+$img = new Img('img1', 'http://www.w3schools.com/tags/smiley.gif', 'Gif externo');
+$img->show();
+
+$textArea = new TextArea('txarea1', "Carolina lalalla, lalalallal lalalalalla lalaaaaaa", false);
+$textArea->setCols(50);
+$textArea->setRows(3);
+$textArea->show();
 
 ?>

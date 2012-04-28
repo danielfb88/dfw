@@ -1,7 +1,7 @@
 <?php
 
 /**
- * DFW Framework PHP - Classe Input
+ * DFW Framework PHP
  * 
  * Elemento Input XHTML
  * Data de Criação: 14 de Abril de 2012

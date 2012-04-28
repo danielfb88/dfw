@@ -1,7 +1,7 @@
 <?php
 
 /**
- * DFW Framework PHP - Classe Select
+ * DFW Framework PHP
  * 
  * Elemento Select XHTML
  * Data de Criação: 15 de Abril de 2012
@@ -41,11 +41,10 @@ class Select extends Element {
 
     /**
      * Adiciona objeto Option
-     * @param Option $strOption
+     * @param Option $option
      */
     public function addOption($option) {
-        if ($option != null && is_object($option))
-            $this->arrOptions[] = $strOption;
+        $this->arrOptions[] = $option;
     }
 
     /**
@@ -159,8 +158,13 @@ class Select extends Element {
 
         // Inserindo options
         for ($i = 0; $i < count($this->arrOptions); $i++) {
-            $option = $this->arrOptions[$i];
-            $element .= $option->returnAsString();
+            if ($this->arrOptions[$i] instanceof Option) {
+                $option = $this->arrOptions[$i];
+                $element .= $option->returnAsString();
+            } else {
+                throw $e = new Exception("A opção inserida não é um objeto Option.");
+                $e->getTraceAsString();
+            }
         }
 
         $element .= '</select>';

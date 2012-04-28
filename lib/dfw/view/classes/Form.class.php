@@ -1,7 +1,7 @@
 <?php
 
 /**
- * DFW Framework PHP - Classe Form
+ * DFW Framework PHP
  * 
  * Elemento Form XHTML
  * Data de Criação: 16 de Abril de 2012
@@ -78,9 +78,7 @@ class Form extends Container {
      * @param array|object $field 
      */
     public function addField($field) {
-        if (is_object($field)) {
-            $this->fields[] = $field;
-        }
+        $this->fields[] = $field;
     }
 
     /**
@@ -115,7 +113,7 @@ class Form extends Container {
         switch ($method) {
             case "post":
             case "get":
-                self::$method = $method;
+                $this->method = $method;
                 break;
 
             default:
