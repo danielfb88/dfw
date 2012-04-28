@@ -13,5 +13,3 @@ interface HtmlElement {
 
     public function returnAsString();
 }
-
-?>

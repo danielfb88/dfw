@@ -24,8 +24,10 @@ class TextField extends CompositeElement {
      * @param string $value
      * @param int $maxlength 
      */
-    public function __construct($nameId, $text, $value = null, $maxlength = null) {
-        $this->label = new Label("lb_" . $nameId, $text, $nameId);
+    public function __construct($nameId, $text = null, $value = null, $maxlength = null) {
+        if (!empty($text))
+            $this->label = new Label("lb_" . $nameId, $text, $nameId);
+
         $this->input = new Input($nameId, $value, 'text', $maxlength);
     }
 
@@ -40,18 +42,21 @@ class TextField extends CompositeElement {
 
         $this->executeMethod($this->input, $method, $value);
     }
-    
+
     private function mountElement() {
-        $element = $this->label->returnAsString();
+        $element = '';
+        if ($this->label != null)
+            $element .= $this->label->returnAsString();
+
         $element .= $this->input->returnAsString();
-        
+
         return $element;
     }
-    
+
     public function returnAsString() {
         return $this->mountElement();
     }
-    
+
     public function show() {
         echo $this->mountElement();
     }

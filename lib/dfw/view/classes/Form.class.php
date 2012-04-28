@@ -223,8 +223,7 @@ class Form extends Container {
      * Exibe o elemento html na tela.
      */
     public function show() {
-        $element = $this->mountElement();
-        echo $element;
+        echo $this->mountElement();
     }
 
     /**
@@ -232,8 +231,7 @@ class Form extends Container {
      * @return string 
      */
     public function returnAsString() {
-        $element = $this->mountElement();
-        return $element;
+        return $this->mountElement();
     }
 
 }

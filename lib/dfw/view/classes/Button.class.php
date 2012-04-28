@@ -167,8 +167,7 @@ final class Button extends Element {
      * Exibe o elemento html na tela.
      */
     public function show() {
-        $element = $this->mountElement();
-        echo $element;
+        echo $this->mountElement();
     }
 
     /**
@@ -176,8 +175,7 @@ final class Button extends Element {
      * @return string 
      */
     public function returnAsString() {
-        $element = $this->mountElement();
-        return $element;
+        return $this->mountElement();
     }
 
 }
