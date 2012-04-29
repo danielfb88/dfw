@@ -86,7 +86,8 @@ class FieldSet extends Container {
         if (!empty($this->legend))
             $element .= '<legend>' . $this->legend . '</legend>';
 
-        $element .= $this->mountTable($this->fields, "table_fieldset");
+        // erro aqui
+        $element .= $this->mountFieldTable("table_fieldset");
 
         $element .= '</fieldset>';
 

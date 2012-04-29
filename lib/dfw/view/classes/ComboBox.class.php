@@ -15,8 +15,12 @@ require_once 'Option.class.php';
 
 class ComboBox extends CompositeElement {
 
-    private $label;
-    private $select;
+    /**
+     * Posiçoes do array element criadas no construtor:
+     *      'label' => Label
+     *      'select' => Select
+     * @var array 
+     */
     private $element = array();
 
     /**
@@ -29,8 +33,7 @@ class ComboBox extends CompositeElement {
      */
     public function __construct($nameId, array $arrValues, $defaultValue = null, $dummy = null, $text = null) {
         if (!empty($text)) {
-            $this->label = new Label("lb_" . $nameId, $text, $nameId);
-            $this->element[] = &$this->label;
+            $this->element['label'] = new Label("lb_" . $nameId, $text, $nameId);
         }
 
         $arrOptions = array();
@@ -43,8 +46,7 @@ class ComboBox extends CompositeElement {
             $arrOptions[] = new Option($value, $optionText, $selected);
         }
 
-        $this->select = new Select($nameId, $arrOptions, false);
-        $this->element[] = &$this->select;
+        $this->element['select'] = new Select($nameId, $arrOptions, false);
     }
 
     public function getElements() {
@@ -58,15 +60,15 @@ class ComboBox extends CompositeElement {
      */
     public function addAttribute($attribute, $value) {
         $method = $this->parseAttributeToSetMethod($attribute);
-        $this->executeMethod($this->select, $method, $value);
+        $this->executeMethod($this->element['select'], $method, $value);
     }
 
     private function mountElement() {
         $element = '';
-        if ($this->label != null)
-            $element .= $this->label->returnAsString();
+        if ($this->element['label'] != null)
+            $element .= $this->element['label']->returnAsString();
 
-        $element .= $this->select->returnAsString();
+        $element .= $this->element['select']->returnAsString();
 
         return $element;
     }

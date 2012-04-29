@@ -14,8 +14,12 @@ require_once 'Input.class.php';
 
 class TextField extends CompositeElement {
 
-    private $label;
-    private $input;
+    /**
+     * Posiçoes do array element criadas no construtor:
+     *      'label' => Label
+     *      'input' => Input
+     * @var array 
+     */
     private $element = array();
 
     /**
@@ -27,12 +31,10 @@ class TextField extends CompositeElement {
      */
     public function __construct($nameId, $text = null, $value = null, $maxlength = null) {
         if (!empty($text)) {
-            $this->label = new Label("lb_" . $nameId, $text, $nameId);
-            $this->element[] = &$this->label;
+            $this->element['label'] = new Label("lb_" . $nameId, $text, $nameId);
         }
 
-        $this->input = new Input($nameId, $value, 'text', $maxlength);
-        $this->element[] = &$this->input;
+        $this->element['input'] = new Input($nameId, $value, 'text', $maxlength);
     }
     
     public function getElements() {
@@ -46,15 +48,15 @@ class TextField extends CompositeElement {
      */
     public function addAttribute($attribute, $value) {
         $method = $this->parseAttributeToSetMethod($attribute);
-        $this->executeMethod($this->input, $method, $value);
+        $this->executeMethod($this->element['input'], $method, $value);
     }
 
     private function mountElement() {
         $element = '';
-        if ($this->label != null)
-            $element .= $this->label->returnAsString();
+        if ($this->element['label'] != null)
+            $element .= $this->element['label']->returnAsString();
 
-        $element .= $this->input->returnAsString();
+        $element .= $this->element['input']->returnAsString();
 
         return $element;
     }

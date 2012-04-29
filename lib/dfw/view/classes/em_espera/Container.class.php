@@ -13,16 +13,21 @@ require_once 'CompositeElement_Interface.php';
 abstract class Container extends Element {
 
     protected $fields;
+    protected $align;
 
     /**
-     * Monta tabela com os fields
+     * Monta tabela com quelquer coisa que seja inserida dentro dele
      * @param string $class - Classe do elemento html
      * @return string 
      */
-    protected function mountTable($class) {
+    protected function mountFieldTable() {
         $qtdMaximaCols = 1; // Quantidade máxima de colunas
-
-        $table = "<table class='" . $class . "'>";
+        //$table = "<table class='" . $this->id."_".$class . "'>";
+        $table = "<table class='" . $this->id . "_table_fields'";
+        if (!empty($this->align)) 
+            $table .= " align='" . $this->align . "' ";
+        
+        $table .= ">";
 
         for ($i = 0; $i < count($this->fields); $i++) {
             $table .= "<tr>";
@@ -53,11 +58,17 @@ abstract class Container extends Element {
 
                     // colocando cada elemento dentro de uma coluna na tabela
                     foreach ($arrObjInside as $objInside) {
-                        $table .= "<td align='right'>";
-                        $table .= $objInside->returnAsString();
-                        $table .= "</td>";
+                        if ($objInside instanceof Label) {
+                            $table .= "<td align='right'>";
+                            $table .= $objInside->returnAsString();
+                            $table .= "</td>";
+                        } else {
+                            $table .= "<td align='left'>";
+                            $table .= $objInside->returnAsString();
+                            $table .= "</td>";
+                        }
                     }
-                ## Elementos Comuns ##
+                    ## Elementos Comuns ##
                 } elseif ($this->fields[$i] instanceof HtmlElement_Interface) {
                     // não é um array, portanto tem apenas 1 coluna
                     $table .= "<td colspan='" . $qtdMaximaCols . "'>";

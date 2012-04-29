@@ -38,11 +38,12 @@ class Form extends Container {
      * @param boolean $useResetButton
      * @param boolean $useBackButton 
      */
-    public function __construct($id, $fields, $action, $method = 'post', $useDefaultSubmitButton = true, $textDefaultSubmitButton = 'Ok', $useResetButton = true, $useBackButton = true) {
+    public function __construct($id, $fields, $action, $method = 'post', $align = 'left', $useDefaultSubmitButton = true, $textDefaultSubmitButton = 'Ok', $useResetButton = true, $useBackButton = true) {
         $this->id = $id;
         $this->fields = $fields;
         $this->action = $action;
         $this->method = $method;
+        $this->align = $align;
 
         $this->useResetButton = $useResetButton;
         $this->useBackButton = $useBackButton;
@@ -150,7 +151,9 @@ class Form extends Container {
      * @return string 
      */
     private function mountElement() {
-        $element = '<form ';
+        $element = '';
+        
+        $element .= '<form ';
 
         // Atributos
         if (!empty($this->accept))
@@ -179,12 +182,22 @@ class Form extends Container {
 
         $element .= '>';
 
-        $element .= $this->mountTable("table_form");
+        $element .= $this->mountFieldTable();
+        $element .= $this->mountButtonTable();
+        
+        return $element;
+    }
 
-        // botão de submit
-        $element .= "<br/>";
-
-        $element .= "<table class='" . $this->id . "_table_btnSubmit'>";
+    /**
+     * Monta tabela com os botões do formulário 
+     */
+    private function mountButtonTable() {        
+        $element = "<table class='" . $this->id . "_table_buttons'";
+        if (!empty($this->align)) 
+            $element .= " align='right' ";
+        
+        $element .= ">";
+        
         $element .= "<tr>";
 
         // submit_button
