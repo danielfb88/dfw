@@ -16,6 +16,7 @@ class TextField extends CompositeElement {
 
     private $label;
     private $input;
+    private $element = array();
 
     /**
      *
@@ -25,10 +26,17 @@ class TextField extends CompositeElement {
      * @param int $maxlength 
      */
     public function __construct($nameId, $text = null, $value = null, $maxlength = null) {
-        if (!empty($text))
+        if (!empty($text)) {
             $this->label = new Label("lb_" . $nameId, $text, $nameId);
+            $this->element[] = $this->label;
+        }
 
         $this->input = new Input($nameId, $value, 'text', $maxlength);
+        $this->element[] = $this->input;
+    }
+    
+    public function getElements() {
+        return $this->element;
     }
 
     /**

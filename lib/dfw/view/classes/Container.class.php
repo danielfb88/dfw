@@ -8,6 +8,8 @@
  * @version     1.0
  * 
  */
+require_once 'CompositeElement_Interface.php';
+
 abstract class Container extends Element {
 
     protected $fields;
@@ -26,7 +28,6 @@ abstract class Container extends Element {
             $table .= "<tr>";
 
             if (is_array($this->fields[$i])) {
-
                 // comparando a quantidade máxima de colunas para inserir no colspan das linhas que 
                 // só possuírem uma coluna
                 if (count($this->fields[$i]) > $qtdMaximaCols)
@@ -34,7 +35,7 @@ abstract class Container extends Element {
 
                 for ($j = 0; $j < count($this->fields[$i]); $j++) {
                     $table .= "<td>";
-                    if ($this->fields[$i][$j] instanceof HtmlElement) {
+                    if ($this->fields[$i][$j] instanceof HtmlElement_Interface) {
                         $obj = $this->fields[$i][$j];
                         $table .= $obj->returnAsString();
                     } else {
@@ -44,22 +45,32 @@ abstract class Container extends Element {
                     $table .= "</td>";
                 }
             } else {
-                // não é um array, portanto tem apenas 1 coluna
-                $table .= "<td colspan='" . $qtdMaximaCols . "'>";
-                if ($this->fields[$i] instanceof HtmlElement) {
+                ## Elementos Compostos ##
+                if ($this->fields[$i] instanceof CompositeElement_Interface) {
+                    // é um Componente Composto, portanto DENTRO DELE pode possuir mais de 1 elemento encapsulado
+                    $obj = $this->fields[$i];
+                    $arrObjInside = $obj->getElements();
+
+                    // colocando cada elemento dentro de uma coluna na tabela
+                    foreach ($arrObjInside as $objInside) {
+                        $table .= "<td align='right'>";
+                        $table .= $objInside->returnAsString();
+                        $table .= "</td>";
+                    }
+                ## Elementos Comuns ##
+                } elseif ($this->fields[$i] instanceof HtmlElement_Interface) {
+                    // não é um array, portanto tem apenas 1 coluna
+                    $table .= "<td colspan='" . $qtdMaximaCols . "'>";
                     $obj = $this->fields[$i];
                     $table .= $obj->returnAsString();
+                    $table .= "</td>";
                 } else {
-                    throw $e = new Exception("Objeto inválido");
+                    throw $e = new Exception("Objeto não identificado");
                     $e->getTraceAsString();
                 }
-
-                $table .= "</td>";
             }
-
             $table .= "</tr>";
         }
-
         $table .= "</table>";
 
         return $table;

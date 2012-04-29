@@ -10,9 +10,9 @@
  * 
  */
 require_once 'Event.class.php';
-require_once 'HtmlElement.inter.php';
+require_once 'HtmlElement_Interface.php';
 
-abstract class Element extends Event implements HtmlElement {
+abstract class Element extends Event implements HtmlElement_Interface {
 
     protected $id;
     protected $class;

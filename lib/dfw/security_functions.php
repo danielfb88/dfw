@@ -11,9 +11,7 @@ require_once 'auth_location.php';
  */
 function loggedUser() {
     if (isset($_SESSION['USER'])) {
-        if ($_SESSION['USER']['logged'] == true) {
-            return true;
-        }
+        return true;
     }
     // falhou
     header("Location: " . LOGIN_SCREEN);

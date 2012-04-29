@@ -15,11 +15,17 @@ $action = $_REQUEST['a'];
 
 switch ($action) {
     case 'login':
-        $usuario = $_POST['usuario'];
-        $senha = $_POST['senha'];
 
-        if (login($usuario, $senha)) {
-            header("Location: " . MAIN);
+        if (isset($_POST['usuario']) && isset($_POST['senha'])) {
+
+            $usuario = $_POST['usuario'];
+            $senha = $_POST['senha'];
+
+            if (login($usuario, $senha)) {
+                header("Location: " . MAIN);
+            } else {
+                header("Location: " . LOGIN_SCREEN);
+            }
         } else {
             header("Location: " . LOGIN_SCREEN);
         }
@@ -56,10 +62,7 @@ function login($user, $password) {
      */
     if ($usuario->found) {
         $_SESSION['SESS_TOKEN'] = gerarToken(); // cria token
-        $_SESSION['USER'] = array(
-            "logged" => true,
-            "DAOUSUARIO" => serialize($usuario) // serializa o dao e coloca-o na sessao
-        );
+        $_SESSION['USER'] = serialize($usuario); // serializa o dao e coloca-o na sessao
         return true;
     } else {
         return false;

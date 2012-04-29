@@ -7,7 +7,7 @@
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
  * @version     1.0
  */
-interface HtmlElement {
+interface HtmlElement_Interface {
 
     public function show();
 
