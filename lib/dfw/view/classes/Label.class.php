@@ -59,6 +59,7 @@ class Label extends Element {
      * @param type $onblur
      */
     public function setOnblur($onblur) {
+        $onblur = $this->escapaAspasSimples($onblur);
         $this->onblur = $onblur;
     }
 
@@ -67,6 +68,7 @@ class Label extends Element {
      * @param type $onfocus
      */
     public function setOnfocus($onfocus) {
+        $onfocus = $this->escapaAspasSimples($onfocus);
         $this->onfocus = $onfocus;
     }
 

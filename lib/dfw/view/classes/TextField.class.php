@@ -20,7 +20,7 @@ class TextField extends CompositeElement {
 
     /**
      *
-     * @param string $nameId
+     * @param string $nameId - O nome do elemento principal. Caso haja um label, o seu nome será: lb_$nameId
      * @param string $text
      * @param string $value
      * @param int $maxlength 
@@ -28,11 +28,11 @@ class TextField extends CompositeElement {
     public function __construct($nameId, $text = null, $value = null, $maxlength = null) {
         if (!empty($text)) {
             $this->label = new Label("lb_" . $nameId, $text, $nameId);
-            $this->element[] = $this->label;
+            $this->element[] = &$this->label;
         }
 
         $this->input = new Input($nameId, $value, 'text', $maxlength);
-        $this->element[] = $this->input;
+        $this->element[] = &$this->input;
     }
     
     public function getElements() {
@@ -45,9 +45,7 @@ class TextField extends CompositeElement {
      * @param string $value 
      */
     public function addAttribute($attribute, $value) {
-        $attribute[0] = strtoupper($attribute[0]); // transformando a primeira letra em maiúscula
-        $method = "set" . $attribute;
-
+        $method = $this->parseAttributeToSetMethod($attribute);
         $this->executeMethod($this->input, $method, $value);
     }
 

@@ -173,6 +173,7 @@ class Input extends Element {
      * @param type $onblur
      */
     public function setOnblur($onblur) {
+        $onblur = $this->escapaAspasSimples($onblur);
         $this->onblur = $onblur;
     }
 
@@ -181,6 +182,7 @@ class Input extends Element {
      * @param type $onchange
      */
     public function setOnchange($onchange) {
+        $onchange = $this->escapaAspasSimples($onchange);
         $this->onchange = $onchange;
     }
 
@@ -189,6 +191,7 @@ class Input extends Element {
      * @param type $onfocus
      */
     public function setOnfocus($onfocus) {
+        $onfocus = $this->escapaAspasSimples($onfocus);
         $this->onfocus = $onfocus;
     }
 
@@ -197,6 +200,7 @@ class Input extends Element {
      * @param type $onselect
      */
     public function setOnselect($onselect) {
+        $onselect = $this->escapaAspasSimples($onselect);
         $this->onselect = $onselect;
     }
 

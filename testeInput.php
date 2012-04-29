@@ -102,6 +102,6 @@ $formkkk = new Form('formTeste', $fields, 'http://www.google.com.br', 'get');
             );
         $comboBox = new ComboBox('combo1', $arrValues, "2", '-- Selecione --', "Combo Box Fofo: ");
         // FIXME: corrigir problema em escapaAspasSimples. Se é inserido da seguinte forma: "alert('mudou')" dá erro
-        $comboBox->addAttribute("onchange", 'alert("mudou")');
+        $comboBox->addAttribute("onchange", 'alert("teste")');
         $comboBox->show();
 ?>

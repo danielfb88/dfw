@@ -21,7 +21,7 @@ class ComboBox extends CompositeElement {
 
     /**
      *
-     * @param string $nameId
+     * @param string $nameId - O nome do elemento principal. Caso haja um label, o seu nome será: lb_$nameId
      * @param array $arrValues - Array com os valores. Deverá estar neste formato ex: array("1" => "Option1");
      * @param string $defaultValue - Valor que será definido como checked. Inserir o valor da chave.
      * @param string $dummy - Manequim. A primeira opção.
@@ -30,23 +30,23 @@ class ComboBox extends CompositeElement {
     public function __construct($nameId, array $arrValues, $defaultValue = null, $dummy = null, $text = null) {
         if (!empty($text)) {
             $this->label = new Label("lb_" . $nameId, $text, $nameId);
-            $this->element[] = $this->label;
+            $this->element[] = &$this->label;
         }
-        
+
         $arrOptions = array();
-        
-        if($dummy != null)
+
+        if ($dummy != null)
             $arrOptions[] = new Option('', $dummy, false);
-        
-        foreach($arrValues as $value => $optionText) {
+
+        foreach ($arrValues as $value => $optionText) {
             $selected = ($value == $defaultValue);
-            $arrOptions[] = new Option($value, $optionText, $selected);            
+            $arrOptions[] = new Option($value, $optionText, $selected);
         }
 
         $this->select = new Select($nameId, $arrOptions, false);
-        $this->element[] = $this->select;
+        $this->element[] = &$this->select;
     }
-    
+
     public function getElements() {
         return $this->element;
     }
@@ -57,9 +57,7 @@ class ComboBox extends CompositeElement {
      * @param string $value 
      */
     public function addAttribute($attribute, $value) {
-        $attribute[0] = strtoupper($attribute[0]); // transformando a primeira letra em maiúscula
-        $method = "set" . $attribute;
-
+        $method = $this->parseAttributeToSetMethod($attribute);
         $this->executeMethod($this->select, $method, $value);
     }
 

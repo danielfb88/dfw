@@ -16,6 +16,16 @@ require_once 'CompositeElement_Interface.php';
 abstract class CompositeElement implements CompositeElement_Interface, HtmlElement_Interface {
 
     /**
+     * Método que transforma atributos em métodos set
+     * @param string $attribute
+     * @return string 
+     */
+    protected function parseAttributeToSetMethod($attribute) {
+        $attribute[0] = strtoupper($attribute[0]); // transformando a primeira letra em maiúscula
+        return "set" . $attribute;
+    }
+    
+    /**
      * Executa o método especificado com 1 parâmetro de entrada
      * @param object $obj
      * @param string $method

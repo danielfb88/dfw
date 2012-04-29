@@ -132,6 +132,7 @@ class Form extends Container {
      * @param type $onreset
      */
     public function setOnreset($onreset) {
+        $onreset = $this->escapaAspasSimples($onreset);
         $this->onreset = $onreset;
     }
 
@@ -140,6 +141,7 @@ class Form extends Container {
      * @param type $onsubmit
      */
     public function setOnsubmit($onsubmit) {
+        $onsubmit = $this->escapaAspasSimples($onsubmit);
         $this->onsubmit = $onsubmit;
     }
 
