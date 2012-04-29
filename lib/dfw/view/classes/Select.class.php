@@ -11,6 +11,7 @@
 require_once 'Element.class.php';
 require_once 'Option.class.php';
 
+// TODO: Validar entradas
 class Select extends Element {
 
     protected $disabled;
@@ -30,7 +31,7 @@ class Select extends Element {
      * @param array $arrOptions
      * @param boolean $multiple 
      */
-    public function __construct($nameId, $arrOptions = array(), $multiple = false) {
+    public function __construct($nameId, array $arrOptions = array(), $multiple = false) {
         $this->name = $nameId;
         $this->id = $nameId;
         $this->arrOptions = $arrOptions;

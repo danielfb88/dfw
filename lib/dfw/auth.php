@@ -51,7 +51,7 @@ function login($user, $password) {
 
     $usuario = new Usuario();
     $usuario->usuario = $user;
-    $usuario->senha = $password;
+    $usuario->senha = md5($password);
     $usuario->read();
 
     /**

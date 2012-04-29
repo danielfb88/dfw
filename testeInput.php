@@ -1,3 +1,5 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 <?php
 
 require_once dirname(__FILE__) . '/lib/dfw/view/classes/Select.class.php';
@@ -10,6 +12,7 @@ require_once dirname(__FILE__) . '/lib/dfw/view/classes/Form.class.php';
 require_once dirname(__FILE__) . '/lib/dfw/view/classes/Img.class.php';
 require_once dirname(__FILE__) . '/lib/dfw/view/classes/TextArea.class.php';
 require_once dirname(__FILE__) . '/lib/dfw/view/classes/TextField.class.php';
+require_once dirname(__FILE__) . '/lib/dfw/view/classes/ComboBox.class.php';
 
 $arrOptions = array(
     new Option("1", "um"),
@@ -88,4 +91,17 @@ $textField3 = new TextField('textField3', "Text Field 3: ", "Daniel", 20);
 
 $formkkk = new Form('formTeste', $fields, 'http://www.google.com.br', 'get');
         $formkkk->show();
+        
+        echo "<br/><br/>";
+        
+        $arrValues = array(
+            "0" => "Opção 0",
+            "1" => "Opção 1",
+            "2" => "Opção 2",
+            "3" => "Opção 3"
+            );
+        $comboBox = new ComboBox('combo1', $arrValues, "2", '-- Selecione --', "Combo Box Fofo: ");
+        // FIXME: corrigir problema em escapaAspasSimples. Se é inserido da seguinte forma: "alert('mudou')" dá erro
+        $comboBox->addAttribute("onchange", 'alert("mudou")');
+        $comboBox->show();
 ?>
