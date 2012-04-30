@@ -13,6 +13,7 @@ require_once dirname(__FILE__) . '/lib/dfw/view/classes/Img.class.php';
 require_once dirname(__FILE__) . '/lib/dfw/view/classes/TextArea.class.php';
 require_once dirname(__FILE__) . '/lib/dfw/view/classes/TextField.class.php';
 require_once dirname(__FILE__) . '/lib/dfw/view/classes/ComboBox.class.php';
+require_once dirname(__FILE__) . '/lib/dfw/view/classes/MultipleSelectBox.class.php';
 
 $arrOptions = array(
     new Option("1", "um"),
@@ -93,7 +94,7 @@ echo '<br/>';
             "3" => "Opção 3"
             );
         $comboBox = new ComboBox('combo1', $arrValues, "2", '-- Selecione --', "Combo Box Fofo: ");
-        // FIXME: corrigir problema em escapaAspasSimples. Se é inserido da seguinte forma: "alert('mudou')" dá erro
+
         $comboBox->addAttribute("onchange", 'alert("teste")');
         $comboBox->show();
         
@@ -104,4 +105,20 @@ $formkkk = new Form('formTeste', $fields, 'http://www.google.com.br', 'get');
         //print_r($textField1->getElements());
      * 
      */
+        
+        $tarea = new TextArea('tarea', '', false);
+        $tarea->setRows(7);
+        $tarea->show();
+        echo '<br/><br/>';
+        
+        $arrValues = array('option1', 'option2', 'option3', 'option4');
+        $msb = new MultipleSelectBox('multiple', $arrValues);
+        //$msb->addAttribute('select1', 'size', '20');
+        $msb->show();
+        
+        echo '<br/><br/>';
+        
+        print_r($_GET);
+        
+        
 ?>

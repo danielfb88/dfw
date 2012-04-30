@@ -27,6 +27,10 @@ abstract class Element extends Event implements HtmlElement_Interface {
     public function setId($id) {
         $this->id = $id;
     }
+    
+    public function getId() {
+        return $this->id;
+    }
 
     /**
      * Classe ou classes do elemento

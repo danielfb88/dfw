@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Interface para elementos HTML
+ * Interface para elementos compostos HTML
  * Data de Criação: 28 de Abril de 2012
  * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>

@@ -76,7 +76,7 @@ $textField3 = new TextField('textField3', "Text Field 3: ", "Daniel", 20);
             "3" => "Opção 3"
             );
         $comboBox = new ComboBox('combo1', $arrValues, "2", '-- Selecione --', "Combo Box Fofo: ");
-        // FIXME: corrigir problema em escapaAspasSimples. Se é inserido da seguinte forma: "alert('mudou')" dá erro
+
         $comboBox->addAttribute("onchange", 'alert("teste")');
         
         $fields = array(
