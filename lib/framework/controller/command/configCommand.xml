@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Configuração da estrutura física das classes Command
+-->
+<root>
+    <command name="default">
+        <classname>DefaultCommand</classname>
+        <filepath>Controller/DefaultCommand.class.php</filepath>
+    </command>
+    <command name="teste">
+        <classname>Teste</classname>
+        <filepath>Controller/DefaultCommand.class.php</filepath>
+    </command>
+</root>
