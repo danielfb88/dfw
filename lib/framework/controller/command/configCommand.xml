@@ -7,8 +7,8 @@ Configuração da estrutura física das classes Command
         <classname>DefaultCommand</classname>
         <filepath>Controller/DefaultCommand.class.php</filepath>
     </command>
-    <command name="teste" module="teste">
-        <classname>Teste</classname>
-        <filepath>Controller/DefaultCommand.class.php</filepath>
+    <command name="teste" module="teste" submodule="teste">
+        <classname>TesteCommand</classname>
+        <filepath>Controller/TesteCommand.class.php</filepath>
     </command>
 </root>

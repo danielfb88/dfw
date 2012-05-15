@@ -1,8 +1,6 @@
 <?php
 
-//require_once 'ApplicationHelper.class.php';
-require_once dirname(__FILE__).'/../paths.php';
-//var_dump(get_include_path());die;
+require_once dirname(__FILE__) . '/../paths.php';
 require_once 'command/Command.class.php';
 require_once 'command/CommandResolver.class.php';
 require_once 'request/Request.class.php';
@@ -16,8 +14,6 @@ require_once 'request/Request.class.php';
  */
 class FrontController {
 
-    //private $applicationHelper;
-
     private function __construct() {
         
     }
@@ -28,13 +24,12 @@ class FrontController {
         $instance->handleRequest();
     }
 
-    /*
-      function init() {
-      $this->applicationHelper = ApplicationHelper::getInstance();
-      $this->applicationHelper->init();
-      }
-     * 
-     */
+    function init() {
+        // Executar verificações de segurança
+        // pode usar sessionRegistry
+        //$this->applicationHelper = ApplicationHelper::getInstance();
+        //$this->applicationHelper->init();
+    }
 
     private function handleRequest() {
         $request = new Request();
