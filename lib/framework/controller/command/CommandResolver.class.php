@@ -1,6 +1,5 @@
 <?php
 
-// TODO: Essa classe ta foda...
 class CommandNotFoundException extends Exception {
     
 }
@@ -22,7 +21,7 @@ class CommandResolver {
      * XML com as configurações do Command
      * @var string
      */
-    private static $configCommand;
+    private static $configCommand = "/configCommand.xml";
 
     /**
      * Objeto SimpleXMLElement
@@ -38,12 +37,12 @@ class CommandResolver {
 
     /**
      * Command Padrão
-     * @var Command
+     * @var Command 
      */
     private static $defaultCommand = null;
 
     public function __construct() {
-        self::$configCommand = dirname(__FILE__) . "/configCommand.xml";
+        self::$configCommand = dirname(__FILE__) . self::$configCommand;
         // Lendo o arquivo xml
         self::$xmlCommand = @simplexml_load_file(self::$configCommand);
 
@@ -73,6 +72,8 @@ class CommandResolver {
         else
             return $this->getCommandInstance();
     }
+    
+    // TODO: Testar método getCommandInstance
 
     /**
      * Instancia o Command efetuando operações de segurança
@@ -81,46 +82,73 @@ class CommandResolver {
      * @throws CommandNotFoundException 
      */
     private function getCommandInstance($commandName = 'default') {
-        $command = null;
+        $objCommand = null;
+        $found = false;
         $className = '';
         $filePath = '';
 
         for ($i = 0; $i < count(self::$xmlCommand); $i++) {
 
             if ((string) self::$xmlCommand->command[$i]['name'] == $commandName) {
+                // Caso o command default seja requisitado e o mesmo esteja em cache,
+                // retorne-o
+                if ($commandName == "default") {
+                    if (self::$defaultCommand != null) {
+                        return self::$defaultCommand;
+                    }
+                }
+
+                $found = true;
                 $className = (string) self::$xmlCommand->command[$i]->classname;
                 $filePath = (string) self::$xmlCommand->command[$i]->filepath;
-
-                // Verificando se o arquivo existe
-                if (!file_exists($filePath)) {
-                    throw $e = new CommandNotFoundException("O arquivo '{$filePath}' não foi encontrado.");
-                    $e->getTraceAsString();
-                }
-
-                require_once $filePath;
-
-                // Verificando se a classe existe
-                if (!class_exists($className)) {
-                    throw $e = new CommandNotFoundException("A classe '{$className}' não foi encontrada no arquivo '{$filePath}'.");
-                    $e->getTraceAsString();
-                }
-
-                $command = new $className();
                 break;
             }
         }
 
-        // Verificando se é um Command
-        $cmd_class = new ReflectionClass($className);
-        if (!$cmd_class->isSubclassOf(self::$base_cmd)) {
-            throw $e = new CommandNotFoundException("A classe '{$className}' não é um Command.");
-            $e->getTraceAsString();
-        }
+        //Verifica se o Command requisitado foi encontrado no XML
+        if ($found) {
+            // Verificando se o arquivo realmente existe
+            if (!file_exists($filePath)) {
+                throw $e = new CommandNotFoundException("O arquivo '{$filePath}' não foi encontrado.");
+                $e->getTraceAsString();
+            }
 
-        if ($command == null)
-            throw new Exception("Command não encontrado no arquivo de configuracao '" . self::$configCommand);
-        else
-            return $command;
+            // requerindo o qrquivo
+            require_once $filePath;
+
+            // Verificando se a classe existe dentro do arquivo
+            if (!class_exists($className)) {
+                throw $e = new CommandNotFoundException("A classe '{$className}' não foi encontrada no arquivo '{$filePath}'.");
+                $e->getTraceAsString();
+            }
+
+            // Instanciando o Objeto
+            $objCommand = new $className();
+
+            // Verificando se o objeto instanciado é um Command
+            $cmd_class = new ReflectionClass($className);
+            if (!$cmd_class->isSubclassOf(self::$base_cmd)) {
+                throw $e = new CommandNotFoundException("A classe '{$className}' não é um Command.");
+                $e->getTraceAsString();
+            }
+
+            // Caso o command requerido seja o default, na primeira execução desta
+            // requisição, é salvo o objeto em cache
+            if ($commandName == "default") {
+                self::$defaultCommand = $objCommand;
+            }
+
+            // Retornando o objeto Command
+            return $objCommand;
+            
+        } else {
+            
+            // Retorna o defaultCommand
+            if(self::$defaultCommand != null)
+                return self::$defaultCommand;
+            else
+                return $this->getCommandInstance();
+        }
     }
 
 }
