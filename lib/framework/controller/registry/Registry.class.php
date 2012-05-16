@@ -2,10 +2,10 @@
 
 /**
  * Classe abstrata Registry
+ * Data de criação: 14 de Maio de 2012
  * 
  * @author Daniel Bonfim
  * @version 1.0
- * @since 14 de Maio de 2012
  * @abstract 
  */
 abstract class Registry {

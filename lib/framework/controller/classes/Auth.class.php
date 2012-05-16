@@ -6,7 +6,6 @@ require_once '../../paths.php';
  * Data de Criação: 9 de Maio de 2012
  *  
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
- * @since 14 de Maio de 2012
  * @version     1.0
  * 
  */
@@ -18,7 +17,7 @@ class Auth {
         if ((empty($user) || is_null($user)) || (empty($password) || is_null($password)))
             return null;
 
-        require_once 'model/Usuario.class.php';
+        require_once 'model/DAOUsuario.class.php';
 
         $usuario = new DAOUsuario();
         $usuario->usuario = $user;

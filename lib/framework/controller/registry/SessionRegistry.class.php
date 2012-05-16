@@ -3,9 +3,9 @@
 /**
  * Registry para SESSAO.
  * Esta classe Utiliza o padrão Registry para gerenciar sessões.
+ * Data de criação: 14 de Maio de 2012
  * 
  * @author Daniel Bonfim
- * @since 14 de Maio de 2012
  * @version 1.0 
  */
 class SessionRegistry extends Registry {

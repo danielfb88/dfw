@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Objeto REQUEST.
- * A cada nova requisição, uma nova instância deste objeto é gerada. 
+ * classe REQUEST.
+ * A cada nova requisição, uma nova instância desta classe é gerada. 
+ * Data de criação: 14 de Maio de 2012
  * 
  * @author Daniel Bonfim
- * @since 14 de Maio de 2012
  * @version 1.0
  */
 class Request {

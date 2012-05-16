@@ -10,9 +10,9 @@ require_once 'command/Command.class.php';
 /**
  * Classe CommandResolver
  *  Define o Command a ser executado baseado no objeto Request recebido pelo método getCommand()
+ * Data de criação: 14 de Maio de 2012
  * 
  * @author Daniel Bonfim
- * @since 14 de Maio de 2012
  * @version 1.0
  */
 class CommandResolver {
