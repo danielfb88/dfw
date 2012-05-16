@@ -1,5 +1,6 @@
 <?php
 require_once 'Registry.class.php';
+require_once 'DAOUsuario.class.php';
 
 /**
  * Registry para SESSAO.
@@ -74,6 +75,14 @@ class SessionRegistry extends Registry {
             return $authenticated;
         else
             return false;
+    }
+    
+    public function setDAOUsuario(DAOUsuario $daoUsuario) {
+        $this->set("daoUsuario", $daoUsuario);
+    }
+    
+    public function getDAOUsuario() {
+        return $this->get("daoUsuario");
     }
     
     public function session_destroy() {

@@ -40,7 +40,7 @@ class CommandResolver {
      * Command Padrão
      * @var Command 
      */
-    private static $defaultCommand = null;
+    private static $mainCommand = null;
 
     public function __construct() {
         self::$configCommand = dirname(__FILE__) . self::$configCommand;
@@ -64,11 +64,15 @@ class CommandResolver {
      * Retorna o command definido pelo atributo 'cmd' do objeto Request.
      * 
      * @param Request $request 
+     * @param boolean $checkAuth - Para todo command chamado, antes de instancia-lo é verificado se deve-se
+     * checar a autenticação. Se sim usa a SessionRegistry e libera o acesso caso ele esteja autenticado. Caso
+     * não esteja, é chamado o command 'login'
      * @return Command
      */
     public function getCommand(Request $request, $checkAuth) {
+        // Pegando o command definido na Query String através da requisição
         $commandName = $request->getCommandName();
-        
+
         if ($checkAuth) {
             // Se o usuário não estiver autenticado, ele será redirecionado para o command de login
             if (!SessionRegistry::getInstance()->is_authenticated()) {
@@ -76,14 +80,14 @@ class CommandResolver {
                 $commandName = "login";
             }
         }
-        
+
         if (!empty($commandName))
+        // Retorna command especificado 
             return $this->getCommandInstance($commandName);
         else
+        // Retorna command padão
             return $this->getCommandInstance();
     }
-
-    // TODO: Testar método getCommandInstance
 
     /**
      * Instancia o Command efetuando operações de segurança
@@ -91,7 +95,7 @@ class CommandResolver {
      * @return Command
      * @throws CommandNotFoundException 
      */
-    private function getCommandInstance($commandName = 'default') {
+    private function getCommandInstance($commandName = 'main') {
         $objCommand = null;
         $found = false;
         $className = '';
@@ -100,11 +104,10 @@ class CommandResolver {
         for ($i = 0; $i < count(self::$xmlCommand); $i++) {
 
             if ((string) self::$xmlCommand->command[$i]['name'] == $commandName) {
-                // Caso o command default seja requisitado e o mesmo esteja em cache,
-                // retorne-o
-                if ($commandName == "default") {
-                    if (self::$defaultCommand != null) {
-                        return self::$defaultCommand;
+                // Caso o command main seja requisitado e o mesmo esteja em cache, retorne-o
+                if ($commandName == "main") {
+                    if (self::$mainCommand != null) {
+                        return self::$mainCommand;
                     }
                 }
 
@@ -142,19 +145,19 @@ class CommandResolver {
                 $e->getTraceAsString();
             }
 
-            // Caso o command requerido seja o default, na primeira execução desta
+            // Caso o command requerido seja o main, na primeira execução desta
             // requisição, é salvo o objeto em cache
-            if ($commandName == "default") {
-                self::$defaultCommand = $objCommand;
+            if ($commandName == "main") {
+                self::$mainCommand = $objCommand;
             }
 
             // Retornando o objeto Command
             return $objCommand;
         } else {
 
-            // Retorna o defaultCommand
-            if (self::$defaultCommand != null)
-                return self::$defaultCommand;
+            // Retorna o mainCommand
+            if (self::$mainCommand != null)
+                return self::$mainCommand;
             else
                 return $this->getCommandInstance();
         }

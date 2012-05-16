@@ -3,13 +3,13 @@
 Configuração da estrutura física das classes Command
 -->
 <root>
-    <command name="default">
-        <classname>DefaultCommand</classname>
-        <filepath>Controller/DefaultCommand.class.php</filepath>
-    </command>
     <command name="login">
         <classname>LoginCommand</classname>
-        <filepath>Controller/LoginCommand.class.php</filepath>
+        <filepath>lib/framework/controller/command/LoginCommand.class.php</filepath>
+    </command>
+    <command name="main">
+        <classname>MainCommand</classname>
+        <filepath>Controller/MainCommand.class.php</filepath>
     </command>
     <command name="teste" module="teste" submodule="teste">
         <classname>TesteCommand</classname>

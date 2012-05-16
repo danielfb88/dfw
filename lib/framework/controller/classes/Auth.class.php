@@ -1,5 +1,6 @@
 <?php
-require_once '../../paths.php';
+// TODO: Analizar Requires
+require_once 'lib/framework/paths.php';
 
 /**
  * Classe de Autenticação, login e logoff
