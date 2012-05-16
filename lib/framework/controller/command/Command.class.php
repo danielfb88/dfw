@@ -1,6 +1,6 @@
 <?php
 
-require_once 'request/Request.class.php';
+require_once 'controller/request/Request.class.php';
 
 /**
  * Classe base Command.

@@ -1,9 +1,9 @@
 <?php
 
-require_once 'command/Command.class.php';
-require_once 'request/Request.class.php';
-require_once 'registry/SessionRegistry.class.php';
-require_once 'classes/Auth.class.php';
+require_once 'controller/command/Command.class.php';
+require_once 'controller/request/Request.class.php';
+require_once 'controller/registry/SessionRegistry.class.php';
+require_once 'controller/classes/Auth.class.php';
 
 class LoginCommand extends Command {
 

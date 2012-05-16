@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../paths.php';
+require_once dirname(__FILE__) . '/../path.php';
 require_once 'command/Command.class.php';
 require_once 'command/CommandResolver.class.php';
 require_once 'request/Request.class.php';

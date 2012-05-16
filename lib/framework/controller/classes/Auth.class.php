@@ -1,6 +1,5 @@
 <?php
-// TODO: Analizar Requires
-require_once 'lib/framework/paths.php';
+require_once dirname(__FILE__).'/../../path.php';
 
 /**
  * Classe de Autenticação, login e logoff
