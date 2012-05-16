@@ -25,30 +25,29 @@ class FrontController {
      */
     public static function run($checkAuth = false) {
         $instance = new self();
-        $instance->init($checkAuth);
-        $instance->handleRequest();
+        $instance->init();
+        $instance->handleRequest($checkAuth);
     }
 
     /**
      * Executa operações de inicialização
-     * @param type $checkAuth 
      */
-    function init($checkAuth) {
-        // Executar verificações de segurança
-        // pode usar sessionRegistry
-        //$this->applicationHelper = ApplicationHelper::getInstance();
-        //$this->applicationHelper->init();
+    private function init() {
+        
     }
 
     /**
      * Obtém o command com base na requisição e o executa 
+     * @param type $checkAuth - É passado para o CommandResolver
+     * Se for true, verifica na Sessão se o usuário está autenticado
+     * antes de chamar o command
      */
-    private function handleRequest() {
+    private function handleRequest($checkAuth) {
         $request = new Request();
-        $cmd_r = new CommandResolver();
+        $cmd_r = new CommandResolver($checkAuth);
 
         // Obtendo objeto Command
-        $cmd = $cmd_r->getCommand($request);
+        $cmd = $cmd_r->getCommand($request, $checkAuth);
         // Executando objeto Command
         $cmd->execute($request);
     }

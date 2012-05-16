@@ -6,6 +6,7 @@ class CommandNotFoundException extends Exception {
 
 require_once 'request/Request.class.php';
 require_once 'command/Command.class.php';
+require_once 'registry/SessionRegistry.class.php';
 
 /**
  * Classe CommandResolver
@@ -65,14 +66,23 @@ class CommandResolver {
      * @param Request $request 
      * @return Command
      */
-    public function getCommand(Request $request) {
-        $requestCommandName = $request->getCommandName();
-        if (!empty($requestCommandName))
-            return $this->getCommandInstance($requestCommandName);
+    public function getCommand(Request $request, $checkAuth) {
+        $commandName = $request->getCommandName();
+        
+        if ($checkAuth) {
+            // Se o usuário não estiver autenticado, ele será redirecionado para o command de login
+            if (!SessionRegistry::getInstance()->is_authenticated()) {
+                //$request->addFeedback("Usuário não autenticado");
+                $commandName = "login";
+            }
+        }
+        
+        if (!empty($commandName))
+            return $this->getCommandInstance($commandName);
         else
             return $this->getCommandInstance();
     }
-    
+
     // TODO: Testar método getCommandInstance
 
     /**
@@ -140,11 +150,10 @@ class CommandResolver {
 
             // Retornando o objeto Command
             return $objCommand;
-            
         } else {
-            
+
             // Retorna o defaultCommand
-            if(self::$defaultCommand != null)
+            if (self::$defaultCommand != null)
                 return self::$defaultCommand;
             else
                 return $this->getCommandInstance();

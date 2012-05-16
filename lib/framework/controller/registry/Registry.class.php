@@ -15,12 +15,12 @@ abstract class Registry {
      * @param string $key
      * @return mixed 
      */
-    protected abstract protected function get($key);
+    protected abstract function get($key);
 
     /**
      * Seta par chave-valor ao array
      * @param string $key
      * @param mixed $value
      */
-    protected abstract protected function set($key, $value);
+    protected abstract function set($key, $value);
 }

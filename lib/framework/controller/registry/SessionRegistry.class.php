@@ -1,4 +1,5 @@
 <?php
+require_once 'Registry.class.php';
 
 /**
  * Registry para SESSAO.
@@ -61,6 +62,18 @@ class SessionRegistry extends Registry {
         } else {
             $_SESSION[__CLASS__][$key] = $value;
         }
+    }
+    
+    public function authenticate() {
+        $this->set('authenticated', true);
+    }
+    
+    public function is_authenticated() {
+        $authenticated =  $this->get('authenticated');
+        if($authenticated != null)
+            return $authenticated;
+        else
+            return false;
     }
     
     public function session_destroy() {
