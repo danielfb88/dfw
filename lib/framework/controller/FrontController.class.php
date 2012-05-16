@@ -7,9 +7,9 @@ require_once 'request/Request.class.php';
 
 /**
  * Front-Controller
+ * Data de criação: 14 de Maio de 2012
  * 
  * @author Daniel Bonfim
- * @since 14 de Maio de 2012
  * @version 1.0 
  */
 class FrontController {
