@@ -1,0 +1,801 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class DAO</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class DAO</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Classe que abstrai as operaçoes mais básicas entre a aplicação e o banco de dados.</p>
+<p class="description"><p>Data de Criação: 31 de Março de 2012</p><p>18 de Abril de 2012 <ul><li>Adicionado parâmetro orderBy ao método getAll</li></ul> 20 de Abril de 2012 <ul><li>Excluído o método 'save' e adicionado os métodos 'insert' e 'update'</li><li>Adicionado a propriedade ao array $confgProps 'is_autoIncrement'</li><li>Adicionado os métodos: getMaxCount() e getNextId()</li></ul> 21 de Abril de 2012 <ul><li>Adicionado o método getNextAutoIncrementId()</li><li>Modificado verificação de tabela inexistente para o construtor</li><li>Deletado o metodo privado checkFieldPrimaryKey e adicionado verificação da existência da
+          primary key no construtor</li><li>Criado método abstrato config() para ser sobrescrito pela subclasse</li><li>Modificado os métodos connect() e disconnect() para usar a instância de Conexão criada no construtor</li></ul> 22 de Abril de 2012 <ul><li>Criado o método logIntoFile() - Todas as queries enviadas para o banco são automaticamente salvas no
+              arquivo especificado</li></ul></p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Daniel Bonfim &lt;<a href="mailto:daniel.fb88@gmail.com">daniel.fb88@gmail.com</a>&gt;</li>
+				<li><span class="field">version:</span> 2.0</li>
+				<li><span class="field">abstract:</span> </li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_model---DAO.class.php.html">/model/DAO.class.php</a> (line <span class="field">35</span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../dfw/DAOUsuario.html">DAOUsuario</a></td>
+					<td>
+											Classe que abstrai as operaçoes mais básicas entre a aplicação e o banco de dados.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../dfw/DAOLog.html">DAOLog</a></td>
+					<td>
+											Classe que abstrai as operaçoes mais básicas entre a aplicação e o banco de dados.
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$configProps" title="details" class="var-name">$configProps</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">type</span>
+					<a href="#$dtoClassName" title="details" class="var-name">$dtoClassName</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">boolean</span>
+					<a href="#$found" title="details" class="var-name">$found</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">string</span>
+					<a href="#$tableName" title="details" class="var-name">$tableName</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																				
+												<div class="method-definition">
+											<span class="method-result">DAO</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#config" title="details" class="method-name">config</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#connect" title="details" class="method-name">connect</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">type</span>
+										<a href="#delete" title="details" class="method-name">delete</a>
+											([<span class="var-type">type</span>&nbsp;<span class="var-name">$useBindValue</span> = <span class="var-default">true</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#disconnect" title="details" class="method-name">disconnect</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">boolean|array</span>
+										<a href="#executeQuery" title="details" class="method-name">executeQuery</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$sql</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$returnValues</span> = <span class="var-default">false</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">DTO|array</span>
+										<a href="#getAll" title="details" class="method-name">getAll</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$orderBy</span> = <span class="var-default">null</span>], [<span class="var-type">type</span>&nbsp;<span class="var-name">$useBindValue</span> = <span class="var-default">true</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getLastQueryAsString" title="details" class="method-name">getLastQueryAsString</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">int</span>
+										<a href="#getMaxCount" title="details" class="method-name">getMaxCount</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">int</span>
+										<a href="#getNextAutoIncrementId" title="details" class="method-name">getNextAutoIncrementId</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">int</span>
+										<a href="#getNextId" title="details" class="method-name">getNextId</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#insert" title="details" class="method-name">insert</a>
+											([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$useBindValue</span> = <span class="var-default">true</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#read" title="details" class="method-name">read</a>
+											([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$useBindValue</span> = <span class="var-default">true</span>])
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#reset" title="details" class="method-name">reset</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setData" title="details" class="method-name">setData</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#update" title="details" class="method-name">update</a>
+											([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$useBindValue</span> = <span class="var-default">true</span>])
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="var$configProps" id="$configProps"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$configProps</span>
+			 = <span class="var-default">array(<br />        /**<br />         * Configurações da PrimaryKey <br />         */<br />        'primaryKey' =&gt; array(<br />            /**<br />             * Chave Primária da Tabela.<br />             * Se existir apenas 1 chave primária, esta chave deve ser auto-increment. <br />             * @example $this-&gt;configProps['primaryKey'] = array('id1', 'id2');<br />             */<br />            'field' =&gt; array(),/**<br />             * Especifica se a primaryKey é auto-increment.<br />             * @var boolean<br />             * @since 20-04-2012 <br />             */'is_autoIncrement'=&gt;false),/**<br />         * Campos que são notNull. <br />         * Essa validação será feita antes de enviar a requisição para o Banco de Dados. <br />         * @example $this-&gt;configProps['notNull'] = array('numero', 'campo4');<br />         */'notNull'=&gt;array())</span>			(line <span class="line-number">61</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Configurações das propriedades</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$dtoClassName" id="$dtoClassName"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">type</span>
+			<span class="var-name">$dtoClassName</span>
+						(line <span class="line-number">48</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Nome da classe do DTO que será usada para guardar os dados.</p>
+<p class="description"><p>A subclasse deverá configurar esta propriedade.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$found" id="$found"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">boolean</span>
+			<span class="var-name">$found</span>
+			 = <span class="var-default"> false</span>			(line <span class="line-number">97</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Informa se o registro foi encontrado no banco de dados</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$tableName" id="$tableName"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$tableName</span>
+						(line <span class="line-number">55</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Nome da tabela.</p>
+<p class="description"><p>A subclasse deverá configurar esta propriedade.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">112</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">DAO</span>
+		<span class="method-name">
+			__construct
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../dfw/DAOUsuario.html#method__construct">DAOUsuario::__construct()</a>
+							</li>
+					<li>
+				<a href="../dfw/DAOLog.html#method__construct">DAOLog::__construct()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodconfig" id="config"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">config</span> (line <span class="line-number">155</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">A subclasse deve sobrecarregar este método para setar as suas configurações</p>
+	<ul class="tags">
+				<li><span class="field">abstract:</span> </li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			config
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../dfw/DAOUsuario.html#methodconfig">DAOUsuario::config()</a>
+							</li>
+					<li>
+				<a href="../dfw/DAOLog.html#methodconfig">DAOLog::config()</a>
+							</li>
+				</ul>
+	</div>
+<a name="methodconnect" id="connect"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">connect</span> (line <span class="line-number">160</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Conecta ao DB</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			connect
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methoddelete" id="delete"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">delete</span> (line <span class="line-number">794</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Deleta o registro. É obrigatório que o valor da primary key tenha sido inserido.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> type</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">type</span>
+		<span class="method-name">
+			delete
+		</span>
+					([<span class="var-type">type</span>&nbsp;<span class="var-name">$useBindValue</span> = <span class="var-default">true</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">type</span>
+				<span class="var-name">$useBindValue</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoddisconnect" id="disconnect"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">disconnect</span> (line <span class="line-number">167</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Desconecta do DB</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			disconnect
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodexecuteQuery" id="executeQuery"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">executeQuery</span> (line <span class="line-number">878</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Executa uma query livre</p>
+<p class="description"><p>Não é usado bindValue neste método</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> retorna um boolean caso $returnValues seja false. Retorna um array caso seja true</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean|array</span>
+		<span class="method-name">
+			executeQuery
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$sql</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$returnValues</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$sql</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$returnValues</span><span class="var-description">: true se for um select, false para insert update delete</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetAll" id="getAll"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getAll</span> (line <span class="line-number">513</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retorna todos os registros que atendam aos filtros definidos pelo usuário em um objeto DTO.</p>
+<p class="description"><p>Caso o objeto DTO não tenha sido definido na subclasse, retorna um array associativo.  Este método utiliza o tipo de pesquisa where &quot;like&quot;</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> type</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">DTO|array</span>
+		<span class="method-name">
+			getAll
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$orderBy</span> = <span class="var-default">null</span>], [<span class="var-type">type</span>&nbsp;<span class="var-name">$useBindValue</span> = <span class="var-default">true</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$orderBy</span><span class="var-description">: - Campo da ordenação</span>			</li>
+					<li>
+				<span class="var-type">type</span>
+				<span class="var-name">$useBindValue</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetLastQueryAsString" id="getLastQueryAsString"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getLastQueryAsString</span> (line <span class="line-number">947</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retorna a ultima query</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getLastQueryAsString
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetMaxCount" id="getMaxCount"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getMaxCount</span> (line <span class="line-number">633</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Recupera a quantidade total de registros existentes na tabela</p>
+	<ul class="tags">
+				<li><span class="field">since:</span> 20-04-2012</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">int</span>
+		<span class="method-name">
+			getMaxCount
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetNextAutoIncrementId" id="getNextAutoIncrementId"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getNextAutoIncrementId</span> (line <span class="line-number">594</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">## APENAS PARA POSTGRES ##  Antecipa qual valor será usado pela sequência para compor a primary key.</p>
+<p class="description"><p><ol><li>- Este método deve ser usado quando existir apenas 1 campo numérico para a primary key.</li><li>- Este método deve ser usado quando quando 'is_autoIncrement' for TRUE</li></ol></p></p>
+	<ul class="tags">
+				<li><span class="field">since:</span> 21-04-2012</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">int</span>
+		<span class="method-name">
+			getNextAutoIncrementId
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetNextId" id="getNextId"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getNextId</span> (line <span class="line-number">582</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sugere um valor para Id usando o total de registros + 1  Este método deve ser usando quando existir apenas 1 campo numérico para a primary key.</p>
+<p class="description"><p><ol><li>- É recomendado usar este método quando 'is_autoIncrement' for FALSE.</li></ol></p></p>
+	<ul class="tags">
+				<li><span class="field">since:</span> 20-04-2012</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">int</span>
+		<span class="method-name">
+			getNextId
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodinsert" id="insert"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">insert</span> (line <span class="line-number">674</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Salva os dados que foram inseridos nas variaveis da subClasse ($this-&gt;properties).</p>
+	<ul class="tags">
+				<li><span class="field">since:</span> 19-04-2012</li>
+				<li><span class="field">throws:</span> type</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			insert
+		</span>
+					([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$useBindValue</span> = <span class="var-default">true</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$useBindValue</span><span class="var-description">: Vinculação das variáveis de filtragem</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodread" id="read"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">read</span> (line <span class="line-number">448</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Retorna os dados no próprio objeto DAO pelos valores informados pelo usuário.</p>
+<p class="description"><p>Este método retorna apenas um registro.  O método read() usa o tipo de pesquisa where &quot;=&quot;.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> - Se a ação foi efetuada com sucesso</li>
+				<li><span class="field">throws:</span> type</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			read
+		</span>
+					([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$useBindValue</span> = <span class="var-default">true</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$useBindValue</span><span class="var-description">: - true para usar bindValue nos filtros</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodreset" id="reset"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">reset</span> (line <span class="line-number">567</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Seta as propriedades da subClasse como null para prepara-la para uma nova consulta</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			reset
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodsetData" id="setData"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setData</span> (line <span class="line-number">916</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Recebe array com os valores e os insere no objeto DAO.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setData
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$data</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$data</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodupdate" id="update"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">update</span> (line <span class="line-number">736</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Atualiza os dados que foram inseridos nas variaveis da subClasse ($this-&gt;properties).</p>
+	<ul class="tags">
+				<li><span class="field">since:</span> 19-04-2012</li>
+				<li><span class="field">throws:</span> type</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			update
+		</span>
+					([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$useBindValue</span> = <span class="var-default">true</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$useBindValue</span><span class="var-description">: Vinculação das variáveis de filtragem</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 16 May 2012 16:03:30 -0300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.4</a>
+	</p>
+	</div></body>
+</html>

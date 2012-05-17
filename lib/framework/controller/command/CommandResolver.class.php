@@ -22,7 +22,7 @@ class CommandResolver {
      * XML com as configurações do Command
      * @var string
      */
-    private static $configCommand = "/configCommand.xml";
+    private static $commandConfig = "/commandConfig.xml";
 
     /**
      * Objeto SimpleXMLElement
@@ -43,16 +43,16 @@ class CommandResolver {
     private static $mainCommand = null;
 
     public function __construct() {
-        self::$configCommand = dirname(__FILE__) . self::$configCommand;
-        // Lendo o arquivo xml
-        self::$xmlCommand = @simplexml_load_file(self::$configCommand);
+        self::$commandConfig = dirname(__FILE__) . self::$commandConfig;
+        // Carregando o arquivo xml
+        self::$xmlCommand = @simplexml_load_file(self::$commandConfig);
 
         if (!self::$xmlCommand) {
-            throw $e = new Exception("Arquivo XML '" . self::$configCommand . "' não encontrado.");
+            throw $e = new Exception("Arquivo XML '" . self::$commandConfig . "' não encontrado.");
             $e->getTraceAsString();
         }
         if (!(self::$xmlCommand instanceof SimpleXMLElement)) {
-            throw $e = new Exception("Não foi possível identificar o arquivo '" . self::$configCommand);
+            throw $e = new Exception("Não foi possível identificar o arquivo '" . self::$commandConfig);
             $e->getTraceAsString();
         }
 
@@ -66,7 +66,7 @@ class CommandResolver {
      * @param Request $request 
      * @param boolean $checkAuth - Para todo command chamado, antes de instancia-lo é verificado se deve-se
      * checar a autenticação. Se sim usa a SessionRegistry e libera o acesso caso ele esteja autenticado. Caso
-     * não esteja, é chamado o command 'login'
+     * não esteja, é chamado o command 'vwlogin'
      * @return Command
      */
     public function getCommand(Request $request, $checkAuth) {
@@ -74,10 +74,15 @@ class CommandResolver {
         $commandName = $request->getCommandName();
 
         if ($checkAuth) {
-            // Se o usuário não estiver autenticado, ele será redirecionado para o command de login
+            // Se o usuário não estiver autenticado, ele será redirecionado para o command de vwlogin
             if (!SessionRegistry::getInstance()->is_authenticated()) {
-                //$request->addFeedback("Usuário não autenticado");
-                $commandName = "login";
+                // Se o request for post leve para o command de autenticação
+                if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $commandName = "auth";
+                } else {
+                    //$request->addFeedback("Usuário não autenticado");
+                    $commandName = "loginScreen";
+                }                
             }
         }
 
@@ -103,7 +108,7 @@ class CommandResolver {
 
         for ($i = 0; $i < count(self::$xmlCommand); $i++) {
 
-            if ((string) self::$xmlCommand->command[$i]['name'] == $commandName) {
+            if ((string) self::$xmlCommand->command[$i]->commandname == $commandName) {
                 // Caso o command main seja requisitado e o mesmo esteja em cache, retorne-o
                 if ($commandName == "main") {
                     if (self::$mainCommand != null) {
@@ -155,10 +160,11 @@ class CommandResolver {
             return $objCommand;
         } else {
 
-            // Retorna o mainCommand
+            // se o mainCommand já estiver em cache
             if (self::$mainCommand != null)
                 return self::$mainCommand;
             else
+                // se nao retorna uma instancia dele
                 return $this->getCommandInstance();
         }
     }

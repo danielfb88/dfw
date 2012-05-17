@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class DAOUsuario</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class DAOUsuario</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Classe que abstrai as operaçoes mais básicas entre a aplicação e o banco de dados.</p>
+<p class="description"><p>Data de Criação: 31 de Março de 2012</p><p>18 de Abril de 2012 <ul><li>Adicionado parâmetro orderBy ao método getAll</li></ul> 20 de Abril de 2012 <ul><li>Excluído o método 'save' e adicionado os métodos 'insert' e 'update'</li><li>Adicionado a propriedade ao array $confgProps 'is_autoIncrement'</li><li>Adicionado os métodos: getMaxCount() e getNextId()</li></ul> 21 de Abril de 2012 <ul><li>Adicionado o método getNextAutoIncrementId()</li><li>Modificado verificação de tabela inexistente para o construtor</li><li>Deletado o metodo privado checkFieldPrimaryKey e adicionado verificação da existência da
+          primary key no construtor</li><li>Criado método abstrato config() para ser sobrescrito pela subclasse</li><li>Modificado os métodos connect() e disconnect() para usar a instância de Conexão criada no construtor</li></ul> 22 de Abril de 2012 <ul><li>Criado o método logIntoFile() - Todas as queries enviadas para o banco são automaticamente salvas no
+              arquivo especificado</li></ul></p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Daniel Bonfim &lt;<a href="mailto:daniel.fb88@gmail.com">daniel.fb88@gmail.com</a>&gt;</li>
+				<li><span class="field">version:</span> 2.0</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_model---DAOUsuario.class.php.html">/model/DAOUsuario.class.php</a> (line <span class="field">13</span>)
+		</p>
+		
+				
+		<pre><a href="../dfw/DAO.html">DAO</a>
+   |
+   --DAOUsuario</pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																																																								<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$data_criacao" title="details" class="var-name">$data_criacao</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$email" title="details" class="var-name">$email</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$id_usuario" title="details" class="var-name">$id_usuario</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$nome" title="details" class="var-name">$nome</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$senha" title="details" class="var-name">$senha</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$status" title="details" class="var-name">$status</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$usuario" title="details" class="var-name">$usuario</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																				
+												<div class="method-definition">
+											<span class="method-result">DAOUsuario</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#config" title="details" class="method-name">config</a>
+										()
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="var$data_criacao" id="$data_criacao"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$data_criacao</span>
+						(line <span class="line-number">21</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$email" id="$email"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$email</span>
+						(line <span class="line-number">17</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$id_usuario" id="$id_usuario"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$id_usuario</span>
+						(line <span class="line-number">15</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$nome" id="$nome"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$nome</span>
+						(line <span class="line-number">16</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$senha" id="$senha"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$senha</span>
+						(line <span class="line-number">19</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$status" id="$status"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$status</span>
+						(line <span class="line-number">20</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$usuario" id="$usuario"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$usuario</span>
+						(line <span class="line-number">18</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../dfw/DAO.html">DAO</a></span></p>
+					<blockquote>
+													<span class="var-title">
+								<span class="var-name"><a href="../dfw/DAO.html#var$configProps">DAO::$configProps</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../dfw/DAO.html#var$dtoClassName">DAO::$dtoClassName</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../dfw/DAO.html#var$found">DAO::$found</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../dfw/DAO.html#var$tableName">DAO::$tableName</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number">23</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">DAOUsuario</span>
+		<span class="method-name">
+			__construct
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../dfw/DAO.html#method__construct">DAO::__construct()</a></dt>
+					</dl>
+			
+	</div>
+<a name="methodconfig" id="config"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">config</span> (line <span class="line-number">27</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			config
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../dfw/DAO.html#methodconfig">DAO::config()</a></dt>
+						<dd>A subclasse deve sobrecarregar este método para setar as suas configurações</dd>
+					</dl>
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../dfw/DAO.html">DAO</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../dfw/DAO.html#method__construct">DAO::__construct()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methodconfig">DAO::config()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methodconnect">DAO::connect()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methoddelete">DAO::delete()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methoddisconnect">DAO::disconnect()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methodexecuteQuery">DAO::executeQuery()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methodgetAll">DAO::getAll()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methodgetLastQueryAsString">DAO::getLastQueryAsString()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methodgetMaxCount">DAO::getMaxCount()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methodgetNextAutoIncrementId">DAO::getNextAutoIncrementId()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methodgetNextId">DAO::getNextId()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methodinsert">DAO::insert()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methodread">DAO::read()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methodreset">DAO::reset()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methodsetData">DAO::setData()</a></span><br>
+													<span class="method-name"><a href="../dfw/DAO.html#methodupdate">DAO::update()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 16 May 2012 16:03:30 -0300 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.4</a>
+	</p>
+	</div></body>
+</html>
