@@ -1,8 +1,22 @@
 <?php
-
+/**
+ * Classe ApplicationHelper. Singleton Responsável por disponibilizar configurações para a aplicação 
+ * Data de criação: 18 de Maio de 2012
+ * 
+ * @author Daniel Bonfim
+ * @version 1.0
+ */
 class ApplicationHelper {
 
+    /**
+     * Array com as configurações dos commands
+     * @var array 
+     */
     private $commandsConfig = array();
+    /**
+     * Instância do singleton ApplicationHelper
+     * @var ApplicationHelper 
+     */
     private static $instance;
 
     private function __construct() {
@@ -10,7 +24,7 @@ class ApplicationHelper {
     }
     
     /**
-     *
+     * Singleton
      * @return ApplicationHelper 
      */
     public static function getInstance() {
@@ -19,38 +33,16 @@ class ApplicationHelper {
         return self::$instance;
     }
 
+    /**
+     * Define as configurações no array $commandsConfig
+     */
     private function defineCommandsConfig() {
-        /*
-         * Auth
-         */
-        $this->commandsConfig['auth'] = array();
-        $this->commandsConfig['auth']['className'] = 'AuthCommand';
-        $this->commandsConfig['auth']['filePath'] = 'lib/framework/controller/command/AuthCommand.class.php';
-
-        /*
-         * Logout
-         */
-        $this->commandsConfig['logout'] = array();
-        $this->commandsConfig['logout']['className'] = 'LogoutCommand';
-        $this->commandsConfig['logout']['filePath'] = 'lib/framework/controller/command/LogoutCommand.class.php';
-
-        /*
-         * LoginScreen
-         */
-        $this->commandsConfig['loginScreen'] = array();
-        $this->commandsConfig['loginScreen']['className'] = 'LoginScreen';
-        $this->commandsConfig['loginScreen']['filePath'] = 'Controller/LoginScreen.class.php';
-
-        /*
-         * Main
-         */
-        $this->commandsConfig['main'] = array();
-        $this->commandsConfig['main']['className'] = 'MainCommand';
-        $this->commandsConfig['main']['filePath'] = 'Controller/MainCommand.class.php';
+        require_once 'controller/commandsConfig.php';
+        $this->commandsConfig = getCommandsConfig();
     }
     
     /**
-     *
+     * Executado para recuperar as configurações de um Command em particular 
      * @param string $commandName
      * @return array|null 
      */
