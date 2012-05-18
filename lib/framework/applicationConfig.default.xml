@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+    <!-- loginScreen -->
+    <command>
+        <commandcontext>application</commandcontext>
+        <commandname>loginScreen</commandname>
+        <classname>LoginScreen</classname>
+        <filepath>Controller/LoginScreen.class.php</filepath>
+        <includeview>View/loginScreen.php</includeview>
+    </command>
+    <!-- main -->
+    <command>        
+        <commandcontext>application</commandcontext>
+        <commandname>main</commandname>
+        <classname>MainCommand</classname>
+        <filepath>Controller/MainCommand.class.php</filepath>
+        <includeview>View/main.php</includeview>
+    </command>
+</root>

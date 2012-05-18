@@ -3,12 +3,11 @@
 class CommandNotFoundException extends Exception {
     
 }
-// TODO: Considerar usar um ApllicationHelper só para ler o XML e deixar o CommandResolver apenas para
-// instancia-lo
 
 require_once 'controller/request/Request.class.php';
 require_once 'controller/command/Command.class.php';
 require_once 'controller/registry/SessionRegistry.class.php';
+require_once 'controller/registry/PatchCommandRegistry.class.php';
 
 /**
  * Classe CommandResolver
@@ -21,45 +20,13 @@ require_once 'controller/registry/SessionRegistry.class.php';
 class CommandResolver {
 
     /**
-     * XML com as configurações do Command
-     * @var string
-     */
-    private static $commandConfig = "/commandConfig.xml";
-
-    /**
-     * Objeto SimpleXMLElement
-     * @var SimpleXMLElement 
-     */
-    private static $xmlCommand;
-
-    /**
-     * Classe base para o uso de Reflexão
-     * @var type 
-     */
-    private static $base_cmd;
-
-    /**
      * Command Padrão
      * @var Command 
      */
     private static $mainCommand = null;
 
     public function __construct() {
-        self::$commandConfig = dirname(__FILE__) . self::$commandConfig;
-        // Carregando o arquivo xml
-        self::$xmlCommand = @simplexml_load_file(self::$commandConfig);
-
-        if (!self::$xmlCommand) {
-            throw $e = new Exception("Arquivo XML '" . self::$commandConfig . "' não encontrado.");
-            $e->getTraceAsString();
-        }
-        if (!(self::$xmlCommand instanceof SimpleXMLElement)) {
-            throw $e = new Exception("Não foi possível identificar o arquivo '" . self::$commandConfig);
-            $e->getTraceAsString();
-        }
-
-        // Criando classe base para o uso de Reflexão
-        self::$base_cmd = new ReflectionClass("Command");
+        
     }
 
     /**
@@ -79,12 +46,11 @@ class CommandResolver {
             // Se o usuário não estiver autenticado, ele será redirecionado para o command de vwlogin
             if (!SessionRegistry::getInstance()->is_authenticated()) {
                 // Se o request for post leve para o command de autenticação
-                if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $commandName = "auth";
                 } else {
-                    //$request->addFeedback("Usuário não autenticado");
                     $commandName = "loginScreen";
-                }                
+                }
             }
         }
 
@@ -103,54 +69,30 @@ class CommandResolver {
      * @throws CommandNotFoundException 
      */
     private function getCommandInstance($commandName = 'main') {
+        $commandConf = array();
         $objCommand = null;
-        $found = false;
-        $className = '';
-        $filePath = '';
 
-        for ($i = 0; $i < count(self::$xmlCommand); $i++) {
+        // Recuperando o command requisitado
+        $commandConf = PatchCommandRegistry::getInstance()->getPatch($commandName);
 
-            if ((string) self::$xmlCommand->command[$i]->commandname == $commandName) {
-                // Caso o command main seja requisitado e o mesmo esteja em cache, retorne-o
-                if ($commandName == "main") {
-                    if (self::$mainCommand != null) {
-                        return self::$mainCommand;
-                    }
-                }
+        /*
+         * Verificando se o commandName existe
+         */
+        if ($commandConf != null) {
+            require_once $commandConf[$commandName]['filepath'];
 
-                $found = true;
-                $className = (string) self::$xmlCommand->command[$i]->classname;
-                $filePath = (string) self::$xmlCommand->command[$i]->filepath;
-                break;
-            }
-        }
-
-        //Verifica se o Command requisitado foi encontrado no XML
-        if ($found) {
-            // Verificando se o arquivo realmente existe
-            if (!file_exists($filePath)) {
-                throw $e = new CommandNotFoundException("O arquivo '{$filePath}' não foi encontrado.");
-                $e->getTraceAsString();
-            }
-
-            // requerindo o qrquivo
-            require_once $filePath;
-
-            // Verificando se a classe existe dentro do arquivo
-            if (!class_exists($className)) {
-                throw $e = new CommandNotFoundException("A classe '{$className}' não foi encontrada no arquivo '{$filePath}'.");
-                $e->getTraceAsString();
-            }
+            // Verificando se a classe existe
+            $this->throwException(
+                    !class_exists($commandConf[$commandName]['classname']), "A classe '{$commandConf[$commandName]['classname']}' não foi encontrada.", __LINE__
+            );
 
             // Instanciando o Objeto
-            $objCommand = new $className();
+            $objCommand = new $commandConf[$commandName]['classname']();
 
             // Verificando se o objeto instanciado é um Command
-            $cmd_class = new ReflectionClass($className);
-            if (!$cmd_class->isSubclassOf(self::$base_cmd)) {
-                throw $e = new CommandNotFoundException("A classe '{$className}' não é um Command.");
-                $e->getTraceAsString();
-            }
+            $this->throwException(
+                    !($objCommand instanceof Command), "A classe {$commandConf[$commandName]['classname']} não é um Command.", __LINE__
+            );
 
             // Caso o command requerido seja o main, na primeira execução desta
             // requisição, é salvo o objeto em cache
@@ -159,15 +101,22 @@ class CommandResolver {
             }
 
             // Retornando o objeto Command
-            return $objCommand;
+            return $objCommand;            
+            
         } else {
-
-            // se o mainCommand já estiver em cache
+            // se o mainCommand já estiver em cache retorna o mainCommand já instanciado
             if (self::$mainCommand != null)
                 return self::$mainCommand;
             else
-                // se nao retorna uma instancia dele
+            // instancia um novo main command e retorna-o
                 return $this->getCommandInstance();
+        }
+    }
+
+    private function throwException($condition, $message, $line) {
+        if ($condition) {
+            throw $e = new Exception($message . " ## Line: " . $line . " ##");
+            $e->getTraceAsString();
         }
     }
 
