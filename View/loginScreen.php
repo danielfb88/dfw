@@ -1,7 +1,7 @@
 <?php
 require_once 'lib/framework/controller/request/Request.class.php';
 
-// Verificando mensagens deixadas por algum command
+// Verificando mensagens deixadas pelo command
 $feedback = $request->getFeedback();
 for ($i = 0; $i < count($feedback); $i++) {
     echo $feedback[$i];

@@ -5,6 +5,10 @@ require_once 'controller/request/Request.class.php';
 require_once 'controller/registry/SessionRegistry.class.php';
 require_once 'controller/classes/Auth.class.php';
 
+/**
+ * Para usar esta classe, o objeto Request deve conter os campos 'tx_user' e tx_password'
+ * A página de login deve possuir o nome 'loginScreen' e estar no diretório da aplicação View/
+ */
 class AuthCommand extends Command {
 
     function doExecute(Request $request) {
@@ -20,11 +24,7 @@ class AuthCommand extends Command {
                 // Colocando o DAOUsuario na SESSAO
                 SessionRegistry::getInstance()->setDAOUsuario($daoUsuario);
                 header("Location: index.php");
-
-                // TODO: PAra LOGINCOMMAND acho que é melhor dar um header ao invés de include. 
-                // Vamos direciona-lo para um novo lugar, provavelmente terá um novo design.
-                // Depois usaremos apenas os templates.
-                // header para index.php?cmd=main
+                
             } else {
                 $request->addFeedback("Usuário não encontrado.");
                 require_once 'View/loginScreen.php';

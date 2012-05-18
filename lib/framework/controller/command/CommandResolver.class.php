@@ -3,6 +3,8 @@
 class CommandNotFoundException extends Exception {
     
 }
+// TODO: Considerar usar um ApllicationHelper só para ler o XML e deixar o CommandResolver apenas para
+// instancia-lo
 
 require_once 'controller/request/Request.class.php';
 require_once 'controller/command/Command.class.php';
