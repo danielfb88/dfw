@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <root>
+    <!-- Framework -->
+    
+    <!-- logout -->
+    <command>
+        <commandname>logout</commandname>
+        <classname>LogoutCommand</classname>
+        <filepath>lib/framework/controller/command/LogoutCommand.class.php</filepath>
+    </command>
+    <!-- auth -->
+    <command>
+        <commandname>auth</commandname>
+        <classname>AuthCommand</classname>
+        <filepath>lib/framework/controller/command/AuthCommand.class.php</filepath>
+    </command>
+    
+    
+    <!-- Application -->
+    
     <!-- loginScreen -->
     <command>
-        <commandcontext>application</commandcontext>
         <commandname>loginScreen</commandname>
         <classname>LoginScreen</classname>
         <filepath>Controller/LoginScreen.class.php</filepath>
         <includeview>View/loginScreen.php</includeview>
     </command>
     <!-- main -->
-    <command>        
-        <commandcontext>application</commandcontext>
+    <command>
         <commandname>main</commandname>
         <classname>MainCommand</classname>
         <filepath>Controller/MainCommand.class.php</filepath>

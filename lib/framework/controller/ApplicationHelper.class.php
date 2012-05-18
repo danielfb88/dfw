@@ -1,117 +1,69 @@
 <?php
 
-require_once 'registry/PatchCommandRegistry.class.php';
-
-/**
- * Carrega arquivos XML do FrameWork e da Aplicação e salva em cache no singleton PatchCommandRegistry
- * Data de criação: 17 de Maio de 2012
- * 
- * @author Daniel Bonfim
- * @version 1.0
- */
 class ApplicationHelper {
 
-    /**
-     * XML com as configurações dos commands do framework
-     * @var string 
-     */
-    private static $frameworkConfig = "/frameworkConfig.xml";
+    private $commandsConfig = array();
+    private static $instance;
 
+    private function __construct() {
+        $this->defineCommandsConfig();
+    }
+    
     /**
-     * XML com as configurações dos commands da aplicação
-     * @var string
+     *
+     * @return ApplicationHelper 
      */
-    private static $applicationConfig = "/../commandConfig.xml";
-
-    public static function init() {
-        if (!PatchCommandRegistry::getInstance()->is_initialized())
-            self::loadOptions();
+    public static function getInstance() {
+        if(self::$instance == null)
+            self::$instance = new self();
+        return self::$instance;
     }
 
-    private static function loadOptions() {
-        self::$frameworkConfig = dirname(__FILE__) . self::$frameworkConfig;
-        self::$applicationConfig = dirname(__FILE__) . self::$applicationConfig;
-
-        // Verificando se os arquivos de configuração existem
-        self::throwException(
-                !file_exists(self::$frameworkConfig), "Arquivo XML '" . self::$frameworkConfig . "' não encontrado.", __LINE__
-        );
-        self::throwException(
-                !file_exists(self::$applicationConfig), "Arquivo XML '" . self::$applicationConfig . "' não encontrado.", __LINE__
-        );
-
-        // Carregando o arquivos xml
-        $xmlFrameworkConfig = @simplexml_load_file(self::$frameworkConfig);
-        $xmlApplicationConfig = @simplexml_load_file(self::$applicationConfig);
+    private function defineCommandsConfig() {
+        /*
+         * Auth
+         */
+        $this->commandsConfig['auth'] = array();
+        $this->commandsConfig['auth']['className'] = 'AuthCommand';
+        $this->commandsConfig['auth']['filePath'] = 'lib/framework/controller/command/AuthCommand.class.php';
 
         /*
-         * Verificando objetos SimpleXMLElement
+         * Logout
          */
-        self::throwException(
-                !($xmlFrameworkConfig instanceof SimpleXMLElement), "Não foi possível identificar o arquivo '" . self::$frameworkConfig, __LINE__
-        );
-        self::throwException(
-                !($xmlApplicationConfig instanceof SimpleXMLElement), "Não foi possível identificar o arquivo '" . self::$applicationConfig, __LINE__
-        );
+        $this->commandsConfig['logout'] = array();
+        $this->commandsConfig['logout']['className'] = 'LogoutCommand';
+        $this->commandsConfig['logout']['filePath'] = 'lib/framework/controller/command/LogoutCommand.class.php';
 
         /*
-         * Array que será inserido ao PatchCommandRegistry 
+         * LoginScreen
          */
-        $patchCommand = array();
+        $this->commandsConfig['loginScreen'] = array();
+        $this->commandsConfig['loginScreen']['className'] = 'LoginScreen';
+        $this->commandsConfig['loginScreen']['filePath'] = 'Controller/LoginScreen.class.php';
 
         /*
-         * Carregando configurações do Framework
+         * Main
          */
-        for ($i = 0; $i < count($xmlFrameworkConfig); $i++) {
-
-            $commandName = (string) $xmlFrameworkConfig->command[$i]->commandname;
-            $patchCommand[$commandName]['classname'] = (string) $xmlFrameworkConfig->command[$i]->classname;
-            $patchCommand[$commandName]['filePatch'] = (string) $xmlFrameworkConfig->command[$i]->filepath;
-            $patchCommand[$commandName]['commandcontext'] = "framework";
-
-            /*
-             * Verificando se filepath existe
-             */
-            self::throwException(
-                    !file_exists($patchCommand[$commandName]['filepath']), "O arquivo '{$patchCommand[$commandName]['filepath']}' não foi encontrado.", __LINE__
-            );
-        }
-
-        /*
-         * Carregando configurações da Aplicação
-         */
-        for ($i = 0; $i < count($xmlApplicationConfig); $i++) {
-
-            $commandName = (string) $xmlApplicationConfig->command[$i]->commandname;
-            $patchCommand[$commandName]['classname'] = (string) $xmlApplicationConfig->command[$i]->classname;
-            $patchCommand[$commandName]['filepath'] = (string) $xmlApplicationConfig->command[$i]->filepath;
-            $patchCommand[$commandName]['includeview'] = (string) $xmlApplicationConfig->command[$i]->includeview;
-            $patchCommand[$commandName]['commandcontext'] = "application";
-
-            /*
-             * Verificando se filepath e includeview existem
-             */
-            self::throwException(
-                    !file_exists($patchCommand[$commandName]['filepath']), "O arquivo '{$patchCommand[$commandName]['filepath']}' não foi encontrado.", __LINE__
-            );
-            self::throwException(
-                    !file_exists($patchCommand[$commandName]['includeview']), "O arquivo '{$patchCommand[$commandName]['includeview']}' não foi encontrado.", __LINE__
-            );
-        }
-        // TODO: Isso não ta dando certo. O consumo de memória tá foda. Acho que vou colocar esse conteudo
-        // de cache em um arquivo.
-        print_r($patchCommand);die;
-        
-        /*
-         * Inserindo Patchs do sistema ao Registry
-         */
-        PatchCommandRegistry::getInstance()->setPatchs($patchCommand);
+        $this->commandsConfig['main'] = array();
+        $this->commandsConfig['main']['className'] = 'MainCommand';
+        $this->commandsConfig['main']['filePath'] = 'Controller/MainCommand.class.php';
     }
-
-    private static function throwException($condition, $message, $line) {
-        if ($condition) {
-            throw $e = new Exception($message . " ## Line: " . $line . " ##");
-            $e->getTraceAsString();
+    
+    /**
+     *
+     * @param string $commandName
+     * @return array|null 
+     */
+    public function getCommandConfig($commandName) {
+        if(isset($this->commandsConfig[$commandName])) {
+            // testando o filepath
+            if(!file_exists($this->commandsConfig[$commandName]['filePath']))
+                throw $e = new Exception("Arquivo ".$this->commandsConfig[$commandName]['filePath']." não existe.");
+                        
+            return $this->commandsConfig[$commandName];
+            
+        } else {
+            return null;
         }
     }
 

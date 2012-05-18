@@ -7,7 +7,7 @@ class CommandNotFoundException extends Exception {
 require_once 'controller/request/Request.class.php';
 require_once 'controller/command/Command.class.php';
 require_once 'controller/registry/SessionRegistry.class.php';
-require_once 'controller/registry/PatchCommandRegistry.class.php';
+require_once 'controller/ApplicationHelper.class.php';
 
 /**
  * Classe CommandResolver
@@ -18,12 +18,6 @@ require_once 'controller/registry/PatchCommandRegistry.class.php';
  * @version 1.0
  */
 class CommandResolver {
-
-    /**
-     * Command Padrão
-     * @var Command 
-     */
-    private static $mainCommand = null;
 
     public function __construct() {
         
@@ -69,47 +63,25 @@ class CommandResolver {
      * @throws CommandNotFoundException 
      */
     private function getCommandInstance($commandName = 'main') {
-        $commandConf = array();
-        $objCommand = null;
+        $commandConf = ApplicationHelper::getInstance()->getCommandConfig($commandName);
 
-        // Recuperando o command requisitado
-        $commandConf = PatchCommandRegistry::getInstance()->getPatch($commandName);
-
-        /*
-         * Verificando se o commandName existe
-         */
         if ($commandConf != null) {
-            require_once $commandConf[$commandName]['filepath'];
+            require_once $commandConf['filePath'];
 
             // Verificando se a classe existe
-            $this->throwException(
-                    !class_exists($commandConf[$commandName]['classname']), "A classe '{$commandConf[$commandName]['classname']}' não foi encontrada.", __LINE__
-            );
+            $this->throwException((!empty($commandConf['className']) && !class_exists($commandConf['className'])), "A classe '{$commandConf['className']}' não foi encontrada.", __LINE__);
 
             // Instanciando o Objeto
-            $objCommand = new $commandConf[$commandName]['classname']();
+            $objCommand = new $commandConf['className']();
 
             // Verificando se o objeto instanciado é um Command
-            $this->throwException(
-                    !($objCommand instanceof Command), "A classe {$commandConf[$commandName]['classname']} não é um Command.", __LINE__
-            );
-
-            // Caso o command requerido seja o main, na primeira execução desta
-            // requisição, é salvo o objeto em cache
-            if ($commandName == "main") {
-                self::$mainCommand = $objCommand;
-            }
+            $this->throwException(!($objCommand instanceof Command), "A classe {$commandConf['className']} não é um Command.", __LINE__);
 
             // Retornando o objeto Command
-            return $objCommand;            
-            
+            return $objCommand;
         } else {
-            // se o mainCommand já estiver em cache retorna o mainCommand já instanciado
-            if (self::$mainCommand != null)
-                return self::$mainCommand;
-            else
             // instancia um novo main command e retorna-o
-                return $this->getCommandInstance();
+            return $this->getCommandInstance();
         }
     }
 
