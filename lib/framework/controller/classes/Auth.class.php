@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../../path.php';
+require_once 'controller/config/ApplicationConfig.class.php';
 
 /**
  * Classe de Autenticação, login e logoff
@@ -17,11 +18,27 @@ class Auth {
         if ((empty($user) || is_null($user)) || (empty($password) || is_null($password)))
             return null;
 
-        require_once 'model/DAOUsuario.class.php';
-
-        $usuario = new DAOUsuario();
-        $usuario->usuario = $user;
-        $usuario->senha = $password;
+        $configDao = ApplicationConfig::getInstance()->getConfigDAO('daoUsuario');
+        
+        self::throwException($configDao == null, 'O dao "daoUsuario" parece não estar configurado corretamente em applicationConfig', __LINE__);
+        
+        require_once $configDao['filePath'];
+                
+        self::throwException(!class_exists($configDao['className']), 'A classe '.$configDao['className'].' não existe no arquivo '.$configDao['filePath'], __LINE__);
+        
+        
+        $reflectionDao = new ReflectionClass($configDao['className']);                
+        if(!$reflectionDao->isSubclassOf('DAO')) {
+            throw $e = new Exception('A classe '.$configDao['className'].' não é uma classe DAO');
+            $e->getTraceAsString();
+        }        
+        
+        $varUserName = $configDao['varUserName'];
+        $varPasswordName = $configDao['varPasswordName'];
+        
+        $usuario = new $configDao['className']();        
+        $usuario->$varUserName = $user;
+        $usuario->$varPasswordName = $password;
         $usuario->read();
 
         if ($usuario->found) {
@@ -38,6 +55,13 @@ class Auth {
 
     public static function getError() {
         return self::$error;
+    }
+    
+    private static function throwException($condition, $msg, $line) {
+        if($condition) {
+            throw $e = new Exception($msg.' ## line '.$line.' ##');
+            $e->getTraceAsString();
+        }
     }
 
 }

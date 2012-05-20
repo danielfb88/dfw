@@ -7,7 +7,7 @@ class CommandNotFoundException extends Exception {
 require_once 'controller/request/Request.class.php';
 require_once 'controller/command/Command.class.php';
 require_once 'controller/registry/SessionRegistry.class.php';
-require_once 'controller/ApplicationHelper.class.php';
+require_once 'controller/config/ApplicationConfig.class.php';
 
 /**
  * Classe CommandResolver
@@ -63,7 +63,7 @@ class CommandResolver {
      * @throws CommandNotFoundException 
      */
     private function getCommandInstance($commandName = 'main') {
-        $commandConf = ApplicationHelper::getInstance()->getCommandConfig($commandName);
+        $commandConf = ApplicationConfig::getInstance()->getConfigCommand($commandName);
 
         if ($commandConf != null) {
             require_once $commandConf['filePath'];

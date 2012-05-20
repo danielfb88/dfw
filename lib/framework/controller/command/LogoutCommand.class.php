@@ -10,6 +10,7 @@ class LogoutCommand extends Command {
     function doExecute(Request $request) {
         Auth::logout();
         echo '<br/> Logout <br/>';
+        header("Location: index.php");
         
     }
 

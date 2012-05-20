@@ -1,6 +1,5 @@
 <?php
 require_once 'Registry.class.php';
-require_once 'model/DAOUsuario.class.php';
 
 /**
  * Registry para SESSAO.
