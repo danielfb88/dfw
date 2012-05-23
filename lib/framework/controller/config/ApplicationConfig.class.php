@@ -10,21 +10,10 @@ class ApplicationConfig {
 
     private $commandsConfig = array();
     private $daosConfig = array();
-    private static $instance = null;
 
-    private function __construct() {
+    public function __construct() {
         $this->initDaosConfig();
         $this->initCommandsConfig();
-    }
-
-    /**
-     * Singleton ApplicationConfig
-     * @return ApplicationConfig 
-     */
-    public static function getInstance() {
-        if (self::$instance == null)
-            self::$instance = new self();
-        return self::$instance;
     }
 
     /**
@@ -51,6 +40,8 @@ class ApplicationConfig {
      * em relação a usar um arquivo de configuração XML
      */
     private function initCommandsConfig() {
+        
+        ##################### Commands usados pelo Framework #####################
         /*
          * Auth
          */
@@ -78,6 +69,15 @@ class ApplicationConfig {
         $this->commandsConfig['main'] = array();
         $this->commandsConfig['main']['className'] = 'Main';
         $this->commandsConfig['main']['filePath'] = 'Controller/Main.class.php';
+        
+        ##################### Commands especificos da aplicação #####################
+        
+        /*
+         * Renda
+         */
+        $this->commandsConfig['renda'] = array();
+        $this->commandsConfig['renda']['className'] = 'Renda';
+        $this->commandsConfig['renda']['filePath'] = 'Controller/financeiro/renda/Renda.class.php';
     }
 
     /**

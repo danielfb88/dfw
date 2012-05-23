@@ -2,7 +2,7 @@
 
 require_once 'controller/command/Command.class.php';
 require_once 'controller/request/Request.class.php';
-require_once 'controller/registry/SessionRegistry.class.php';
+require_once 'controller/SessionHelper.class.php';
 require_once 'controller/classes/Auth.class.php';
 
 /**
@@ -12,6 +12,8 @@ require_once 'controller/classes/Auth.class.php';
 class AuthCommand extends Command {
 
     function doExecute(Request $request) {
+         $sessionHelper = new SessionHelper();
+                
         $tx_user = $request->getProperty('tx_user');
         $tx_password = $request->getProperty('tx_password');
 
@@ -20,9 +22,9 @@ class AuthCommand extends Command {
             $daoUsuario = Auth::login($tx_user, $tx_password);
             if ($daoUsuario != null) {
                 // Autenticando usuário
-                SessionRegistry::getInstance()->authenticate();
+                $sessionHelper->authenticate();
                 // Colocando o DAOUsuario na SESSAO
-                SessionRegistry::getInstance()->setDAOUsuario($daoUsuario);
+                $sessionHelper->setDAOUsuario($daoUsuario);
                 header("Location: index.php");
                 
             } else {

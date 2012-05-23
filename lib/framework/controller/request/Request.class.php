@@ -67,11 +67,22 @@ class Request {
 
     /**
      * Retorna o Command (cmd) definido
-     * @return string
+     * @return string|null
      */
     public function getCommandName() {
         if (isset($this->properties['cmd'])) {
             return $this->properties['cmd'];
+        }
+        return null;
+    }
+    
+    /**
+     * Retorna o id definido
+     * @return string|null 
+     */
+    public function getId() {
+        if (isset($this->properties['id'])) {
+            return $this->properties['id'];
         }
         return null;
     }

@@ -13,12 +13,13 @@ require_once 'controller/config/ApplicationConfig.class.php';
 class Auth {
 
     private static $error;
-
+    
     public static function login($user, $password) {
         if ((empty($user) || is_null($user)) || (empty($password) || is_null($password)))
             return null;
 
-        $configDao = ApplicationConfig::getInstance()->getConfigDAO('daoUsuario');
+        $applicationConfig = new ApplicationConfig();
+        $configDao = $applicationConfig->getConfigDAO('daoUsuario');
         
         self::throwException($configDao == null, 'O dao "daoUsuario" parece não estar configurado corretamente em applicationConfig', __LINE__);
         
@@ -47,10 +48,6 @@ class Auth {
             self::$error = "Usuário não encontrado";
             return null;
         }
-    }
-
-    public static function logout() {
-        session_destroy();
     }
 
     public static function getError() {

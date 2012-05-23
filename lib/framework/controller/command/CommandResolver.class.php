@@ -6,7 +6,7 @@ class CommandNotFoundException extends Exception {
 
 require_once 'controller/request/Request.class.php';
 require_once 'controller/command/Command.class.php';
-require_once 'controller/registry/SessionRegistry.class.php';
+require_once 'controller/SessionHelper.class.php';
 require_once 'controller/config/ApplicationConfig.class.php';
 
 /**
@@ -18,9 +18,12 @@ require_once 'controller/config/ApplicationConfig.class.php';
  * @version 1.0
  */
 class CommandResolver {
+    protected $sessionHelper;
+    protected $applicationConfig;
 
     public function __construct() {
-        
+        $this->sessionHelper = new SessionHelper();
+        $this->applicationConfig = new ApplicationConfig();
     }
 
     /**
@@ -38,7 +41,7 @@ class CommandResolver {
 
         if ($checkAuth) {
             // Se o usuário não estiver autenticado, ele será redirecionado para o command de vwlogin
-            if (!SessionRegistry::getInstance()->is_authenticated()) {
+            if (!$this->sessionHelper->is_authenticated()) {
                 // Se o request for post leve para o command de autenticação
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $commandName = "auth";
@@ -63,7 +66,7 @@ class CommandResolver {
      * @throws CommandNotFoundException 
      */
     private function getCommandInstance($commandName = 'main') {
-        $commandConf = ApplicationConfig::getInstance()->getConfigCommand($commandName);
+        $commandConf = $this->applicationConfig->getConfigCommand($commandName);
 
         if ($commandConf != null) {
             require_once $commandConf['filePath'];
