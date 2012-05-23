@@ -1,19 +1,19 @@
 <?php
 
+session_start();
+
 /**
- * Helper para Sessão
+ * Helper para Sessão.
+ * Todo dado inserido na sessão atravéz desta classe é serializado e desserializado ao ser retornado.
  * Data de criação: 14 de Maio de 2012
  * 
  * @author Daniel Bonfim
  * @version 1.0 
  */
 class SessionHelper {
-
-    /**
-     * Inicio da Sessão 
-     */
+    
     public function __construct() {
-        session_start();
+        
     }
 
     /**
@@ -23,11 +23,7 @@ class SessionHelper {
      */
     protected function get($key) {
         if (isset($_SESSION[__CLASS__][$key])) {
-            if (is_object($_SESSION[__CLASS__][$key])) {
-                return unserialize($_SESSION[__CLASS__][$key]);
-            } else {
-                return $_SESSION[__CLASS__][$key];
-            }
+            return unserialize($_SESSION[__CLASS__][$key]);
         }
         return null;
     }
@@ -38,32 +34,28 @@ class SessionHelper {
      * @param mixed $value 
      */
     protected function set($key, $value) {
-        if (is_object($value)) {
-            $_SESSION[__CLASS__][$key] = serialize($value);
-        } else {
-            $_SESSION[__CLASS__][$key] = $value;
-        }
+        $_SESSION[__CLASS__][$key] = serialize($value);
     }
-    
+
     /**
      * Autentica usuário na Sessão 
      */
     public function authenticate() {
         $this->set('authenticated', true);
     }
-    
+
     /**
      * Verifica se o usuário está autenticado
      * @return boolean 
      */
     public function is_authenticated() {
-        $authenticated =  $this->get('authenticated');
-        if($authenticated != null)
+        $authenticated = $this->get('authenticated');
+        if ($authenticated != null)
             return $authenticated;
         else
             return false;
     }
-    
+
     /**
      * Insere o DaoUsuario na Sessão
      * @param DAOUsuario $daoUsuario 
@@ -71,19 +63,20 @@ class SessionHelper {
     public function setDAOUsuario(DAOUsuario $daoUsuario) {
         $this->set("daoUsuario", $daoUsuario);
     }
-    
+
     /**
      * Retorna o DaoUsuario da Sessão
-     * @return type 
+     * @return DAOUsuario 
      */
     public function getDAOUsuario() {
         return $this->get("daoUsuario");
     }
-    
+
     /**
      * Destroi a Sessão 
      */
     public function session_destroy() {
         session_destroy();
     }
+
 }

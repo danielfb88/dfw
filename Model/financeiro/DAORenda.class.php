@@ -13,6 +13,7 @@ require_once 'model/DAO.class.php';
 class DAORenda extends DAO {
 
     public $id_renda;
+    public $id_usuario;
     public $descricao;
     public $valor;
     public $tipo;

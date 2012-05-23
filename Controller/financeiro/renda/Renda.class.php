@@ -4,6 +4,7 @@ require_once 'controller/command/Command.class.php';
 require_once 'controller/request/Request.class.php';
 require_once 'controller/SessionHelper.class.php';
 require_once 'Model/financeiro/DAORenda.class.php';
+require_once 'Model/DAOUsuario.class.php';
 
 class Renda extends Command {
 
@@ -35,12 +36,8 @@ class Renda extends Command {
                 break;
 
             default:
-                $this->listAll();
+                $this->listAll($request);
         }
-    }
-
-    private function listAll($request) {
-        // listar todas
     }
 
     private function frmAdd() {
@@ -51,14 +48,27 @@ class Renda extends Command {
         require_once 'View/financeiro/renda/frm_editRenda.php';
     }
 
-    private function add(Request $request) {
+    private function listAll($request) {
+        $sessionHelper = new SessionHelper();
+        $daoUsuario = $sessionHelper->getDAOUsuario();
+                
         $daoRenda = new DAORenda();
+        $daoRenda->id_usuario = $daoUsuario->id_usuario;
+        $arrRenda = $daoRenda->getAll();
+        print_r($arrRenda);
+    }
+
+    private function add(Request $request) {
+        $sessionHelper = new SessionHelper();
+        $daoUsuario = $sessionHelper->getDAOUsuario();
+        
+        $daoRenda = new DAORenda();
+        $daoRenda->id_usuario = $daoUsuario->id_usuario;
         $daoRenda->descricao = $request->getProperty('tx_descricao');
         $daoRenda->valor = $request->getProperty('tx_valor');
         $daoRenda->tipo = $request->getProperty('tx_tipo');
         $daoRenda->observacao = $request->getProperty('tx_observacao');
         $daoRenda->insert();
-        unset($daoRenda);
 
         echo '<br/>Renda Inserida com sucesso!<br/>';
     }
@@ -71,7 +81,6 @@ class Renda extends Command {
         $daoRenda->tipo = $request->getProperty('tx_tipo');
         $daoRenda->observacao = $request->getProperty('tx_observacao');
         $daoRenda->update();
-        unset($daoRenda);
 
         echo '<br/>Renda Editada com sucesso!<br/>';
     }
@@ -81,7 +90,6 @@ class Renda extends Command {
         // usuario_id
         $daoRenda->id_renda = $request->getId();
         $daoRenda->delete();
-        unset($daoRenda);
 
         echo '<br/>Renda Deletada com sucesso!<br/>';
     }
