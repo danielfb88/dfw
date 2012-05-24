@@ -1,8 +1,8 @@
 <?php
 
-require_once 'controller/command/Command.class.php';
-require_once 'controller/request/Request.class.php';
-require_once 'controller/SessionHelper.class.php';
+require_once 'lib/framework/controller/command/Command.class.php';
+require_once 'lib/framework/controller/request/Request.class.php';
+require_once 'lib/framework/controller/SessionHelper.class.php';
 require_once 'Model/financeiro/DAORenda.class.php';
 require_once 'Model/DAOUsuario.class.php';
 
@@ -48,7 +48,7 @@ class Renda extends Command {
         require_once 'View/financeiro/renda/frm_editRenda.php';
     }
 
-    private function listAll($request) {
+    private function listAll(Request $request) {
         $sessionHelper = new SessionHelper();
         $daoUsuario = $sessionHelper->getDAOUsuario();
                 

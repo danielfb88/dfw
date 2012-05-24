@@ -1,5 +1,4 @@
 <?php
-require_once dirname(__FILE__).'/../../path.php';
 require_once 'controller/config/ApplicationConfig.class.php';
 
 /**

@@ -8,7 +8,7 @@
  * @version     1.0
  * 
  */
-require_once 'model/DAO.class.php';
+require_once 'lib/framework/model/DAO.class.php';
 
 class DAORenda extends DAO {
 

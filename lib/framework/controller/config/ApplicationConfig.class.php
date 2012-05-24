@@ -47,14 +47,14 @@ class ApplicationConfig {
          */
         $this->commandsConfig['auth'] = array();
         $this->commandsConfig['auth']['className'] = 'AuthCommand';
-        $this->commandsConfig['auth']['filePath'] = 'lib/framework/controller/command/AuthCommand.class.php';
+        $this->commandsConfig['auth']['filePath'] = 'controller/command/AuthCommand.class.php';
 
         /*
          * Logout
          */
         $this->commandsConfig['logout'] = array();
         $this->commandsConfig['logout']['className'] = 'LogoutCommand';
-        $this->commandsConfig['logout']['filePath'] = 'lib/framework/controller/command/LogoutCommand.class.php';
+        $this->commandsConfig['logout']['filePath'] = 'controller/command/LogoutCommand.class.php';
 
         /*
          * LoginScreen
@@ -114,11 +114,6 @@ class ApplicationConfig {
     public function getConfigCommand($commandName) {
         if (isset($this->commandsConfig[$commandName])) {
             if (isset($this->commandsConfig[$commandName]['filePath'])) {
-                // Testando o caminho informado no filePath
-                if (!file_exists($this->commandsConfig[$commandName]['filePath'])) {
-                    throw $e = new Exception('O arquivo ' . $this->commandsConfig[$commandName]['filePath'] . ' não existe');
-                    $e->getTraceAsString();
-                }
                 // Retornando configuraçoes do Command solicitado
                 return $this->commandsConfig[$commandName];
             } else {

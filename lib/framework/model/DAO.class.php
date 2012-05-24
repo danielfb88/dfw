@@ -26,10 +26,12 @@ require_once 'Conexao.class.php';
  * 22 de Abril de 2012
  *      - Criado o método logIntoFile() - Todas as queries enviadas para o banco são automaticamente salvas no
  *              arquivo especificado
+ * 24 de Maio de 2012
+ *      - Adicionado ao método getAll() a verificação da existência do DTO informado na subclasse.
+ *          if(!empty($this->dtoClassName) && class_exists($this->dtoClassName)) {...
  * 
  * @author      Daniel Bonfim <daniel.fb88@gmail.com>
- * @version     2.0
- * @abstract
+ * @version     2.0.1
  * 
  */
 abstract class DAO {
@@ -531,7 +533,7 @@ abstract class DAO {
             if ($retornoOk) {
 
                 // se foi definido um DTO na subclasse, preencha-o com os registros
-                if ($this->dtoClassName) {
+                if (!empty($this->dtoClassName) && class_exists($this->dtoClassName)) {
                     // recupera os registros e insere cada um no dto especificado na sub-classe retornando um array desses objetos
                     $arr = $preparedStatment->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->dtoClassName);
                 } else {
