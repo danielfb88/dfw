@@ -1,7 +1,12 @@
 <?php
+/*
+ * TODO: Pensar na possibilidade de usar um arquivo de configuração xml e um outro de cache. 
+ * Colocar as configurações nesta classe não está me cheirando bem...
+ * 
+ */
 
 /**
- * Classe Singleton responsável pelas configurações dos Commans e dos DAO's padrão usados pelo sistema.
+ * Classe responsável pelas configurações dos Commans e dos DAO's padrão usados pelo sistema.
  * 
  * @author Daniel Bonfim
  * @version 1.0 
@@ -46,29 +51,29 @@ class ApplicationConfig {
          * Auth
          */
         $this->commandsConfig['auth'] = array();
-        $this->commandsConfig['auth']['className'] = 'AuthCommand';
-        $this->commandsConfig['auth']['filePath'] = 'controller/command/AuthCommand.class.php';
+        $this->commandsConfig['auth']['className'] = 'Auth_command';
+        $this->commandsConfig['auth']['filePath'] = 'controller/command/Auth_command.class.php';
 
         /*
          * Logout
          */
         $this->commandsConfig['logout'] = array();
-        $this->commandsConfig['logout']['className'] = 'LogoutCommand';
-        $this->commandsConfig['logout']['filePath'] = 'controller/command/LogoutCommand.class.php';
+        $this->commandsConfig['logout']['className'] = 'Logout_command';
+        $this->commandsConfig['logout']['filePath'] = 'controller/command/Logout_command.class.php';
 
         /*
          * LoginScreen
          */
         $this->commandsConfig['loginScreen'] = array();
-        $this->commandsConfig['loginScreen']['className'] = 'LoginScreen';
-        $this->commandsConfig['loginScreen']['filePath'] = 'Controller/LoginScreen.class.php';
+        $this->commandsConfig['loginScreen']['className'] = 'LoginScreen_command';
+        $this->commandsConfig['loginScreen']['filePath'] = 'Command/LoginScreen_command.class.php';
 
         /*
          * Main
          */
         $this->commandsConfig['main'] = array();
-        $this->commandsConfig['main']['className'] = 'Main';
-        $this->commandsConfig['main']['filePath'] = 'Controller/Main.class.php';
+        $this->commandsConfig['main']['className'] = 'Main_command';
+        $this->commandsConfig['main']['filePath'] = 'Command/Main_command.class.php';
         
         ##################### Commands especificos da aplicação #####################
         
@@ -76,8 +81,8 @@ class ApplicationConfig {
          * Renda
          */
         $this->commandsConfig['renda'] = array();
-        $this->commandsConfig['renda']['className'] = 'Renda';
-        $this->commandsConfig['renda']['filePath'] = 'Controller/financeiro/renda/Renda.class.php';
+        $this->commandsConfig['renda']['className'] = 'Renda_command';
+        $this->commandsConfig['renda']['filePath'] = 'Command/financeiro/Renda_command.class.php';
     }
 
     /**

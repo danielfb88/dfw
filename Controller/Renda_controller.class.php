@@ -1,67 +1,54 @@
 <?php
-
-require_once 'lib/framework/controller/command/Command.class.php';
-require_once 'lib/framework/controller/request/Request.class.php';
 require_once 'lib/framework/controller/SessionHelper.class.php';
-require_once 'Model/financeiro/DAORenda.class.php';
 require_once 'Model/DAOUsuario.class.php';
+require_once 'Model/DAORenda.class.php';
 
-class Renda extends Command {
+/**
+ * Controlador de ações do módulo de Renda 
+ * Data de criação: 27 de Maio de 2012
+ * 
+ * @author Daniel Bonfim <daniel.fb88@gmail.com>
+ * @version 1.0
+ */
+class Renda_controller {
 
-    function doExecute(Request $request) {
-        switch ($request->getProperty('action')) {
-
-            case 'listAll':
-                $this->listAll($request);
-                break;
-
-            case 'frmAdd':
-                $this->frmAdd();
-                break;
-
-            case 'frmEdit':
-                $this->frmEdit($request);
-                break;
-
-            case 'add':
-                $this->add($request);
-                break;
-
-            case 'edit':
-                $this->edit($request);
-                break;
-
-            case 'delete':
-                $this->delete($request);
-                break;
-
-            default:
-                $this->listAll($request);
-        }
+    /**
+     * Insere o form para a criação de um novo registro 
+     */
+    public function frmAdd() {
+        require_once 'View/financeiro/renda/frm_addRenda_view.php';
     }
 
-    private function frmAdd() {
-        require_once 'View/financeiro/renda/frm_addRenda.php';
+    /**
+     * Insere o form para a edição de um registro cujo o id foi passado por parâmetro no request
+     * @param Request $request 
+     */
+    public function frmEdit(Request $request) {
+        require_once 'View/financeiro/renda/frm_editRenda_view.php';
     }
 
-    private function frmEdit(Request $request) {
-        require_once 'View/financeiro/renda/frm_editRenda.php';
-    }
-
-    private function listAll(Request $request) {
+    /**
+     * Lista todos os registros
+     * @param Request $request 
+     */
+    public function listAll(Request $request) {
         $sessionHelper = new SessionHelper();
         $daoUsuario = $sessionHelper->getDAOUsuario();
-                
+
         $daoRenda = new DAORenda();
         $daoRenda->id_usuario = $daoUsuario->id_usuario;
         $arrRenda = $daoRenda->getAll();
         print_r($arrRenda);
     }
 
-    private function add(Request $request) {
+    /**
+     * Salva o registro
+     * @param Request $request 
+     */
+    public function add(Request $request) {
         $sessionHelper = new SessionHelper();
         $daoUsuario = $sessionHelper->getDAOUsuario();
-        
+
         $daoRenda = new DAORenda();
         $daoRenda->id_usuario = $daoUsuario->id_usuario;
         $daoRenda->descricao = $request->getProperty('tx_descricao');
@@ -73,7 +60,11 @@ class Renda extends Command {
         echo '<br/>Renda Inserida com sucesso!<br/>';
     }
 
-    private function edit(Request $request) {
+    /**
+     * Edita o registro
+     * @param Request $request 
+     */
+    public function edit(Request $request) {
         $daoRenda = new DAORenda();
         $daoRenda->id_renda = $request->getId();
         $daoRenda->descricao = $request->getProperty('tx_descricao');
@@ -85,7 +76,11 @@ class Renda extends Command {
         echo '<br/>Renda Editada com sucesso!<br/>';
     }
 
-    private function delete(Request $request) {
+    /**
+     * Deleta o registro
+     * @param Request $request 
+     */
+    public function delete(Request $request) {
         $daoRenda = new DAORenda();
         // usuario_id
         $daoRenda->id_renda = $request->getId();

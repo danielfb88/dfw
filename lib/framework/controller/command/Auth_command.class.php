@@ -9,7 +9,7 @@ require_once 'controller/classes/Auth.class.php';
  * Para usar esta classe, o objeto Request deve conter os campos 'tx_user' e tx_password'
  * A página de login deve possuir o nome 'loginScreen' e estar no diretório da aplicação View/
  */
-class AuthCommand extends Command {
+class Auth_command extends Command {
 
     function doExecute(Request $request) {
          $sessionHelper = new SessionHelper();
